@@ -6,38 +6,40 @@
 #include "LogManager.h"
 #include "LogLevel.h"
 
+#define CLOG_INSTANCE __wlog_class_logger
+
 /**
 * Declare a logger for use with CLOG_ macros. Use within a class.
 */
-#define CLOG_LOGGER_DECL private: static Logger __wlog_logger;
+#define CLOG_LOGGER_DECL private: static Logger CLOG_INSTANCE;
 
 /**
 * Define a logger for use with CLOG_ macros. Use within a CPP file.
 *
-* \param	classname	The name of the class this logger is for.
+* \param classname The name of the class this logger is for.
 */
-#define CLOG_LOGGER_DEF(classname) Logger classname::__wlog_logger(#classname);
+#define CLOG_LOGGER_DEF(classname) Logger classname::CLOG_INSTANCE(#classname);
 
 /**
 * Log a message.
 *
-* \param	logger		The logger object.
-* \param	level		The LogLevel to use.
-* \param	message		The message to log. This supports the use of stream operators (>> and <<).
+* \param logger The logger object.
+* \param level The LogLevel to use.
+* \param message The message to log. This supports the use of stream operators (>> and <<).
 */
 #define WAKE_LOG(logger, level, message) { \
-	std::stringstream __wlog_sstream; \
-	__wlog_sstream << message; \
-	Wake::Logging::LogManager::getInstance().log(logger, level, __wlog_sstream.str()); \
+	std::stringstream __wlog_ls_sstream; \
+	__wlog_ls_sstream << message; \
+	Wake::Logging::LogManager::GetInstance().Log(logger, level, __wlog_ls_sstream.str()); \
 }
 
 /**
 * Log a message to a class logger.
 *
-* \param	level		The LogLevel to use.
-* \param	message		The message to log. This supports the use of stream operators (>> and <<).
+* \param level The LogLevel to use.
+* \param message The message to log. This supports the use of stream operators (>> and <<).
 */
-#define WAKE_CLOG(level, message) WAKE_LOG(__wlog_logger, level, message)
+#define WAKE_CLOG(level, message) WAKE_LOG(CLOG_INSTANCE, level, message)
 
 #ifndef WAKE_LOG_NO_TRACE
 #define CLOG_TRACE(message) WAKE_CLOG(Wake::Logging::LogLevel::Trace, message)

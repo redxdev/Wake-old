@@ -19,4 +19,10 @@ int main(int argc, char** argv)
 #ifdef _MSC_VER
 	LogManager::GetInstance().AddSink(new VSDebugSink());
 #endif
+
+	LOG_INFO(GlobalLogger, "Session started");
+
+	LOG_INFO(GlobalLogger, "Session ended");
+
+	LogManager::GetInstance().Shutdown();
 }
