@@ -11,13 +11,13 @@ using namespace Wake::Logging;
 
 int main(int argc, char** argv)
 {
-	LogManager::GetInstance().Startup();
+	LogManager::Get().Startup();
 
-	LogManager::GetInstance().AddSink(new ConsoleSink());
-	LogManager::GetInstance().AddSink(new FileSink("logs/engine.log"));
+	LogManager::Get().AddSink(new ConsoleSink());
+	LogManager::Get().AddSink(new FileSink("logs/engine.log"));
 
 #ifdef _MSC_VER
-	LogManager::GetInstance().AddSink(new VSDebugSink());
+	LogManager::Get().AddSink(new VSDebugSink());
 #endif
 
 	LOG_INFO(GlobalLogger, "Session started");

@@ -11,14 +11,14 @@
 /**
 * Declare a logger for use with CLOG_ macros. Use within a class.
 */
-#define CLOG_LOGGER_DECL private: static Logger CLOG_INSTANCE;
+#define CLOG_LOGGER_DECL private: static Wake::Logging::Logger CLOG_INSTANCE;
 
 /**
 * Define a logger for use with CLOG_ macros. Use within a CPP file.
 *
 * \param classname The name of the class this logger is for.
 */
-#define CLOG_LOGGER_DEF(classname) Logger classname::CLOG_INSTANCE(#classname);
+#define CLOG_LOGGER_DEF(classname) Wake::Logging::Logger classname::CLOG_INSTANCE(#classname);
 
 /**
 * Log a message.
@@ -30,7 +30,7 @@
 #define WAKE_LOG(logger, level, message) { \
 	std::stringstream __wlog_ls_sstream; \
 	__wlog_ls_sstream << message; \
-	Wake::Logging::LogManager::GetInstance().Log(logger, level, __wlog_ls_sstream.str()); \
+	Wake::Logging::LogManager::Get().Log(logger, level, __wlog_ls_sstream.str()); \
 }
 
 /**

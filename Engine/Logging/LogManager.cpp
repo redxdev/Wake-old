@@ -13,7 +13,7 @@ namespace Wake
 {
 	namespace Logging
 	{
-		LogManager& LogManager::GetInstance()
+		LogManager& LogManager::Get()
 		{
 			static LogManager Instance;
 			return Instance;

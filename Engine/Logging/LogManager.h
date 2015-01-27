@@ -23,7 +23,7 @@ namespace Wake
 			/**
 			* Get the singleton instance of the LogManager.
 			*/
-			static LogManager& GetInstance();
+			static LogManager& Get();
 
 			/**
 			* Startup the log manager.

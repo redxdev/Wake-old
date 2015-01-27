@@ -88,18 +88,19 @@
     <ClInclude Include="Logging\LogManager.h" />
     <ClInclude Include="Logging\LogMessage.h" />
     <ClInclude Include="Logging\LogSink.h" />
-    <ClInclude Include="Logging\VSDebugSink.h" />
-    <ClInclude Include="Utility\Types.h" />
+    <ClInclude Include="VSDebugSink.h" />
+    <ClInclude Include="Util\Types.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entity\Entity.cpp" />
+    <ClCompile Include="Entity\EntityManager.cpp" />
     <ClCompile Include="Logging\ConsoleSink.cpp" />
     <ClCompile Include="Logging\FileSink.cpp" />
     <ClCompile Include="Logging\Logger.cpp" />
     <ClCompile Include="Logging\LogLevel.cpp" />
     <ClCompile Include="Logging\LogManager.cpp" />
     <ClCompile Include="Logging\LogSink.cpp" />
-    <ClCompile Include="Logging\VSDebugSink.cpp" />
+    <ClCompile Include="VSDebugSink.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
