@@ -78,6 +78,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Entity\EntityManager.h" />
+    <ClInclude Include="Entity\Entity.h" />
     <ClInclude Include="Logging\ConsoleSink.h" />
     <ClInclude Include="Logging\FileSink.h" />
     <ClInclude Include="Logging\Logger.h" />
@@ -90,6 +92,7 @@
     <ClInclude Include="Utility\Types.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Entity\Entity.cpp" />
     <ClCompile Include="Logging\ConsoleSink.cpp" />
     <ClCompile Include="Logging\FileSink.cpp" />
     <ClCompile Include="Logging\Logger.cpp" />

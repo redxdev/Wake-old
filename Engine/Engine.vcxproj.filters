@@ -22,6 +22,12 @@
     <Filter Include="Source Files\Logging">
       <UniqueIdentifier>{bc78cfdf-4b50-48c3-8ea3-6e6a861f9f92}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Entity">
+      <UniqueIdentifier>{e48f8c9f-1313-4777-8f31-05c94a8b40f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entity">
+      <UniqueIdentifier>{af7aafa5-4582-436c-9ba1-de1ef87bcd83}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\Types.h">
@@ -54,6 +60,12 @@
     <ClInclude Include="Logging\VSDebugSink.h">
       <Filter>Header Files\Logging</Filter>
     </ClInclude>
+    <ClInclude Include="Entity\Entity.h">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\EntityManager.h">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Logging\ConsoleSink.cpp">
@@ -79,6 +91,9 @@
     </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Entity.cpp">
+      <Filter>Source Files\Entity</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
