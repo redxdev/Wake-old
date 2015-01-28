@@ -24,5 +24,7 @@ int main(int argc, char** argv)
 
 	LOG_INFO(GlobalLogger, "Session ended");
 
-	LogManager::GetInstance().Shutdown();
+	LogManager::Get().Shutdown();
+
+	return 0;
 }

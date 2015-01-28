@@ -10,6 +10,14 @@ namespace Wake
 			Active = true;
 		}
 
+		void Entity::Spawn()
+		{
+		}
+
+		void Entity::Destroy()
+		{
+		}
+
 		void Entity::Tick(float DeltaTime)
 		{
 		}

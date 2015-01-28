@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Util/Types.h"
+#include "../Utility/Types.h"
 #include "../Logging/LogMacros.h"
 #include "Entity.h"
 
@@ -15,12 +15,11 @@ namespace Wake
 		public:
 			static EntityManager& Get();
 
-			template<typename T>
-			T* CreateEntity()
+			template<typename T, typename... V>
+			T* CreateEntity(V... Args)
 			{
 				static_assert(std::is_base_of<Entity, T>(), "T must subclass Entity");
-				T* Ent = new T(NextEntityId);
-				NextEntityId++;
+				T* Ent = new T(CreateEntityId(), Args);
 
 				return Ent;
 			}
@@ -28,6 +27,11 @@ namespace Wake
 		private:
 			EntityManager();
 			~EntityManager();
+
+			inline uint32 CreateEntityId()
+			{
+				return NextEntityId++;
+			}
 
 			uint32 NextEntityId;
 		};

@@ -29,7 +29,7 @@
 */
 #define WAKE_LOG(logger, level, message) { \
 	std::stringstream __wlog_ls_sstream; \
-	__wlog_ls_sstream << message; \
+	(__wlog_ls_sstream << message); \
 	Wake::Logging::LogManager::Get().Log(logger, level, __wlog_ls_sstream.str()); \
 }
 

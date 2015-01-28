@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Util/Types.h"
+#include "../Utility/Types.h"
 
 namespace Wake
 {
@@ -23,7 +23,7 @@ namespace Wake
 
 			inline bool IsActive() const
 			{
-				return IsActive;
+				return Active;
 			}
 
 			inline void Activate()
@@ -40,6 +40,10 @@ namespace Wake
 			{
 				Active = !Active;
 			}
+
+			virtual void Spawn();
+
+			virtual void Destroy();
 
 			virtual void Tick(float DeltaTime);
 

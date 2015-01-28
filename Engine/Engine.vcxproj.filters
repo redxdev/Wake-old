@@ -25,14 +25,14 @@
     <Filter Include="Source Files\Entity">
       <UniqueIdentifier>{af7aafa5-4582-436c-9ba1-de1ef87bcd83}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Util">
+    <Filter Include="Header Files\Utility">
       <UniqueIdentifier>{ac798543-3cef-49f9-8d7d-0b2d93f7b7a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utility">
+      <UniqueIdentifier>{cdfdd36c-e2dc-496b-a4f6-6ca228d77603}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="VSDebugSink.h">
-      <Filter>Header Files\Logging</Filter>
-    </ClInclude>
     <ClInclude Include="Logging\ConsoleSink.h">
       <Filter>Header Files\Logging</Filter>
     </ClInclude>
@@ -63,16 +63,19 @@
     <ClInclude Include="Logging\LogSink.h">
       <Filter>Header Files\Logging</Filter>
     </ClInclude>
-    <ClInclude Include="Util\Types.h">
-      <Filter>Header Files\Util</Filter>
+    <ClInclude Include="Utility\Types.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Logging\VSDebugSink.h">
+      <Filter>Header Files\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Bootstrap.h">
+      <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VSDebugSink.cpp">
-      <Filter>Source Files\Logging</Filter>
     </ClCompile>
     <ClCompile Include="Logging\ConsoleSink.cpp">
       <Filter>Source Files\Logging</Filter>
@@ -97,6 +100,12 @@
     </ClCompile>
     <ClCompile Include="Logging\LogSink.cpp">
       <Filter>Source Files\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="Logging\VSDebugSink.cpp">
+      <Filter>Source Files\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\Bootstrap.cpp">
+      <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
