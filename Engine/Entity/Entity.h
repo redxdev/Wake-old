@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Utility/Types.h"
+#include "../Util/Types.h"
 
 namespace Wake
 {
@@ -12,6 +12,10 @@ namespace Wake
 		class Entity
 		{
 		public:
+			virtual ~Entity()
+			{
+			}
+
 			inline uint32 GetEntityId() const
 			{
 				return EntityId;

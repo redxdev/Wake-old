@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Utility">
-      <UniqueIdentifier>{ac798543-3cef-49f9-8d7d-0b2d93f7b7a6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Logging">
       <UniqueIdentifier>{f20a8de2-4e8c-46ff-9883-26a2be24b398}</UniqueIdentifier>
     </Filter>
@@ -27,6 +24,9 @@
     </Filter>
     <Filter Include="Source Files\Entity">
       <UniqueIdentifier>{af7aafa5-4582-436c-9ba1-de1ef87bcd83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Util">
+      <UniqueIdentifier>{ac798543-3cef-49f9-8d7d-0b2d93f7b7a6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -64,7 +64,7 @@
       <Filter>Header Files\Logging</Filter>
     </ClInclude>
     <ClInclude Include="Util\Types.h">
-      <Filter>Header Files\Utility</Filter>
+      <Filter>Header Files\Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
