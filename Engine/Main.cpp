@@ -1,30 +1,18 @@
+#include <iostream>
+
+#include "Utility/Bootstrap.h"
 #include "Logging/LogMacros.h"
-#include "Logging/LogManager.h"
-#include "Logging/ConsoleSink.h"
-#include "Logging/FileSink.h"
+#include "WakeDefines.h"
 
-#ifdef _MSC_VER
-#include "Logging/VSDebugSink.h"
-#endif
-
-using namespace Wake::Logging;
+WAKE_BOOTSTRAP(Main)
 
 int main(int argc, char** argv)
 {
-	LogManager::Get().Startup();
+	WAKE_CALL_BOOTSTRAP(Main, argc, argv);
 
-	LogManager::Get().AddSink(new ConsoleSink());
-	LogManager::Get().AddSink(new FileSink("logs/engine.log"));
-
-#ifdef _MSC_VER
-	LogManager::Get().AddSink(new VSDebugSink());
+#ifdef WAKE_EXIT_PAUSE
+	std::cout << "Press return to exit..." << std::endl;
+	getchar();
 #endif
-
-	LOG_INFO(GlobalLogger, "Session started");
-
-	LOG_INFO(GlobalLogger, "Session ended");
-
-	LogManager::Get().Shutdown();
-
 	return 0;
 }

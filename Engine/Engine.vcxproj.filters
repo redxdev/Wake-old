@@ -72,6 +72,9 @@
     <ClInclude Include="Utility\Bootstrap.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="WakeDefines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">

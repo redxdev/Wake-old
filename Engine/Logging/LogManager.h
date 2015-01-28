@@ -55,6 +55,8 @@ namespace Wake
 			LogManager();
 			~LogManager();
 
+			LogManager(const LogManager& Copy) {}
+
 			std::list<LogSink*> Sinks;
 		};
 	}

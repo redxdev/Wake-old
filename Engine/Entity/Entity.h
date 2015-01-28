@@ -12,6 +12,8 @@ namespace Wake
 		class Entity
 		{
 		public:
+			explicit Entity(uint32 Id);
+
 			virtual ~Entity()
 			{
 			}
@@ -46,9 +48,6 @@ namespace Wake
 			virtual void Destroy();
 
 			virtual void Tick(float DeltaTime);
-
-		protected:
-			explicit Entity(uint32 Id);
 
 		private:
 			uint32 EntityId;
