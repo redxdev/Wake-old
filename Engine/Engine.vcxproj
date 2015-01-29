@@ -81,8 +81,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Utility\Bootstrap.h" />
-    <ClInclude Include="Entity\EntityManager.h" />
-    <ClInclude Include="Entity\Entity.h" />
+    <ClInclude Include="Engine\EntityManager.h" />
+    <ClInclude Include="Engine\Entity.h" />
     <ClInclude Include="Logging\ConsoleSink.h" />
     <ClInclude Include="Logging\FileSink.h" />
     <ClInclude Include="Logging\Logger.h" />
@@ -92,12 +92,13 @@
     <ClInclude Include="Logging\LogMessage.h" />
     <ClInclude Include="Logging\LogSink.h" />
     <ClInclude Include="Logging\VSDebugSink.h" />
+    <ClInclude Include="Engine\GEngine.h" />
     <ClInclude Include="Utility\Types.h" />
     <ClInclude Include="WakeDefines.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Entity\Entity.cpp" />
-    <ClCompile Include="Entity\EntityManager.cpp" />
+    <ClCompile Include="Engine\Entity.cpp" />
+    <ClCompile Include="Engine\EntityManager.cpp" />
     <ClCompile Include="Logging\ConsoleSink.cpp" />
     <ClCompile Include="Logging\FileSink.cpp" />
     <ClCompile Include="Logging\Logger.cpp" />
@@ -107,6 +108,7 @@
     <ClCompile Include="Logging\VSDebugSink.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Utility\Bootstrap.cpp" />
+    <ClCompile Include="Engine\GEngine.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

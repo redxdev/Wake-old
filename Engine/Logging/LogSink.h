@@ -4,35 +4,32 @@
 
 #include "LogMessage.h"
 
-namespace Wake
+namespace Logging
 {
-	namespace Logging
+	/**
+	* Interface for logging outputs.
+	*/
+	class LogSink
 	{
+	public:
+		virtual ~LogSink();
+
 		/**
-		* Interface for logging outputs.
+		* Open this sink. Any file open or related operations should be done here.
 		*/
-		class LogSink
-		{
-		public:
-			virtual ~LogSink();
+		virtual void OpenSink();
 
-			/**
-			* Open this sink. Any file open or related operations should be done here.
-			*/
-			virtual void OpenSink();
-
-			/**
-			* Close this sink. Any file close or related operations should be done here.
-			*/
-			virtual void CloseSink();
+		/**
+		* Close this sink. Any file close or related operations should be done here.
+		*/
+		virtual void CloseSink();
 
 
-			/**
-			* Append a message to this sink.
-			*
-			* \param Message The LogMessage to append.
-			*/
-			virtual void Append(const LogMessage& Message) = 0;
-		};
-	}
+		/**
+		* Append a message to this sink.
+		*
+		* \param Message The LogMessage to append.
+		*/
+		virtual void Append(const LogMessage& Message) = 0;
+	};
 }

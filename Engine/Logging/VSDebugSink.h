@@ -4,21 +4,18 @@
 
 #include "LogSink.h"
 
-namespace Wake
+namespace Logging
 {
-	namespace Logging
+	/**
+	* LogSink for output to visual studio's debugger.
+	*/
+	class VSDebugSink : public LogSink
 	{
-		/**
-		* LogSink for output to visual studio's debugger.
-		*/
-		class VSDebugSink : public LogSink
-		{
-		public:
-			virtual ~VSDebugSink();
+	public:
+		virtual ~VSDebugSink();
 
-			virtual void Append(const LogMessage& Message);
-		};
-	}
+		virtual void Append(const LogMessage& Message);
+	};
 }
 
 #endif

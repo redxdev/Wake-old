@@ -4,19 +4,16 @@
 
 #include "LogSink.h"
 
-namespace Wake
+namespace Logging
 {
-	namespace Logging
+	/**
+	* Logging sink for output to the console.
+	*/
+	class ConsoleSink : public LogSink
 	{
-		/**
-		* Logging sink for output to the console.
-		*/
-		class ConsoleSink : public LogSink
-		{
-		public:
-			virtual ~ConsoleSink();
+	public:
+		virtual ~ConsoleSink();
 
-			virtual void Append(const LogMessage& Message);
-		};
-	}
+		virtual void Append(const LogMessage& Message);
+	};
 }

@@ -6,29 +6,26 @@
 #include "LogLevel.h"
 #include "Logger.h"
 
-namespace Wake
+namespace Logging
 {
-	namespace Logging
+	/**
+	* Used for passing around the parameters of a logging message.
+	*/
+	struct LogMessage
 	{
-		/**
-		* Used for passing around the parameters of a logging message.
-		*/
-		struct LogMessage
+		LogMessage(const Logger& Log)
+			: Log(Log)
 		{
-			LogMessage(const Logger& Log)
-				: Log(Log)
-			{
-			}
+		}
 
-			const Logger& Log;
+		const Logger& Log;
 
-			std::string RawMessage;
+		std::string RawMessage;
 
-			std::string FormattedMessage;
+		std::string FormattedMessage;
 
-			LogLevel Level;
+		LogLevel Level;
 
-			time_t Time;
-		};
-	}
+		time_t Time;
+	};
 }

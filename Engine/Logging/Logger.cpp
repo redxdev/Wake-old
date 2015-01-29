@@ -4,10 +4,7 @@
 
 #include "LogManager.h"
 
-namespace Wake
+namespace Logging
 {
-	namespace Logging
-	{
-		Logger GlobalLogger("global");
-	}
+	Logger GlobalLogger("global");
 }

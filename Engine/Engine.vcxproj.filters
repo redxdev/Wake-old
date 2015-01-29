@@ -19,28 +19,22 @@
     <Filter Include="Source Files\Logging">
       <UniqueIdentifier>{bc78cfdf-4b50-48c3-8ea3-6e6a861f9f92}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Entity">
-      <UniqueIdentifier>{e48f8c9f-1313-4777-8f31-05c94a8b40f9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Entity">
-      <UniqueIdentifier>{af7aafa5-4582-436c-9ba1-de1ef87bcd83}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Utility">
       <UniqueIdentifier>{ac798543-3cef-49f9-8d7d-0b2d93f7b7a6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Utility">
       <UniqueIdentifier>{cdfdd36c-e2dc-496b-a4f6-6ca228d77603}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Engine">
+      <UniqueIdentifier>{104fe9b3-d5cf-4867-b3a5-77aa5fa03e11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{91c4b705-f5bf-465c-ae85-406916f7f5aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging\ConsoleSink.h">
       <Filter>Header Files\Logging</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity\Entity.h">
-      <Filter>Header Files\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity\EntityManager.h">
-      <Filter>Header Files\Entity</Filter>
     </ClInclude>
     <ClInclude Include="Logging\FileSink.h">
       <Filter>Header Files\Logging</Filter>
@@ -75,6 +69,15 @@
     <ClInclude Include="WakeDefines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\EntityManager.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Entity.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GEngine.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -82,12 +85,6 @@
     </ClCompile>
     <ClCompile Include="Logging\ConsoleSink.cpp">
       <Filter>Source Files\Logging</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity\Entity.cpp">
-      <Filter>Source Files\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity\EntityManager.cpp">
-      <Filter>Source Files\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Logging\FileSink.cpp">
       <Filter>Source Files\Logging</Filter>
@@ -109,6 +106,15 @@
     </ClCompile>
     <ClCompile Include="Utility\Bootstrap.cpp">
       <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\EntityManager.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Entity.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GEngine.cpp">
+      <Filter>Source Files\Engine</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

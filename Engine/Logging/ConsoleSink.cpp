@@ -2,17 +2,14 @@
 
 #include <iostream>
 
-namespace Wake
+namespace Logging
 {
-	namespace Logging
+	ConsoleSink::~ConsoleSink()
 	{
-		ConsoleSink::~ConsoleSink()
-		{
-		}
+	}
 
-		void ConsoleSink::Append(const LogMessage& Message)
-		{
-			std::cout << Message.FormattedMessage << std::endl;
-		}
+	void ConsoleSink::Append(const LogMessage& Message)
+	{
+		std::cout << Message.FormattedMessage << std::endl;
 	}
 }

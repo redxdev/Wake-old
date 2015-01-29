@@ -7,62 +7,97 @@
 #include "../Logging/VSDebugSink.h"
 #endif
 
-#include "../Entity/EntityManager.h"
+#include "../Engine/EntityManager.h"
+#include "../Engine/GEngine.h"
 
-namespace Wake
+namespace Utility
 {
-	namespace Utility
+	CLOG_LOGGER_DEF(Utility::Bootstrap);
+
+	Bootstrap::Bootstrap(int ArgC, char** ArgV, const BootstrapOptions& Options)
+		: Options(Options)
 	{
-		CLOG_LOGGER_DEF(Utility::Bootstrap);
+		DidStartup = false;
+	}
 
-		Bootstrap::Bootstrap(int ArgC, char** ArgV, const BootstrapOptions& Options)
-			: Options(Options)
+	Bootstrap::~Bootstrap()
+	{
+		if (!DidStartup)
+			return;
+
+		Shutdown();
+	}
+
+	void Bootstrap::Run()
+	{
+		if (Options.DontRunEngine)
 		{
-			Startup();
+			CLOG_INFO("Not running engine (DontRunEngine set to true)");
+			return;
 		}
 
-		Bootstrap::~Bootstrap()
+		CLOG_INFO("Running engine");
+	}
+
+	bool Bootstrap::Startup()
+	{
+		if(!WLOG.Startup())
 		{
-			Shutdown();
+			std::cerr << "WLOG.Startup() failed" << std::endl;
+			return false;
 		}
 
-		void Bootstrap::Run()
+		if (Options.AutoRegisterLogSinks)
 		{
-			if (Options.DontRunEngine)
-			{
-				CLOG_INFO("Not running engine (DontRunEngine set to true)");
-				return;
-			}
-
-			CLOG_INFO("Running engine");
-		}
-
-		void Bootstrap::Startup()
-		{
-			Logging::LogManager::Get().Startup();
-
-			if (Options.AutoRegisterLogSinks)
-			{
-				Logging::LogManager::Get().AddSink(new Logging::ConsoleSink());
-				Logging::LogManager::Get().AddSink(new Logging::FileSink("logs/engine.log"));
+			WLOG.AddSink(new Logging::ConsoleSink());
+			WLOG.AddSink(new Logging::FileSink("logs/engine.log"));
 
 #ifdef _MSC_VER
-				Logging::LogManager::Get().AddSink(new Logging::VSDebugSink());
+			WLOG.AddSink(new Logging::VSDebugSink());
 #endif
-			}
-
-			CLOG_INFO("Engine bootstrap startup");
-
-			Entity::EntityManager::Get().Startup();
 		}
 
-		void Bootstrap::Shutdown()
+		CLOG_INFO("init");
+
+		if(!WENTITY.Startup())
 		{
-			CLOG_INFO("Engine bootstrap shutdown");
-
-			Entity::EntityManager::Get().Shutdown();
-
-			Logging::LogManager::Get().Shutdown();
+			CLOG_FATAL("WENTITY.Startup() failed");
+			return false;
 		}
+
+		if(!WENGINE.Startup())
+		{
+			CLOG_FATAL("WENGINE.Startup() failed");
+			return false;
+		}
+
+		DidStartup = true;
+
+		return true;
+	}
+
+	bool Bootstrap::Shutdown()
+	{
+		CLOG_INFO("shutdown");
+
+		if(!WENGINE.Shutdown())
+		{
+			CLOG_FATAL("WENGINE.Shutdown() failed");
+			return false;
+		}
+
+		if(!WENTITY.Shutdown())
+		{
+			CLOG_FATAL("WENTITY.Shutdown() failed");
+			return false;
+		}
+
+		if(!WLOG.Shutdown())
+		{
+			std::cerr << "WLOG.Shutdown() failed" << std::endl;
+			return false;
+		}
+
+		return true;
 	}
 }
