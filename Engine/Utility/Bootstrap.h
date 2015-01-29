@@ -20,7 +20,7 @@ namespace Utility
 {
 	struct BootstrapOptions
 	{
-		bool AutoRegisterLogSinks = true;
+		bool DefaultLogSinks = true;
 		bool DontRunEngine = false;
 	};
 
