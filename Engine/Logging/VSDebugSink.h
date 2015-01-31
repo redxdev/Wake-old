@@ -14,7 +14,7 @@ namespace Logging
 	public:
 		virtual ~VSDebugSink();
 
-		virtual void Append(const LogMessage& Message);
+		virtual void Append(const LogMessage& Message) override;
 	};
 }
 

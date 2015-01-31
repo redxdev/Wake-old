@@ -41,31 +41,31 @@ namespace Utility
 
 	bool Bootstrap::Startup()
 	{
-		if(!WLOG.Startup())
+		if(!W_LOG.Startup())
 		{
 			std::cerr << "WLOG.Startup() failed" << std::endl;
 			return false;
 		}
 
-		if (Options.AutoRegisterLogSinks)
+		if (Options.DefaultLogSinks)
 		{
-			WLOG.AddSink(new Logging::ConsoleSink());
-			WLOG.AddSink(new Logging::FileSink("logs/engine.log"));
+			W_LOG.AddSink(new Logging::ConsoleSink());
+			W_LOG.AddSink(new Logging::FileSink("logs/engine.log"));
 
 #ifdef _MSC_VER
-			WLOG.AddSink(new Logging::VSDebugSink());
+			W_LOG.AddSink(new Logging::VSDebugSink());
 #endif
 		}
 
 		CLOG_INFO("init");
 
-		if(!WENTITY.Startup())
+		if(!W_ENTITY.Startup())
 		{
 			CLOG_FATAL("WENTITY.Startup() failed");
 			return false;
 		}
 
-		if(!WENGINE.Startup())
+		if(!W_ENGINE.Startup())
 		{
 			CLOG_FATAL("WENGINE.Startup() failed");
 			return false;
@@ -80,19 +80,19 @@ namespace Utility
 	{
 		CLOG_INFO("shutdown");
 
-		if(!WENGINE.Shutdown())
+		if(!W_ENGINE.Shutdown())
 		{
 			CLOG_FATAL("WENGINE.Shutdown() failed");
 			return false;
 		}
 
-		if(!WENTITY.Shutdown())
+		if(!W_ENTITY.Shutdown())
 		{
 			CLOG_FATAL("WENTITY.Shutdown() failed");
 			return false;
 		}
 
-		if(!WLOG.Shutdown())
+		if(!W_LOG.Shutdown())
 		{
 			std::cerr << "WLOG.Shutdown() failed" << std::endl;
 			return false;

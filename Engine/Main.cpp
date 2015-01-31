@@ -4,7 +4,10 @@
 #include "Logging/LogMacros.h"
 #include "WakeDefines.h"
 
-WAKE_BOOTSTRAP(Main)
+WAKE_CUSTOM_BOOTSTRAP(
+	Main,
+	WBS_OPT(WindowOptions.AntiAliasing, 4),
+)
 
 int main(int argc, char** argv)
 {

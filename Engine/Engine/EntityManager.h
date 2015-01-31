@@ -6,7 +6,7 @@
 #include "../Logging/LogMacros.h"
 #include "Entity.h"
 
-#define WENTITY (Engine::EntityManager::Get())
+#define W_ENTITY (Engine::EntityManager::Get())
 
 namespace Engine
 {
@@ -58,7 +58,7 @@ namespace Engine
 
 		Entity* GetEntity(EID Id)
 		{
-			EntityContainer::const_iterator found = Entities.find(Id);
+			auto found = Entities.find(Id);
 			if (found != Entities.end())
 			{
 				return found->second;
@@ -71,9 +71,9 @@ namespace Engine
 
 		void Destroy(EID EntId);
 
-	private:
-		typedef std::unordered_map<EID, Entity*> EntityContainer;
+		void Tick(float DeltaTime);
 
+	private:
 		EntityManager();
 		~EntityManager();
 
@@ -83,6 +83,6 @@ namespace Engine
 
 		EID NextEntityId;
 
-		EntityContainer Entities;
+		std::unordered_map<EID, Entity*> Entities;
 	};
 }

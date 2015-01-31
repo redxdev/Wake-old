@@ -30,7 +30,7 @@
 #define WAKE_LOG(logger, level, message) { \
 	std::stringstream __wlog_ls_sstream; \
 	(__wlog_ls_sstream << message); \
-	WLOG.Log(logger, level, __wlog_ls_sstream.str()); \
+	W_LOG.Log(logger, level, __wlog_ls_sstream.str()); \
 }
 
 /**

@@ -72,6 +72,8 @@ namespace Engine
 		Ent->Deactivate();
 		Ent->Destroy();
 		Entities.erase(EntId);
+
+		delete Ent;
 	}
 
 }

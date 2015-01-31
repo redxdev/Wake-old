@@ -14,6 +14,6 @@ namespace Logging
 	public:
 		virtual ~ConsoleSink();
 
-		virtual void Append(const LogMessage& Message);
+		virtual void Append(const LogMessage& Message) override;
 	};
 }

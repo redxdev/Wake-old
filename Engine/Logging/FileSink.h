@@ -22,11 +22,11 @@ namespace Logging
 
 		virtual ~FileSink();
 
-		virtual void OpenSink();
+		virtual void OpenSink() override;
 
-		virtual void CloseSink();
+		virtual void CloseSink() override;
 
-		virtual void Append(const LogMessage& Message);
+		virtual void Append(const LogMessage& Message) override;
 
 	private:
 		const char* Filename;

@@ -6,7 +6,7 @@
 
 #include "LogLevel.h"
 
-#define WLOG (Logging::LogManager::Get())
+#define W_LOG (Logging::LogManager::Get())
 
 namespace Logging
 {

@@ -3,7 +3,7 @@
 #include "../Logging/LogMacros.h"
 #include "EntityManager.h"
 
-#define WENGINE (Engine::GEngine::Get())
+#define W_ENGINE (Engine::GEngine::Get())
 
 namespace Engine
 {
