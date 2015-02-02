@@ -9,7 +9,7 @@ namespace Engine
 
 	Window::~Window()
 	{
-		if (RenderWindow)
+		if (RenderWindow != nullptr)
 		{
 			if (RenderWindow->isOpen())
 			{
@@ -21,7 +21,7 @@ namespace Engine
 		}
 	}
 
-	void Window::Initialize(const WindowOptions& Options)
+	bool Window::Initialize(const WindowOptions& Options)
 	{
 		sf::ContextSettings CtxSettings;
 		CtxSettings.antialiasingLevel = Options.AntiAliasing;
@@ -36,6 +36,21 @@ namespace Engine
 		}
 
 		RenderWindow->create(sf::VideoMode(Options.Width, Options.Height, Options.BitsPerPixel), Options.Title, Options.Fullscreen ? sf::Style::Fullscreen : sf::Style::Default, CtxSettings);
+
+		return true;
 	}
 
+	void Window::Deinitialize()
+	{
+		if (RenderWindow != nullptr)
+		{
+			if (RenderWindow->isOpen())
+			{
+				RenderWindow->close();
+			}
+
+			delete RenderWindow;
+			RenderWindow = nullptr;
+		}
+	}
 }

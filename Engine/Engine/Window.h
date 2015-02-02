@@ -16,7 +16,7 @@ namespace Engine
 		uint32 BitsPerPixel = 32;
 		uint32 OGL_Major = 3;
 		uint32 OGL_Minor = 0;
-		const char* Title;
+		const char* Title = "Wake Engine";
 		bool Fullscreen = false;
 	};
 
@@ -26,7 +26,9 @@ namespace Engine
 		Window();
 		~Window();
 
-		void Initialize(const WindowOptions& Options);
+		bool Initialize(const WindowOptions& Options);
+
+		void Deinitialize();
 
 	private:
 		sf::Window* RenderWindow;

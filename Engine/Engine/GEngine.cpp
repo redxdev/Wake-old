@@ -18,7 +18,7 @@ namespace Engine
 	{
 	}
 
-	bool GEngine::Startup()
+	bool GEngine::Startup(const WindowOptions& Options)
 	{
 		CLOG_INFO("Engine startup");
 
@@ -30,12 +30,15 @@ namespace Engine
 		}
 
 		BaseEID = BaseEnt->GetEntityId();
+
+		GameWindow.Initialize(Options);
 		return true;
 	}
 
 	bool GEngine::Shutdown()
 	{
 		CLOG_INFO("Engine shutdown");
+		GameWindow.Deinitialize();
 		return true;
 	}
 }

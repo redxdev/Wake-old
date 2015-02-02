@@ -2,6 +2,7 @@
 
 #include "../Logging/LogMacros.h"
 #include "EntityManager.h"
+#include "Window.h"
 
 #define W_ENGINE (Engine::GEngine::Get())
 
@@ -13,12 +14,19 @@ namespace Engine
 	public:
 		static GEngine& Get();
 
-		bool Startup();
+		bool Startup(const WindowOptions& Options = WindowOptions());
 		bool Shutdown();
+
+		inline Window& GetGameWindow()
+		{
+			return GameWindow;
+		}
 
 	private:
 		GEngine();
 		~GEngine();
+
+		Window GameWindow;
 
 		EID BaseEID;
 	};

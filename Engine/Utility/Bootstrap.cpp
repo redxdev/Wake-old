@@ -65,7 +65,7 @@ namespace Utility
 			return false;
 		}
 
-		if(!W_ENGINE.Startup())
+		if(!W_ENGINE.Startup(Options.WindowOptions))
 		{
 			CLOG_FATAL("WENGINE.Startup() failed");
 			return false;
