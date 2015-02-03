@@ -115,6 +115,8 @@ namespace Engine
 
 	EKeyboardInput ConvertSFKeyToInput(sf::Keyboard::Key Key);
 
+	const char* ConvertKeyToString(EKeyboardInput Key);
+
 	enum class EMouseInput : uint8
 	{
 		Unknown,

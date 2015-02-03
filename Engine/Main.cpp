@@ -7,7 +7,7 @@
 
 void OnRawInput(const Engine::Input& Input)
 {
-	LOG_INFO(Logging::GlobalLogger, "Input: " << (uint8)Input.Keyboard);
+	LOG_INFO(Logging::GlobalLogger, "Input: " << Engine::ConvertKeyToString(Input.Keyboard));
 }
 
 void Setup()
