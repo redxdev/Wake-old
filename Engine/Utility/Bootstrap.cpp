@@ -9,6 +9,7 @@
 
 #include "../Engine/EntityManager.h"
 #include "../Engine/GEngine.h"
+#include "../Engine/InputManager.h"
 
 namespace Utility
 {
@@ -63,13 +64,19 @@ namespace Utility
 
 		if(!W_ENTITY.Startup())
 		{
-			CLOG_FATAL("WENTITY.Startup() failed");
+			CLOG_FATAL("W_ENTITY.Startup() failed");
 			return false;
 		}
 
 		if(!W_ENGINE.Startup(Options.WindowOptions))
 		{
-			CLOG_FATAL("WENGINE.Startup() failed");
+			CLOG_FATAL("W_ENGINE.Startup() failed");
+			return false;
+		}
+
+		if (!W_INPUT.Startup())
+		{
+			CLOG_FATAL("W_INPUT.Startup() failed");
 			return false;
 		}
 
@@ -84,19 +91,19 @@ namespace Utility
 
 		if(!W_ENGINE.Shutdown())
 		{
-			CLOG_FATAL("WENGINE.Shutdown() failed");
+			CLOG_FATAL("W_ENGINE.Shutdown() failed");
 			return false;
 		}
 
 		if(!W_ENTITY.Shutdown())
 		{
-			CLOG_FATAL("WENTITY.Shutdown() failed");
+			CLOG_FATAL("W_ENTITY.Shutdown() failed");
 			return false;
 		}
 
 		if(!W_LOG.Shutdown())
 		{
-			std::cerr << "WLOG.Shutdown() failed" << std::endl;
+			std::cerr << "W_LOG.Shutdown() failed" << std::endl;
 			return false;
 		}
 

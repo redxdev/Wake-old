@@ -81,6 +81,22 @@ namespace Engine
 				TextEntered.Call(Event.text.unicode);
 				break;
 
+			case sf::Event::KeyPressed:
+				KeyPressed.Call(ConvertSFKeyToInput(Event.key.code));
+				break;
+
+			case sf::Event::KeyReleased:
+				KeyReleased.Call(ConvertSFKeyToInput(Event.key.code));
+				break;
+
+			case sf::Event::MouseButtonPressed:
+				MouseButtonPressed.Call(ConvertSFMouseToInput(Event.mouseButton.button));
+				break;
+
+			case sf::Event::MouseButtonReleased:
+				MouseButtonReleased.Call(ConvertSFMouseToInput(Event.mouseButton.button));
+				break;
+
 			case sf::Event::MouseMoved:
 				MouseMoved.Call(Event.mouseMove.x, Event.mouseMove.y);
 				break;

@@ -80,6 +80,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Input.h" />
+    <ClInclude Include="Engine\InputManager.h" />
     <ClInclude Include="Utility\Event.h" />
     <ClInclude Include="Engine\Window.h" />
     <ClInclude Include="Utility\Bootstrap.h" />
@@ -101,6 +103,8 @@
   <ItemGroup>
     <ClCompile Include="Engine\Entity.cpp" />
     <ClCompile Include="Engine\EntityManager.cpp" />
+    <ClCompile Include="Engine\Input.cpp" />
+    <ClCompile Include="Engine\InputManager.cpp" />
     <ClCompile Include="Engine\Window.cpp" />
     <ClCompile Include="Logging\ConsoleSink.cpp" />
     <ClCompile Include="Logging\FileSink.cpp" />

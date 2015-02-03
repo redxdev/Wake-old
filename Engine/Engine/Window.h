@@ -4,6 +4,7 @@
 
 #include "../Utility/Types.h"
 #include "../Utility/Event.h"
+#include "Input.h"
 
 namespace Engine
 {
@@ -39,6 +40,11 @@ namespace Engine
 		W_EVENT(GainedFocus);
 
 		W_EVENT(TextEntered, uint32);
+		W_EVENT(KeyPressed, EKeyboardInput);
+		W_EVENT(KeyReleased, EKeyboardInput);
+		W_EVENT(MouseButtonPressed, EMouseInput);
+		W_EVENT(MouseButtonReleased, EMouseInput);
+		W_EVENT(MouseWheelMoved, uint32);
 
 		W_EVENT(MouseMoved, int32, int32);
 		W_EVENT(MouseEntered);
