@@ -42,6 +42,7 @@ namespace Engine
 		W_EVENT(TextEntered, uint32);
 		W_EVENT(KeyPressed, EKeyboardInput);
 		W_EVENT(KeyReleased, EKeyboardInput);
+
 		W_EVENT(MouseButtonPressed, EMouseInput);
 		W_EVENT(MouseButtonReleased, EMouseInput);
 		W_EVENT(MouseWheelMoved, uint32);

@@ -3,9 +3,11 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
 
+#include "../Utility/Types.h"
+
 namespace Engine
 {
-	enum class EKeyboardInput
+	enum class EKeyboardInput : uint8
 	{
 		Unknown,
 		A,
@@ -113,7 +115,7 @@ namespace Engine
 
 	EKeyboardInput ConvertSFKeyToInput(sf::Keyboard::Key Key);
 
-	enum class EMouseInput
+	enum class EMouseInput : uint8
 	{
 		Unknown,
 		Left,
@@ -127,17 +129,17 @@ namespace Engine
 
 	EMouseInput ConvertSFMouseToInput(sf::Mouse::Button Button);
 
-	enum class EInputType
+	enum class EInputType : uint8
 	{
 		Mouse,
 		Keyboard,
 		Axis
 	};
 
-	enum class EInputMode
+	enum class EInputMode : uint8
 	{
-		Down,
-		Up,
+		Pressed,
+		Released,
 		Value
 	};
 

@@ -52,6 +52,23 @@ namespace Engine
 			delete RenderWindow;
 			RenderWindow = nullptr;
 		}
+
+		Closed.Clear();
+		Resized.Clear();
+		LostFocus.Clear();
+		GainedFocus.Clear();
+
+		TextEntered.Clear();
+		KeyPressed.Clear();
+		KeyReleased.Clear();
+
+		MouseButtonPressed.Clear();
+		MouseButtonReleased.Clear();
+		MouseWheelMoved.Clear();
+
+		MouseMoved.Clear();
+		MouseEntered.Clear();
+		MouseLeft.Clear();
 	}
 
 	void Window::PollEvents()
@@ -95,6 +112,10 @@ namespace Engine
 
 			case sf::Event::MouseButtonReleased:
 				MouseButtonReleased.Call(ConvertSFMouseToInput(Event.mouseButton.button));
+				break;
+
+			case sf::Event::MouseWheelMoved:
+				MouseWheelMoved.Call(Event.mouseWheel.delta);
 				break;
 
 			case sf::Event::MouseMoved:

@@ -34,10 +34,7 @@ namespace Engine
 
 		GameWindow.Initialize(Options);
 
-		if (!GameWindow.Closed.IsBound(this, &GEngine::Stop))
-		{
-			GameWindow.Closed.Bind(this, &GEngine::Stop);
-		}
+		GameWindow.Closed.Bind(this, &GEngine::Stop);
 
 		return true;
 	}

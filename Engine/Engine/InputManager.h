@@ -21,5 +21,8 @@ namespace Engine
 	private:
 		InputManager() {}
 		~InputManager() {}
+
+		void W_KeyPressed(EKeyboardInput Key);
+		void W_KeyReleased(EKeyboardInput Key);
 	};
 }

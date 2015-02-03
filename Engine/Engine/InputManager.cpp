@@ -16,9 +16,30 @@ namespace Engine
 	{
 		CLOG_INFO("InputManager Startup");
 
-
+		W_ENGINE.GetGameWindow().KeyPressed.Bind(this, &InputManager::W_KeyPressed);
+		W_ENGINE.GetGameWindow().KeyReleased.Bind(this, &InputManager::W_KeyReleased);
 
 		return true;
+	}
+
+	void InputManager::W_KeyPressed(EKeyboardInput Key)
+	{
+		Input KeyInput;
+		KeyInput.Type = EInputType::Keyboard;
+		KeyInput.Mode = EInputMode::Pressed;
+		KeyInput.Keyboard = Key;
+
+		OnRawInput.Call(KeyInput);
+	}
+
+	void InputManager::W_KeyReleased(EKeyboardInput Key)
+	{
+		Input KeyInput;
+		KeyInput.Type = EInputType::Keyboard;
+		KeyInput.Mode = EInputMode::Released;
+		KeyInput.Keyboard = Key;
+
+		OnRawInput.Call(KeyInput);
 	}
 
 }

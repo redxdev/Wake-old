@@ -3,10 +3,22 @@
 #include "Utility/Bootstrap.h"
 #include "Logging/LogMacros.h"
 #include "WakeDefines.h"
+#include "Engine/InputManager.h"
+
+void OnRawInput(const Engine::Input& Input)
+{
+	LOG_INFO(Logging::GlobalLogger, "Input: " << (uint8)Input.Keyboard);
+}
+
+void Setup()
+{
+	W_INPUT.OnRawInput.Bind(&OnRawInput);
+}
 
 WAKE_CUSTOM_BOOTSTRAP(
 	Main,
 	WBS_OPT(WindowOptions.AntiAliasing, 4),
+	Setup();
 )
 
 int main(int argc, char** argv)
