@@ -53,4 +53,46 @@ namespace Engine
 			RenderWindow = nullptr;
 		}
 	}
+
+	void Window::PollEvents()
+	{
+		sf::Event Event;
+		while (RenderWindow->pollEvent(Event))
+		{
+			switch (Event.type)
+			{
+			case sf::Event::Closed:
+				Closed.Call();
+				break;
+
+			case sf::Event::Resized:
+				Resized.Call(Event.size.width, Event.size.height);
+				break;
+
+			case sf::Event::LostFocus:
+				LostFocus.Call();
+				break;
+
+			case sf::Event::GainedFocus:
+				GainedFocus.Call();
+				break;
+
+			case sf::Event::TextEntered:
+				TextEntered.Call(Event.text.unicode);
+				break;
+
+			case sf::Event::MouseMoved:
+				MouseMoved.Call(Event.mouseMove.x, Event.mouseMove.y);
+				break;
+
+			case sf::Event::MouseEntered:
+				MouseEntered.Call();
+				break;
+
+			case sf::Event::MouseLeft:
+				MouseLeft.Call();
+				break;
+			}
+		}
+	}
 }

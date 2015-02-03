@@ -3,6 +3,7 @@
 #include <SFML/Window.hpp>
 
 #include "../Utility/Types.h"
+#include "../Utility/Event.h"
 
 namespace Engine
 {
@@ -29,6 +30,19 @@ namespace Engine
 		bool Initialize(const WindowOptions& Options);
 
 		void Deinitialize();
+
+		void PollEvents();
+
+		W_EVENT(Closed);
+		W_EVENT(Resized, uint32, uint32);
+		W_EVENT(LostFocus);
+		W_EVENT(GainedFocus);
+
+		W_EVENT(TextEntered, uint32);
+
+		W_EVENT(MouseMoved, int32, int32);
+		W_EVENT(MouseEntered);
+		W_EVENT(MouseLeft);
 
 	private:
 		sf::Window* RenderWindow;

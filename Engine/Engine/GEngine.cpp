@@ -12,6 +12,7 @@ namespace Engine
 
 	GEngine::GEngine()
 	{
+		running = false;
 	}
 
 	GEngine::~GEngine()
@@ -32,6 +33,12 @@ namespace Engine
 		BaseEID = BaseEnt->GetEntityId();
 
 		GameWindow.Initialize(Options);
+
+		if (!GameWindow.Closed.IsBound(this, &GEngine::Stop))
+		{
+			GameWindow.Closed.Bind(this, &GEngine::Stop);
+		}
+
 		return true;
 	}
 
@@ -40,5 +47,19 @@ namespace Engine
 		CLOG_INFO("Engine shutdown");
 		GameWindow.Deinitialize();
 		return true;
+	}
+
+	void GEngine::Run()
+	{
+		running = true;
+		while (running)
+		{
+			GameWindow.PollEvents();
+		}
+	}
+
+	void GEngine::Stop()
+	{
+		running = false;
 	}
 }

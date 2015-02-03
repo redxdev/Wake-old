@@ -17,9 +17,17 @@ namespace Engine
 		bool Startup(const WindowOptions& Options = WindowOptions());
 		bool Shutdown();
 
+		void Run();
+		void Stop();
+
 		inline Window& GetGameWindow()
 		{
 			return GameWindow;
+		}
+
+		inline bool IsRunning()
+		{
+			return running;
 		}
 
 	private:
@@ -29,5 +37,7 @@ namespace Engine
 		Window GameWindow;
 
 		EID BaseEID;
+
+		bool running;
 	};
 }

@@ -37,6 +37,8 @@ namespace Utility
 		}
 
 		CLOG_INFO("Running engine");
+
+		W_ENGINE.Run();
 	}
 
 	bool Bootstrap::Startup()

@@ -80,8 +80,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Utility\Event.h" />
     <ClInclude Include="Engine\Window.h" />
-    <ClInclude Include="Engine\EventManager.h" />
     <ClInclude Include="Utility\Bootstrap.h" />
     <ClInclude Include="Engine\EntityManager.h" />
     <ClInclude Include="Engine\Entity.h" />
@@ -102,7 +102,6 @@
     <ClCompile Include="Engine\Entity.cpp" />
     <ClCompile Include="Engine\EntityManager.cpp" />
     <ClCompile Include="Engine\Window.cpp" />
-    <ClCompile Include="Engine\EventManager.cpp" />
     <ClCompile Include="Logging\ConsoleSink.cpp" />
     <ClCompile Include="Logging\FileSink.cpp" />
     <ClCompile Include="Logging\Logger.cpp" />

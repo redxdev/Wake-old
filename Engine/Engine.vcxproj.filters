@@ -81,8 +81,8 @@
     <ClInclude Include="Engine\Window.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\EventManager.h">
-      <Filter>Header Files\Engine</Filter>
+    <ClInclude Include="Utility\Event.h">
+      <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -123,9 +123,6 @@
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Window.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\EventManager.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
   </ItemGroup>
