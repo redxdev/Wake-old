@@ -98,6 +98,12 @@ namespace Utility
 	{
 		CLOG_INFO("shutdown");
 
+		if (!W_INPUT.Shutdown())
+		{
+			CLOG_FATAL("W_INPUT.Shutdown() failed");
+			return false;
+		}
+
 		if(!W_ENGINE.Shutdown())
 		{
 			CLOG_FATAL("W_ENGINE.Shutdown() failed");

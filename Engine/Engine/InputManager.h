@@ -18,6 +18,8 @@ namespace Engine
 
 		bool Startup();
 
+		bool Shutdown();
+
 	private:
 		InputManager() {}
 		~InputManager() {}
@@ -27,5 +29,7 @@ namespace Engine
 
 		void E_MouseButtonPressed(EMouseInput Button);
 		void E_MouseButtonReleased(EMouseInput Button);
+
+		void E_MouseWheelMoved(uint32 Amount);
 	};
 }

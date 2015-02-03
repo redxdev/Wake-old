@@ -20,6 +20,15 @@ namespace Engine
 		W_ENGINE.GetGameWindow().KeyReleased.Bind(this, &InputManager::E_KeyReleased);
 		W_ENGINE.GetGameWindow().MouseButtonPressed.Bind(this, &InputManager::E_MouseButtonPressed);
 		W_ENGINE.GetGameWindow().MouseButtonReleased.Bind(this, &InputManager::E_MouseButtonReleased);
+		W_ENGINE.GetGameWindow().MouseWheelMoved.Bind(this, &InputManager::E_MouseWheelMoved);
+
+		return true;
+	}
+
+	bool InputManager::Shutdown()
+	{
+		CLOG_INFO("InputManager Shutdown");
+		OnRawInput.Clear();
 
 		return true;
 	}
@@ -60,6 +69,17 @@ namespace Engine
 		MouseInput.Type = EInputType::Mouse;
 		MouseInput.Mode = EInputMode::Released;
 		MouseInput.Mouse = Button;
+
+		OnRawInput.Call(MouseInput);
+	}
+
+	void InputManager::E_MouseWheelMoved(uint32 Amount)
+	{
+		Input MouseInput;
+		MouseInput.Type = EInputType::Mouse;
+		MouseInput.Mode = EInputMode::Value;
+		MouseInput.Mouse = (Amount >= 0 ? EMouseInput::WheelUp : EMouseInput::WheelDown);
+		MouseInput.Value = (float)Amount;
 
 		OnRawInput.Call(MouseInput);
 	}
