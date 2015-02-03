@@ -120,7 +120,7 @@ namespace Engine
 
 #define C_AUTO(KeyName) case EKeyboardInput::KeyName: return #KeyName
 
-	const char* ConvertKeyToString(EKeyboardInput Key)
+	const char* ConvertKeyboardToString(EKeyboardInput Key)
 	{
 		switch (Key)
 		{
@@ -251,6 +251,72 @@ namespace Engine
 
 		case sf::Mouse::XButton2:
 			return EMouseInput::X2;
+		}
+	}
+
+	const char* ConvertMouseToString(EMouseInput Mouse)
+	{
+		switch (Mouse)
+		{
+		default:
+			return "Unknown";
+
+		case EMouseInput::Left:
+			return "Left";
+
+		case EMouseInput::Middle:
+			return "Middle";
+
+		case EMouseInput::Right:
+			return "Right";
+
+		case EMouseInput::WheelUp:
+			return "WheelUp";
+
+		case EMouseInput::WheelDown:
+			return "WheelDown";
+
+		case EMouseInput::X1:
+			return "X1";
+
+		case EMouseInput::X2:
+			return "X2";
+		}
+	}
+
+	const char* ConvertInputTypeToString(EInputType Type)
+	{
+		switch (Type)
+		{
+		default:
+			return "Unknown";
+
+		case EInputType::Keyboard:
+			return "Keyboard";
+
+		case EInputType::Mouse:
+			return "Mouse";
+
+		case EInputType::Axis:
+			return "Axis";
+		}
+	}
+
+	const char* ConvertInputModeToString(EInputMode Mode)
+	{
+		switch (Mode)
+		{
+		default:
+			return "Unknown";
+
+		case EInputMode::Pressed:
+			return "Pressed";
+
+		case EInputMode::Released:
+			return "Released";
+
+		case EInputMode::Value:
+			return "Value";
 		}
 	}
 }

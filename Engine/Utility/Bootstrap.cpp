@@ -11,6 +11,8 @@
 #include "../Engine/GEngine.h"
 #include "../Engine/InputManager.h"
 
+#include <fstream>
+
 namespace Utility
 {
 	CLOG_LOGGER_DEF(Utility::Bootstrap);
@@ -44,9 +46,16 @@ namespace Utility
 
 	bool Bootstrap::Startup()
 	{
+		std::ifstream ConfigTest("wake.cfg");
+		if (!ConfigTest.good())
+		{
+			std::cerr << "Bootstrap: Unable to open wake.cfg. Are we in the correct directory?" << std::endl;
+			return false;
+		}
+
 		if(!W_LOG.Startup())
 		{
-			std::cerr << "WLOG.Startup() failed" << std::endl;
+			std::cerr << "Bootstrap: WLOG.Startup() failed" << std::endl;
 			return false;
 		}
 

@@ -16,13 +16,15 @@ namespace Engine
 	{
 		CLOG_INFO("InputManager Startup");
 
-		W_ENGINE.GetGameWindow().KeyPressed.Bind(this, &InputManager::W_KeyPressed);
-		W_ENGINE.GetGameWindow().KeyReleased.Bind(this, &InputManager::W_KeyReleased);
+		W_ENGINE.GetGameWindow().KeyPressed.Bind(this, &InputManager::E_KeyPressed);
+		W_ENGINE.GetGameWindow().KeyReleased.Bind(this, &InputManager::E_KeyReleased);
+		W_ENGINE.GetGameWindow().MouseButtonPressed.Bind(this, &InputManager::E_MouseButtonPressed);
+		W_ENGINE.GetGameWindow().MouseButtonReleased.Bind(this, &InputManager::E_MouseButtonReleased);
 
 		return true;
 	}
 
-	void InputManager::W_KeyPressed(EKeyboardInput Key)
+	void InputManager::E_KeyPressed(EKeyboardInput Key)
 	{
 		Input KeyInput;
 		KeyInput.Type = EInputType::Keyboard;
@@ -32,7 +34,7 @@ namespace Engine
 		OnRawInput.Call(KeyInput);
 	}
 
-	void InputManager::W_KeyReleased(EKeyboardInput Key)
+	void InputManager::E_KeyReleased(EKeyboardInput Key)
 	{
 		Input KeyInput;
 		KeyInput.Type = EInputType::Keyboard;
@@ -42,4 +44,23 @@ namespace Engine
 		OnRawInput.Call(KeyInput);
 	}
 
+	void InputManager::E_MouseButtonPressed(EMouseInput Button)
+	{
+		Input MouseInput;
+		MouseInput.Type = EInputType::Mouse;
+		MouseInput.Mode = EInputMode::Pressed;
+		MouseInput.Mouse = Button;
+
+		OnRawInput.Call(MouseInput);
+	}
+
+	void InputManager::E_MouseButtonReleased(EMouseInput Button)
+	{
+		Input MouseInput;
+		MouseInput.Type = EInputType::Mouse;
+		MouseInput.Mode = EInputMode::Released;
+		MouseInput.Mouse = Button;
+
+		OnRawInput.Call(MouseInput);
+	}
 }

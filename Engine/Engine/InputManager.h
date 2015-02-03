@@ -22,7 +22,10 @@ namespace Engine
 		InputManager() {}
 		~InputManager() {}
 
-		void W_KeyPressed(EKeyboardInput Key);
-		void W_KeyReleased(EKeyboardInput Key);
+		void E_KeyPressed(EKeyboardInput Key);
+		void E_KeyReleased(EKeyboardInput Key);
+
+		void E_MouseButtonPressed(EMouseInput Button);
+		void E_MouseButtonReleased(EMouseInput Button);
 	};
 }

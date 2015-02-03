@@ -115,7 +115,7 @@ namespace Engine
 
 	EKeyboardInput ConvertSFKeyToInput(sf::Keyboard::Key Key);
 
-	const char* ConvertKeyToString(EKeyboardInput Key);
+	const char* ConvertKeyboardToString(EKeyboardInput Key);
 
 	enum class EMouseInput : uint8
 	{
@@ -131,19 +131,27 @@ namespace Engine
 
 	EMouseInput ConvertSFMouseToInput(sf::Mouse::Button Button);
 
+	const char* ConvertMouseToString(EMouseInput Mouse);
+
 	enum class EInputType : uint8
 	{
+		Unknown,
 		Mouse,
 		Keyboard,
 		Axis
 	};
 
+	const char* ConvertInputTypeToString(EInputType Type);
+
 	enum class EInputMode : uint8
 	{
+		Unknown,
 		Pressed,
 		Released,
 		Value
 	};
+
+	const char* ConvertInputModeToString(EInputMode Mode);
 
 	struct Input
 	{

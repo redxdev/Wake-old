@@ -7,7 +7,16 @@
 
 void OnRawInput(const Engine::Input& Input)
 {
-	LOG_INFO(Logging::GlobalLogger, "Input: " << Engine::ConvertKeyToString(Input.Keyboard));
+	switch (Input.Type)
+	{
+	case Engine::EInputType::Keyboard:
+		LOG_INFO(Logging::GlobalLogger, "Keyboard " << Engine::ConvertInputModeToString(Input.Mode) << " " << Engine::ConvertKeyboardToString(Input.Keyboard));
+		break;
+
+	case Engine::EInputType::Mouse:
+		LOG_INFO(Logging::GlobalLogger, "Mouse " << Engine::ConvertInputModeToString(Input.Mode) << " " << Engine::ConvertMouseToString(Input.Mouse));
+		break;
+	}
 }
 
 void Setup()
