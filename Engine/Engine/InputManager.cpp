@@ -73,7 +73,7 @@ namespace Engine
 		OnRawInput.Call(MouseInput);
 	}
 
-	void InputManager::E_MouseWheelMoved(uint32 Amount)
+	void InputManager::E_MouseWheelMoved(int32 Amount)
 	{
 		Input MouseInput;
 		MouseInput.Type = EInputType::Mouse;

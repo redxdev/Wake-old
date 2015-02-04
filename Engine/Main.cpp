@@ -15,6 +15,10 @@ void OnRawInput(const Engine::Input& Input)
 
 	case Engine::EInputType::Mouse:
 		LOG_INFO(Logging::GlobalLogger, "Mouse " << Engine::ConvertInputModeToString(Input.Mode) << " " << Engine::ConvertMouseToString(Input.Mouse));
+		if (Input.Mode == Engine::EInputMode::Value)
+		{
+			LOG_INFO(Logging::GlobalLogger, "Value - " << Input.Value);
+		}
 		break;
 	}
 }

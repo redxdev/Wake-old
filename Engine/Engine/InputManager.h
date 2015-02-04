@@ -30,6 +30,6 @@ namespace Engine
 		void E_MouseButtonPressed(EMouseInput Button);
 		void E_MouseButtonReleased(EMouseInput Button);
 
-		void E_MouseWheelMoved(uint32 Amount);
+		void E_MouseWheelMoved(int32 Amount);
 	};
 }

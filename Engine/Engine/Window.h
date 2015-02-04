@@ -50,7 +50,7 @@ namespace Engine
 
 		W_EVENT(MouseButtonPressed, EMouseInput);
 		W_EVENT(MouseButtonReleased, EMouseInput);
-		W_EVENT(MouseWheelMoved, uint32);
+		W_EVENT(MouseWheelMoved, int32);
 
 		W_EVENT(MouseMoved, int32, int32);
 		W_EVENT(MouseEntered);
