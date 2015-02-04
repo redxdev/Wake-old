@@ -34,6 +34,11 @@ namespace Engine
 
 		void PollEvents();
 
+		inline bool IsOpen()
+		{
+			return RenderWindow->isOpen();
+		}
+
 		W_EVENT(Closed);
 		W_EVENT(Resized, uint32, uint32);
 		W_EVENT(LostFocus);

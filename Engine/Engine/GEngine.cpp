@@ -52,6 +52,9 @@ namespace Engine
 		while (running)
 		{
 			GameWindow.PollEvents();
+
+			if (!GameWindow.IsOpen())
+				Stop();
 		}
 	}
 
