@@ -10,11 +10,11 @@ void OnRawInput(const Engine::Input& Input)
 	switch (Input.Type)
 	{
 	case Engine::EInputType::Keyboard:
-		LOG_INFO(Logging::GlobalLogger, "Keyboard " << Engine::ConvertInputModeToString(Input.Mode) << " " << Engine::ConvertKeyboardToString(Input.Keyboard));
+		LOG_INFO(Logging::GlobalLogger, "Keyboard " << Engine::ConvertInputModeToString(Input.Mode) << " " << Engine::ConvertKeyboardToString(Input.Code.Keyboard));
 		break;
 
 	case Engine::EInputType::Mouse:
-		LOG_INFO(Logging::GlobalLogger, "Mouse " << Engine::ConvertInputModeToString(Input.Mode) << " " << Engine::ConvertMouseToString(Input.Mouse));
+		LOG_INFO(Logging::GlobalLogger, "Mouse " << Engine::ConvertInputModeToString(Input.Mode) << " " << Engine::ConvertMouseToString(Input.Code.Mouse));
 		if (Input.Mode == Engine::EInputMode::Value)
 		{
 			LOG_INFO(Logging::GlobalLogger, "Value - " << Input.Value);

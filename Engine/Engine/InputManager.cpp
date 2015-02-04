@@ -38,7 +38,7 @@ namespace Engine
 		Input KeyInput;
 		KeyInput.Type = EInputType::Keyboard;
 		KeyInput.Mode = EInputMode::Pressed;
-		KeyInput.Keyboard = Key;
+		KeyInput.Code.Keyboard = Key;
 
 		OnRawInput.Call(KeyInput);
 	}
@@ -48,7 +48,7 @@ namespace Engine
 		Input KeyInput;
 		KeyInput.Type = EInputType::Keyboard;
 		KeyInput.Mode = EInputMode::Released;
-		KeyInput.Keyboard = Key;
+		KeyInput.Code.Keyboard = Key;
 
 		OnRawInput.Call(KeyInput);
 	}
@@ -58,7 +58,7 @@ namespace Engine
 		Input MouseInput;
 		MouseInput.Type = EInputType::Mouse;
 		MouseInput.Mode = EInputMode::Pressed;
-		MouseInput.Mouse = Button;
+		MouseInput.Code.Mouse = Button;
 
 		OnRawInput.Call(MouseInput);
 	}
@@ -68,7 +68,7 @@ namespace Engine
 		Input MouseInput;
 		MouseInput.Type = EInputType::Mouse;
 		MouseInput.Mode = EInputMode::Released;
-		MouseInput.Mouse = Button;
+		MouseInput.Code.Mouse = Button;
 
 		OnRawInput.Call(MouseInput);
 	}
@@ -78,7 +78,7 @@ namespace Engine
 		Input MouseInput;
 		MouseInput.Type = EInputType::Mouse;
 		MouseInput.Mode = EInputMode::Value;
-		MouseInput.Mouse = (Amount >= 0 ? EMouseInput::WheelUp : EMouseInput::WheelDown);
+		MouseInput.Code.Mouse = (Amount >= 0 ? EMouseInput::WheelUp : EMouseInput::WheelDown);
 		MouseInput.Value = (float)Amount;
 
 		OnRawInput.Call(MouseInput);
