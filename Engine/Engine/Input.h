@@ -153,10 +153,27 @@ namespace Engine
 
 	const char* ConvertInputModeToString(EInputMode Mode);
 
-	union InputCode
+	struct InputCode
 	{
-		EMouseInput Mouse;
-		EKeyboardInput Keyboard;
+		InputCode()
+		{
+		}
+
+		InputCode(EMouseInput Mouse)
+		{
+			this->Mouse = Mouse;
+		}
+
+		InputCode(EKeyboardInput Keyboard)
+		{
+			this->Keyboard = Keyboard;
+		}
+
+		union
+		{
+			EMouseInput Mouse;
+			EKeyboardInput Keyboard;
+		};
 	};
 
 	struct Input

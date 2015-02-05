@@ -23,9 +23,17 @@ void OnRawInput(const Engine::Input& Input)
 	}
 }
 
+void OnBoundInput(const Engine::Input& Input)
+{
+	LOG_INFO(Logging::GlobalLogger, "Hello!");
+}
+
 void Setup()
 {
 	W_INPUT.OnRawInput.Bind(&OnRawInput);
+	
+	W_INPUT.CreateBinding("Test", Engine::InputBinding(Engine::EInputType::Keyboard, Engine::EInputMode::Pressed, Engine::EKeyboardInput::Space));
+	W_INPUT.Event("Test").Bind(&OnBoundInput);
 }
 
 WAKE_CUSTOM_BOOTSTRAP(
