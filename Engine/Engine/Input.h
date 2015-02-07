@@ -137,8 +137,7 @@ namespace Engine
 	{
 		Unknown,
 		Mouse,
-		Keyboard,
-		Axis
+		Keyboard
 	};
 
 	const char* ConvertInputTypeToString(EInputType Type);

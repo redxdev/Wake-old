@@ -296,9 +296,6 @@ namespace Engine
 
 		case EInputType::Mouse:
 			return "Mouse";
-
-		case EInputType::Axis:
-			return "Axis";
 		}
 	}
 
