@@ -4,6 +4,7 @@
 #include "Logging/LogMacros.h"
 #include "WakeDefines.h"
 #include "Engine/InputManager.h"
+#include "Engine/GEngine.h"
 
 void OnRawInput(const Engine::Input& Input)
 {
@@ -23,17 +24,25 @@ void OnRawInput(const Engine::Input& Input)
 	}
 }
 
-void OnBoundInput(const Engine::Input& Input)
+void OnInput_Test(const Engine::Input& Input)
 {
 	LOG_INFO(Logging::GlobalLogger, "Hello!");
+}
+
+void OnInput_Exit(const Engine::Input& Input)
+{
+	W_ENGINE.Stop();
 }
 
 void Setup()
 {
 	W_INPUT.OnRawInput.Bind(&OnRawInput);
+
+	W_INPUT.CreateBinding("Exit", INPUT_BIND(Keyboard, Pressed, Escape));
+	W_INPUT.Event("Exit").Bind(&OnInput_Exit);
 	
-	W_INPUT.CreateBinding("Test", Engine::InputBinding(Engine::EInputType::Keyboard, Engine::EInputMode::Pressed, Engine::EKeyboardInput::Space));
-	W_INPUT.Event("Test").Bind(&OnBoundInput);
+	W_INPUT.CreateBinding("Test", INPUT_BIND(Keyboard, Pressed, Space));
+	W_INPUT.Event("Test").Bind(&OnInput_Test);
 }
 
 WAKE_CUSTOM_BOOTSTRAP(

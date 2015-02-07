@@ -1,6 +1,8 @@
 #pragma once
 
 #include <unordered_map>
+#include <unordered_set>
+#include <list>
 #include <functional>
 
 #include "../Logging/LogMacros.h"
@@ -8,6 +10,8 @@
 #include "Input.h"
 
 #define W_INPUT (Engine::InputManager::Get())
+
+#define INPUT_BIND(Type, Mode, Code) (Engine::InputBinding((Engine::EInputType::Type), (Engine::EInputMode::Mode), (Engine::E##Type##Input::Code)))
 
 namespace Engine
 {
@@ -35,7 +39,7 @@ namespace Engine
 
 	struct InputBindingHash
 	{
-		std::size_t operator()(const Engine::InputBinding& Binding)
+		std::size_t operator()(const InputBinding& Binding)
 		{
 			std::size_t h = std::hash<uint8>()((uint8)Binding.Type) ^ std::hash<uint8>()((uint8)Binding.Mode << 1);
 			switch (Binding.Type)

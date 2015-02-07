@@ -35,7 +35,7 @@ namespace Engine
 			RenderWindow = new sf::Window();
 		}
 
-		RenderWindow->create(sf::VideoMode(Options.Width, Options.Height, Options.BitsPerPixel), Options.Title, Options.Fullscreen ? sf::Style::Fullscreen : sf::Style::Default, CtxSettings);
+		RenderWindow->create(sf::VideoMode(Options.Width, Options.Height, Options.BitsPerPixel), Options.Title, Options.Fullscreen ? sf::Style::Fullscreen : sf::Style::Close, CtxSettings);
 
 		return true;
 	}
