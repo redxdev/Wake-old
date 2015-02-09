@@ -47,6 +47,8 @@ namespace Engine
 
 		virtual void Destroy();
 
+		virtual void Draw();
+
 		virtual void Tick(float DeltaTime);
 
 	private:

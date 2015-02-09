@@ -76,4 +76,19 @@ namespace Engine
 		delete Ent;
 	}
 
+	void EntityManager::Draw()
+	{
+		for (auto Itr = Entities.begin(); Itr != Entities.end(); ++Itr)
+		{
+			Itr->second->Draw();
+		}
+	}
+
+	void EntityManager::Tick(float DeltaTime)
+	{
+		for (auto Itr = Entities.begin(); Itr != Entities.end(); ++Itr)
+		{
+			Itr->second->Tick(DeltaTime);
+		}
+	}
 }

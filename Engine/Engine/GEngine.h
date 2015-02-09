@@ -36,8 +36,6 @@ namespace Engine
 
 		Window GameWindow;
 
-		EID BaseEID;
-
 		bool running;
 	};
 }

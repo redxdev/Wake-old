@@ -16,6 +16,10 @@ namespace Engine
 	{
 	}
 
+	void Entity::Draw()
+	{
+	}
+
 	void Entity::Tick(float DeltaTime)
 	{
 	}

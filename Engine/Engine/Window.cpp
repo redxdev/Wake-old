@@ -1,5 +1,7 @@
 #include "Window.h"
 
+#include <GL/glew.h>
+
 namespace Engine
 {
 	Window::Window()
@@ -36,6 +38,10 @@ namespace Engine
 		}
 
 		RenderWindow->create(sf::VideoMode(Options.Width, Options.Height, Options.BitsPerPixel), Options.Title, Options.Fullscreen ? sf::Style::Fullscreen : sf::Style::Close, CtxSettings);
+		RenderWindow->setActive(true);
+
+		glewExperimental = GL_TRUE;
+		glewInit();
 
 		return true;
 	}

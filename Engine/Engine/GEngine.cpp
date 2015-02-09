@@ -1,7 +1,5 @@
 #include "GEngine.h"
 
-#include <GL/glew.h>
-
 namespace Engine
 {
 	CLOG_LOGGER_DEF(Engine::GEngine);
@@ -32,12 +30,7 @@ namespace Engine
 			return false;
 		}
 
-		BaseEID = BaseEnt->GetEntityId();
-
 		GameWindow.Initialize(Options);
-
-		glewExperimental = GL_TRUE;
-		glewInit();
 
 		GameWindow.Closed.Bind(this, &GEngine::Stop);
 

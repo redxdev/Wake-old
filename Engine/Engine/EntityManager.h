@@ -71,6 +71,8 @@ namespace Engine
 
 		void Destroy(EID EntId);
 
+		void Draw();
+
 		void Tick(float DeltaTime);
 
 	private:
