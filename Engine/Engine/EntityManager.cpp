@@ -55,25 +55,27 @@ namespace Engine
 		return NextEntityId++;
 	}
 
-	void EntityManager::Destroy(Entity* Ent)
+	bool EntityManager::Destroy(Entity* Ent)
 	{
 		if (!Ent)
-			return;
+			return false;
 
-		Destroy(Ent->GetEntityId());
+		return Destroy(Ent->GetEntityId());
 	}
 
-	void EntityManager::Destroy(EID EntId)
+	bool EntityManager::Destroy(EID EntId)
 	{
 		Entity* Ent = GetEntity(EntId);
 		if (!Ent)
-			return;
+			return false;
 
 		Ent->Deactivate();
 		Ent->Destroy();
 		Entities.erase(EntId);
 
 		delete Ent;
+
+		return true;
 	}
 
 	void EntityManager::Draw()

@@ -12,10 +12,16 @@
 #include "../Engine/InputManager.h"
 
 #include <fstream>
+#include <signal.h>
 
 namespace Utility
 {
 	CLOG_LOGGER_DEF(Utility::Bootstrap);
+
+	void BootstrapSignalHandler(int signal)
+	{
+		W_ENGINE.Stop();
+	}
 
 	Bootstrap::Bootstrap(int ArgC, char** ArgV, const BootstrapOptions& Options)
 		: Options(Options)
@@ -38,6 +44,9 @@ namespace Utility
 			CLOG_INFO("Not running engine (DontRunEngine set to true)");
 			return;
 		}
+
+		CLOG_DEBUG("Setting signal handler");
+		signal(SIGINT, &BootstrapSignalHandler);
 
 		CLOG_INFO("Running engine");
 

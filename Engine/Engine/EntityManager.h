@@ -67,9 +67,9 @@ namespace Engine
 			return nullptr;
 		}
 
-		void Destroy(Entity* Ent);
+		bool Destroy(Entity* Ent);
 
-		void Destroy(EID EntId);
+		bool Destroy(EID EntId);
 
 		void Draw();
 

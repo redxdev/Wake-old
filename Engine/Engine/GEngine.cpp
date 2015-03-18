@@ -23,13 +23,6 @@ namespace Engine
 	{
 		CLOG_INFO("Engine startup");
 
-		auto BaseEnt = W_ENTITY.CreateEntity<Entity>();
-		if (!BaseEnt)
-		{
-			CLOG_FATAL("Unable to reserve base EID from entity manager");
-			return false;
-		}
-
 		GameWindow.Initialize(Options);
 
 		GameWindow.Closed.Bind(this, &GEngine::Stop);
