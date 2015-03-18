@@ -2,7 +2,7 @@
 
 namespace Engine
 {
-	Entity::Entity(uint32 Id)
+	Entity::Entity(EID Id)
 	{
 		EntityId = Id;
 		Active = true;
