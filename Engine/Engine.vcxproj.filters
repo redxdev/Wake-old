@@ -96,6 +96,9 @@
     <ClInclude Include="World\Actor.h">
       <Filter>Header Files\World</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Shader.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
