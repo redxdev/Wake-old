@@ -7,17 +7,14 @@
 #endif
 #include <windows.h>
 
-namespace Logging
+VSDebugSink::~VSDebugSink()
 {
-	VSDebugSink::~VSDebugSink()
-	{
-	}
+}
 
-	void VSDebugSink::Append(const LogMessage& Message)
-	{
-		std::wstring wide = std::wstring(Message.FormattedMessage.begin(), Message.FormattedMessage.end());
-		OutputDebugString((wide + L"\n").c_str());
-	}
+void VSDebugSink::Append(const LogMessage& Message)
+{
+	std::wstring wide = std::wstring(Message.FormattedMessage.begin(), Message.FormattedMessage.end());
+	OutputDebugString((wide + L"\n").c_str());
 }
 
 #endif

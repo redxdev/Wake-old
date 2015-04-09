@@ -12,8 +12,4 @@ typedef int16_t int16;
 typedef int32_t int32;
 typedef int64_t int64;
 
-template<typename To, typename From>
-To* Cast(From* Obj)
-{
-	return dynamic_cast<To*>(Obj);
-}
+typedef uint32 ActorID;

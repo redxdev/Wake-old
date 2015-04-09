@@ -2,181 +2,178 @@
 
 #include <list>
 
-#define W_EVENT(Name, ...) Utility::Event<__VA_ARGS__> (Name)
+#define W_EVENT(Name, ...) Event<__VA_ARGS__> (Name)
 
-namespace Utility
+template<typename... Arguments>
+class Callable
 {
-	template<typename... Arguments>
-	class Callable
+public:
+	virtual ~Callable() {}
+
+	virtual void Call(Arguments... Args)
 	{
-	public:
-		virtual ~Callable() {}
+	}
 
-		virtual void Call(Arguments... Args)
-		{
-		}
+	virtual bool Equals(Callable<Arguments...>* Other) const
+	{
+		return false;
+	}
+};
 
-		virtual bool Equals(Callable<Arguments...>* Other) const
-		{
+template<typename... Arguments>
+class StaticCallable : public Callable<Arguments...>
+{
+public:
+	typedef void (*FuncPtr)(Arguments...);
+
+	StaticCallable(FuncPtr Func)
+	{
+		Function = Func;
+	}
+
+	virtual void Call(Arguments... Args) override
+	{
+		if (!Function)
+			return;
+
+		Function(Args...);
+	}
+
+	virtual bool Equals(Callable<Arguments...>* Other) const override
+	{
+		auto OtherPtr = dynamic_cast<const StaticCallable<Arguments...>*>(Other);
+		if (!OtherPtr)
 			return false;
-		}
-	};
 
-	template<typename... Arguments>
-	class StaticCallable : public Callable<Arguments...>
+		return Function == OtherPtr->Function;
+	}
+
+private:
+	FuncPtr Function;
+};
+
+template<typename T, typename... Arguments>
+class InstancedCallable : public Callable<Arguments...>
+{
+public:
+	typedef void (T::*FuncPtr)(Arguments...);
+
+	InstancedCallable(T* Inst, FuncPtr Func)
 	{
-	public:
-		typedef void (*FuncPtr)(Arguments...);
+		Instance = Inst;
+		Function = Func;
+	}
 
-		StaticCallable(FuncPtr Func)
-		{
-			Function = Func;
-		}
-
-		virtual void Call(Arguments... Args) override
-		{
-			if (!Function)
-				return;
-
-			Function(Args...);
-		}
-
-		virtual bool Equals(Callable<Arguments...>* Other) const override
-		{
-			auto OtherPtr = dynamic_cast<const StaticCallable<Arguments...>*>(Other);
-			if (!OtherPtr)
-				return false;
-
-			return Function == OtherPtr->Function;
-		}
-
-	private:
-		FuncPtr Function;
-	};
-
-	template<typename T, typename... Arguments>
-	class InstancedCallable : public Callable<Arguments...>
+	virtual void Call(Arguments... Args) override
 	{
-	public:
-		typedef void (T::*FuncPtr)(Arguments...);
+		if (!Instance || !Function)
+			return;
 
-		InstancedCallable(T* Inst, FuncPtr Func)
-		{
-			Instance = Inst;
-			Function = Func;
-		}
+		(Instance->*Function)(Args...);
+	}
 
-		virtual void Call(Arguments... Args) override
-		{
-			if (!Instance || !Function)
-				return;
-
-			(Instance->*Function)(Args...);
-		}
-
-		virtual bool Equals(Callable<Arguments...>* Other) const override
-		{
-			auto OtherPtr = dynamic_cast<const InstancedCallable<T, Arguments...>*>(Other);
-			if (!OtherPtr)
-				return false;
-
-			return Instance == OtherPtr->Instance && Function == OtherPtr->Function;
-		}
-
-	private:
-		T* Instance;
-		FuncPtr Function;
-	};
-
-	template<typename... Arguments>
-	class Event
+	virtual bool Equals(Callable<Arguments...>* Other) const override
 	{
-	public:
-		~Event()
-		{
-			Clear();
-		}
-
-		void Bind(Callable<Arguments...>* Delegate)
-		{
-			Delegates.push_back(Delegate);
-		}
-
-		void Bind(void (*FuncPtr)(Arguments...))
-		{
-			Bind(new StaticCallable<Arguments...>(FuncPtr));
-		}
-
-		template<typename T>
-		void Bind(T* Instance, void (T::*FuncPtr)(Arguments...))
-		{
-			Bind(new InstancedCallable<T, Arguments...>(Instance, FuncPtr));
-		}
-
-		void Unbind(Callable<Arguments...>* Delegate)
-		{
-			for (auto Itr = Delegates.begin(); Itr != Delegates.end(); ++Itr)
-			{
-				if (Itr->Equals(Delegate))
-				{
-					delete *Itr;
-					Delegates.erase(Itr);
-				}
-			}
-		}
-
-		void Unbind(void (*FuncPtr)(Arguments...))
-		{
-			Unbind(new StaticCallable<Arguments...>(FuncPtr));
-		}
-
-		template<typename T>
-		void Unbind(T* Instance, void (T::*FuncPtr)(Arguments...))
-		{
-			Unbind(new InstancedCallable<T, Arguments...>(Instance, FuncPtr));
-		}
-
-		bool IsBound(Callable<Arguments...>* Delegate) const
-		{
-			for (Callable<Arguments...>* Other : Delegates)
-			{
-				if (Other->Equals(Delegate))
-					return true;
-			}
-
+		auto OtherPtr = dynamic_cast<const InstancedCallable<T, Arguments...>*>(Other);
+		if (!OtherPtr)
 			return false;
-		}
 
-		bool IsBound(void (*FuncPtr)(Arguments...))
-		{
-			return IsCallable(new StaticCallable<Arguments...>(FuncPtr));
-		}
+		return Instance == OtherPtr->Instance && Function == OtherPtr->Function;
+	}
 
-		template<typename T>
-		bool IsBound(T* Instance, void (T::*FuncPtr)(Arguments...))
-		{
-			return IsBound(new InstancedCallable<T, Arguments...>(Instance, FuncPtr));
-		}
+private:
+	T* Instance;
+	FuncPtr Function;
+};
 
-		void Call(Arguments... Args)
+template<typename... Arguments>
+class Event
+{
+public:
+	~Event()
+	{
+		Clear();
+	}
+
+	void Bind(Callable<Arguments...>* Delegate)
+	{
+		Delegates.push_back(Delegate);
+	}
+
+	void Bind(void (*FuncPtr)(Arguments...))
+	{
+		Bind(new StaticCallable<Arguments...>(FuncPtr));
+	}
+
+	template<typename T>
+	void Bind(T* Instance, void (T::*FuncPtr)(Arguments...))
+	{
+		Bind(new InstancedCallable<T, Arguments...>(Instance, FuncPtr));
+	}
+
+	void Unbind(Callable<Arguments...>* Delegate)
+	{
+		for (auto Itr = Delegates.begin(); Itr != Delegates.end(); ++Itr)
 		{
-			for (Callable<Arguments...>* Delegate : Delegates)
+			if (Itr->Equals(Delegate))
 			{
-				Delegate->Call(Args...);
+				delete *Itr;
+				Delegates.erase(Itr);
 			}
 		}
+	}
 
-		void Clear()
+	void Unbind(void (*FuncPtr)(Arguments...))
+	{
+		Unbind(new StaticCallable<Arguments...>(FuncPtr));
+	}
+
+	template<typename T>
+	void Unbind(T* Instance, void (T::*FuncPtr)(Arguments...))
+	{
+		Unbind(new InstancedCallable<T, Arguments...>(Instance, FuncPtr));
+	}
+
+	bool IsBound(Callable<Arguments...>* Delegate) const
+	{
+		for (Callable<Arguments...>* Other : Delegates)
 		{
-			for (Callable<Arguments...>* Delegate : Delegates)
-			{
-				delete Delegate;
-			}
-
-			Delegates.clear();
+			if (Other->Equals(Delegate))
+				return true;
 		}
 
-	private:
-		std::list<Callable<Arguments...>*> Delegates;
-	};
-}
+		return false;
+	}
+
+	bool IsBound(void (*FuncPtr)(Arguments...))
+	{
+		return IsCallable(new StaticCallable<Arguments...>(FuncPtr));
+	}
+
+	template<typename T>
+	bool IsBound(T* Instance, void (T::*FuncPtr)(Arguments...))
+	{
+		return IsBound(new InstancedCallable<T, Arguments...>(Instance, FuncPtr));
+	}
+
+	void Call(Arguments... Args)
+	{
+		for (Callable<Arguments...>* Delegate : Delegates)
+		{
+			Delegate->Call(Args...);
+		}
+	}
+
+	void Clear()
+	{
+		for (Callable<Arguments...>* Delegate : Delegates)
+		{
+			delete Delegate;
+		}
+
+		Delegates.clear();
+	}
+
+private:
+	std::list<Callable<Arguments...>*> Delegates;
+};

@@ -1,16 +1,13 @@
 #include "LogSink.h"
 
-namespace Logging
+LogSink::~LogSink()
 {
-	LogSink::~LogSink()
-	{
-	}
+}
 
-	void LogSink::OpenSink()
-	{
-	}
+void LogSink::OpenSink()
+{
+}
 
-	void LogSink::CloseSink()
-	{
-	}
+void LogSink::CloseSink()
+{
 }

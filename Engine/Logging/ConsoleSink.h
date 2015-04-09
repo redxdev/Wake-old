@@ -4,16 +4,13 @@
 
 #include "LogSink.h"
 
-namespace Logging
+/**
+* Logging sink for output to the console.
+*/
+class ConsoleSink : public LogSink
 {
-	/**
-	* Logging sink for output to the console.
-	*/
-	class ConsoleSink : public LogSink
-	{
-	public:
-		virtual ~ConsoleSink();
+public:
+	virtual ~ConsoleSink();
 
-		virtual void Append(const LogMessage& Message) override;
-	};
-}
+	virtual void Append(const LogMessage& Message) override;
+};

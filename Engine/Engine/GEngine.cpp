@@ -1,56 +1,63 @@
 #include "GEngine.h"
 
-namespace Engine
+CLOG_LOGGER_DEF(GEngine);
+
+GEngine& GEngine::Get()
 {
-	CLOG_LOGGER_DEF(Engine::GEngine);
+	static GEngine Instance;
+	return Instance;
+}
 
-	GEngine& GEngine::Get()
+GEngine::GEngine()
+{
+	Running = false;
+}
+
+GEngine::~GEngine()
+{
+}
+
+bool GEngine::Startup(const WindowOptions& Options)
+{
+	CLOG_INFO("Engine startup");
+
+	GameWindow.Initialize(Options);
+
+	GameWindow.Closed.Bind(this, &GEngine::Stop);
+
+	return true;
+}
+
+bool GEngine::Shutdown()
+{
+	CLOG_INFO("Engine shutdown");
+	GameWindow.Deinitialize();
+	return true;
+}
+
+void GEngine::Run()
+{
+	Running = true;
+	while (Running)
 	{
-		static GEngine Instance;
-		return Instance;
+		GameWindow.PollEvents();
+
+		if (!GameWindow.IsOpen())
+			Stop();
 	}
+}
 
-	GEngine::GEngine()
-	{
-		running = false;
-	}
+void GEngine::Stop()
+{
+	Running = false;
+}
 
-	GEngine::~GEngine()
-	{
-	}
+Window& GEngine::GetGameWindow()
+{
+	return GameWindow;
+}
 
-	bool GEngine::Startup(const WindowOptions& Options)
-	{
-		CLOG_INFO("Engine startup");
-
-		GameWindow.Initialize(Options);
-
-		GameWindow.Closed.Bind(this, &GEngine::Stop);
-
-		return true;
-	}
-
-	bool GEngine::Shutdown()
-	{
-		CLOG_INFO("Engine shutdown");
-		GameWindow.Deinitialize();
-		return true;
-	}
-
-	void GEngine::Run()
-	{
-		running = true;
-		while (running)
-		{
-			GameWindow.PollEvents();
-
-			if (!GameWindow.IsOpen())
-				Stop();
-		}
-	}
-
-	void GEngine::Stop()
-	{
-		running = false;
-	}
+bool GEngine::IsRunning()
+{
+	return Running;
 }

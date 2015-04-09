@@ -1,25 +1,22 @@
 #pragma once
 #include "../Utility/Types.h"
 
-namespace Logging
+/**
+ * Represents the log level.
+ */
+enum class LogLevel : uint8
 {
-	/**
-	* Represents the log level.
-	*/
-	enum class LogLevel : uint8
-	{
-		Trace,
-		Debug,
-		Info,
-		Warn,
-		Error,
-		Fatal
-	};
+	Trace,
+	Debug,
+	Info,
+	Warn,
+	Error,
+	Fatal
+};
 
-	/**
-	* Convert a LogLevel enum to a string.
-	*
-	* \param Level The LogLevel to convert.
-	*/
-	const char* LogLevelToString(LogLevel Level);
-}
+/**
+ * Convert a LogLevel enum to a string.
+ *
+ * \param Level The LogLevel to convert.
+ */
+const char* LogLevelToString(LogLevel Level);

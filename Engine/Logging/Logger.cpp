@@ -4,7 +4,4 @@
 
 #include "LogManager.h"
 
-namespace Logging
-{
-	Logger GlobalLogger("global");
-}
+Logger GlobalLogger("global");

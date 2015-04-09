@@ -1,35 +1,35 @@
 #include <iostream>
 
-#include "Utility/Bootstrap.h"
 #include "Logging/LogMacros.h"
 #include "WakeDefines.h"
 #include "Engine/InputManager.h"
 #include "Engine/GEngine.h"
+#include "Engine/Bootstrap.h"
 
-void OnRawInput(const Engine::Input& Input)
+void OnRawInput(const Input& Input)
 {
 	switch (Input.Type)
 	{
-	case Engine::EInputType::Keyboard:
-		LOG_INFO(Logging::GlobalLogger, "Keyboard " << Engine::ConvertInputModeToString(Input.Mode) << " " << Engine::ConvertKeyboardToString(Input.Code.Keyboard));
+	case EInputType::Keyboard:
+		LOG_INFO(GlobalLogger, "Keyboard " << ConvertInputModeToString(Input.Mode) << " " << ConvertKeyboardToString(Input.Code.Keyboard));
 		break;
 
-	case Engine::EInputType::Mouse:
-		LOG_INFO(Logging::GlobalLogger, "Mouse " << Engine::ConvertInputModeToString(Input.Mode) << " " << Engine::ConvertMouseToString(Input.Code.Mouse));
-		if (Input.Mode == Engine::EInputMode::Value)
+	case EInputType::Mouse:
+		LOG_INFO(GlobalLogger, "Mouse " << ConvertInputModeToString(Input.Mode) << " " << ConvertMouseToString(Input.Code.Mouse));
+		if (Input.Mode == EInputMode::Value)
 		{
-			LOG_INFO(Logging::GlobalLogger, "Value - " << Input.Value);
+			LOG_INFO(GlobalLogger, "Value - " << Input.Value);
 		}
 		break;
 	}
 }
 
-void OnInput_Test(const Engine::Input& Input)
+void OnInput_Test(const Input& Input)
 {
-	LOG_INFO(Logging::GlobalLogger, "Hello!");
+	LOG_INFO(GlobalLogger, "Hello!");
 }
 
-void OnInput_Exit(const Engine::Input& Input)
+void OnInput_Exit(const Input& Input)
 {
 	W_ENGINE.Stop();
 }

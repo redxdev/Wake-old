@@ -92,9 +92,7 @@
     <ClInclude Include="Engine\InputManager.h" />
     <ClInclude Include="Utility\Event.h" />
     <ClInclude Include="Engine\Window.h" />
-    <ClInclude Include="Utility\Bootstrap.h" />
-    <ClInclude Include="Engine\EntityManager.h" />
-    <ClInclude Include="Engine\Entity.h" />
+    <ClInclude Include="Engine\Bootstrap.h" />
     <ClInclude Include="Logging\ConsoleSink.h" />
     <ClInclude Include="Logging\FileSink.h" />
     <ClInclude Include="Logging\Logger.h" />
@@ -107,10 +105,9 @@
     <ClInclude Include="Engine\GEngine.h" />
     <ClInclude Include="Utility\Types.h" />
     <ClInclude Include="WakeDefines.h" />
+    <ClInclude Include="World\World.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\Entity.cpp" />
-    <ClCompile Include="Engine\EntityManager.cpp" />
     <ClCompile Include="Engine\Input.cpp" />
     <ClCompile Include="Engine\InputManager.cpp" />
     <ClCompile Include="Engine\Window.cpp" />
@@ -122,7 +119,7 @@
     <ClCompile Include="Logging\LogSink.cpp" />
     <ClCompile Include="Logging\VSDebugSink.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Utility\Bootstrap.cpp" />
+    <ClCompile Include="Engine\Bootstrap.cpp" />
     <ClCompile Include="Engine\GEngine.cpp" />
   </ItemGroup>
   <ItemGroup>

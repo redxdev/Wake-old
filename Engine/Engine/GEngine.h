@@ -1,41 +1,31 @@
 #pragma once
 
 #include "../Logging/LogMacros.h"
-#include "EntityManager.h"
 #include "Window.h"
 
-#define W_ENGINE (Engine::GEngine::Get())
+#define W_ENGINE (GEngine::Get())
 
-namespace Engine
+class GEngine
 {
-	class GEngine
-	{
-		CLOG_LOGGER_DECL;
-	public:
-		static GEngine& Get();
+	CLOG_LOGGER_DECL;
+public:
+	static GEngine& Get();
 
-		bool Startup(const WindowOptions& Options = WindowOptions());
-		bool Shutdown();
+	bool Startup(const WindowOptions& Options = WindowOptions());
+	bool Shutdown();
 
-		void Run();
-		void Stop();
+	void Run();
+	void Stop();
 
-		inline Window& GetGameWindow()
-		{
-			return GameWindow;
-		}
+	Window& GetGameWindow();
 
-		inline bool IsRunning()
-		{
-			return running;
-		}
+	bool IsRunning();
 
-	private:
-		GEngine();
-		~GEngine();
+private:
+	GEngine();
+	~GEngine();
 
-		Window GameWindow;
+	Window GameWindow;
 
-		bool running;
-	};
-}
+	bool Running;
+};

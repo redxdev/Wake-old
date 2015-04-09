@@ -31,6 +31,12 @@
     <Filter Include="Source Files\Engine">
       <UniqueIdentifier>{91c4b705-f5bf-465c-ae85-406916f7f5aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\World">
+      <UniqueIdentifier>{73dabfc1-9314-4573-9827-e1fc49379e5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\World">
+      <UniqueIdentifier>{0398c954-6856-43c9-8016-abff76e7dcb0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging\ConsoleSink.h">
@@ -63,17 +69,8 @@
     <ClInclude Include="Logging\VSDebugSink.h">
       <Filter>Header Files\Logging</Filter>
     </ClInclude>
-    <ClInclude Include="Utility\Bootstrap.h">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="WakeDefines.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\EntityManager.h">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Entity.h">
-      <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\GEngine.h">
       <Filter>Header Files\Engine</Filter>
@@ -88,6 +85,12 @@
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Input.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="World\World.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Bootstrap.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
   </ItemGroup>
@@ -116,15 +119,6 @@
     <ClCompile Include="Logging\VSDebugSink.cpp">
       <Filter>Source Files\Logging</Filter>
     </ClCompile>
-    <ClCompile Include="Utility\Bootstrap.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\EntityManager.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Entity.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\GEngine.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
@@ -135,6 +129,9 @@
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Input.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Bootstrap.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
   </ItemGroup>

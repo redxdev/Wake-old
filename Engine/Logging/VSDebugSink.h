@@ -4,18 +4,15 @@
 
 #include "LogSink.h"
 
-namespace Logging
+/**
+ * LogSink for output to visual studio's debugger.
+ */
+class VSDebugSink : public LogSink
 {
-	/**
-	* LogSink for output to visual studio's debugger.
-	*/
-	class VSDebugSink : public LogSink
-	{
-	public:
-		virtual ~VSDebugSink();
+public:
+	virtual ~VSDebugSink();
 
-		virtual void Append(const LogMessage& Message) override;
-	};
-}
+	virtual void Append(const LogMessage& Message) override;
+};
 
 #endif
