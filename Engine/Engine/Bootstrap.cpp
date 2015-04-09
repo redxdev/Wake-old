@@ -57,7 +57,7 @@ bool Bootstrap::Startup()
 	std::ifstream ConfigTest("wake.cfg");
 	if (!ConfigTest.good())
 	{
-		std::cerr << "Bootstrap: Unable to open wake.cfg. Are we in the correct directory?" << std::endl;
+		std::cerr << "Bootstrap: Unable to open wake.cfg. Make sure the working directory is set to Distribution." << std::endl;
 		return false;
 	}
 
