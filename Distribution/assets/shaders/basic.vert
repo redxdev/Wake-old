@@ -2,9 +2,10 @@
 
 in vec3 position;
 
-uniform mat4 matrix;
+uniform mat4 worldMatrix;
+uniform mat4 modelMatrix;
 
 void main()
 {
-	gl_Position = vec4(position, 1) * matrix;
+	gl_Position = worldMatrix * modelMatrix * vec4(position, 1);
 }

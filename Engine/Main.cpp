@@ -53,7 +53,8 @@ public:
 	virtual void Draw() override
 	{
 		Shader.Use();
-		Shader.GetUniform("matrix").Set(CreateMatrix());
+		Shader.GetUniform("modelMatrix").Set(CreateMatrix());
+		Shader.GetUniform("worldMatrix").Set(glm::mat4());
 
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBindVertexArray(vao);
@@ -68,9 +69,14 @@ private:
 	GLuint vao;
 };
 
+TestActor* Test = nullptr;
+
 void OnInput_Test(const Input& Input)
 {
-	LOG_INFO(GlobalLogger, "Hello!");
+	if (Test != nullptr)
+	{
+		Test->SetPosition(Test->GetPosition() + glm::vec3(0.1f, 0, 0));
+	}
 }
 
 void OnInput_Exit(const Input& Input)
@@ -86,20 +92,29 @@ void Setup()
 	W_INPUT.CreateBinding("Test", INPUT_BIND(Keyboard, Pressed, Space));
 	W_INPUT.Event("Test").Bind(&OnInput_Test);
 
-	TestActor* A1 = W_WORLD.SpawnActor<TestActor>(true, ShaderProgram::LoadProgram("assets/shaders/basic.vert", "assets/shaders/basic.frag"));
-
-	A1->SetPosition(glm::vec3(0, 0, 0));
+	Test = W_WORLD.SpawnActor<TestActor>(true, ShaderProgram::LoadProgram("assets/shaders/basic.vert", "assets/shaders/basic.frag"));
 }
 
-WAKE_CUSTOM_BOOTSTRAP(
-	Main,
-	WBS_OPT(WindowOptions.AntiAliasing, 4),
+void RunEngine(int ArgC, char** ArgV)
+{
+	BootstrapOptions Options;
+	Options.DefaultLogSinks = true;
+	Options.DontRunEngine = false;
+
+	Bootstrap Engine(ArgC, ArgV, Options);
+	if (!Engine.Startup())
+	{
+		return;
+	}
+
 	Setup();
-)
+
+	Engine.Run();
+}
 
 int main(int argc, char** argv)
 {
-	WAKE_CALL_BOOTSTRAP(Main, argc, argv);
+	RunEngine(argc, argv);
 
 #ifdef WAKE_EXIT_PAUSE
 	std::cout << "Press return to exit..." << std::endl;
