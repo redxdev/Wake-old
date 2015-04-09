@@ -16,7 +16,7 @@
 class TestActor : public Actor
 {
 public:
-	TestActor(ActorID Id, bool StartActive)
+	TestActor(ActorID Id, bool StartActive, GLuint Shader)
 		: Actor(Id, StartActive)
 	{
 	}
@@ -30,6 +30,9 @@ public:
 	{
 		LOG_INFO(GlobalLogger, "TestActor is being destroyed with an id of " << GetActorID() << "!");
 	}
+
+private:
+	ShaderProgram Shader;
 };
 
 void OnInput_Test(const Input& Input)
@@ -51,24 +54,6 @@ void Setup()
 	W_INPUT.Event("Test").Bind(&OnInput_Test);
 
 	TestActor* A1 = W_WORLD.SpawnActor<TestActor>();
-	TestActor* A2 = W_WORLD.SpawnActor<TestActor>();
-
-	W_WORLD.Destroy(A1);
-	W_WORLD.Destroy(A2->GetActorID());
-
-	for (int i = 0; i < 10; ++i)
-	{
-		W_WORLD.SpawnActor<TestActor>(); // these would leak, except that the world cleans up everything on engine shutdown
-	}
-
-	ShaderProgram* Shader = ShaderProgram::LoadProgram("assets/shaders/basic.vert", "assets/shaders/basic.frag");
-	if (Shader != nullptr)
-	{
-		LOG_INFO(GlobalLogger, "Shader program: " << Shader->GetProgram());
-		Uniform Test = Shader->GetUniform("test");
-		Test.Set(123.f);
-		Test.Set(glm::vec3(1,2,3));
-	}
 }
 
 WAKE_CUSTOM_BOOTSTRAP(

@@ -45,7 +45,7 @@ class ShaderProgram
 public:
 	static GLuint LoadShader(const char* Path, GLenum ShaderType);
 
-	static ShaderProgram* LoadProgram(const char* VertPath, const char* FragPath);
+	static GLuint LoadProgram(const char* VertPath, const char* FragPath);
 
 public:
 	ShaderProgram(GLuint Program);
@@ -54,6 +54,8 @@ public:
 	GLuint GetProgram();
 
 	Uniform GetUniform(const char* Name);
+
+	void Use();
 
 private:
 	GLuint Program;

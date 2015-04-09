@@ -167,13 +167,13 @@ GLuint ShaderProgram::LoadShader(const char* Path, GLenum ShaderType)
 	return 0;
 }
 
-ShaderProgram* ShaderProgram::LoadProgram(const char* VertPath, const char* FragPath)
+GLuint ShaderProgram::LoadProgram(const char* VertPath, const char* FragPath)
 {
 	GLuint vertShader = LoadShader(VertPath, GL_VERTEX_SHADER);
 	if (vertShader == 0)
 	{
 		CLOG_ERROR("Unable to load vertex shader");
-		return nullptr;
+		return 0
 	}
 
 	GLuint fragShader = LoadShader(FragPath, GL_FRAGMENT_SHADER);
@@ -181,7 +181,7 @@ ShaderProgram* ShaderProgram::LoadProgram(const char* VertPath, const char* Frag
 	{
 		CLOG_ERROR("Unable to load fragment shader");
 		glDeleteShader(vertShader);
-		return nullptr;
+		return 0
 	}
 
 	GLuint program = glCreateProgram();
@@ -194,7 +194,7 @@ ShaderProgram* ShaderProgram::LoadProgram(const char* VertPath, const char* Frag
 
 	if (result == GL_TRUE)
 	{
-		return new ShaderProgram(program);
+		return program;
 	}
 
 	glGetProgramiv(program, GL_INFO_LOG_LENGTH, &result);
@@ -210,7 +210,7 @@ ShaderProgram* ShaderProgram::LoadProgram(const char* VertPath, const char* Frag
 	glDeleteShader(fragShader);
 	glDeleteProgram(program);
 
-	return nullptr;
+	return 0
 }
 
 ShaderProgram::ShaderProgram(GLuint Program)
@@ -231,4 +231,9 @@ GLuint ShaderProgram::GetProgram()
 Uniform ShaderProgram::GetUniform(const char* Name)
 {
 	return Uniform(Program, glGetUniformLocation(Program, Name));
+}
+
+void ShaderProgram::Use()
+{
+	glUseProgram(Program);
 }
