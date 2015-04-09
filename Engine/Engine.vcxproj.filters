@@ -96,7 +96,7 @@
     <ClInclude Include="World\Actor.h">
       <Filter>Header Files\World</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ShaderProgram.h">
+    <ClInclude Include="Engine\Shader.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
   </ItemGroup>
@@ -146,7 +146,7 @@
     <ClCompile Include="World\World.cpp">
       <Filter>Source Files\World</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ShaderProgram.cpp">
+    <ClCompile Include="Engine\Shader.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
   </ItemGroup>

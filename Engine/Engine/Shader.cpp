@@ -1,13 +1,49 @@
-#include "ShaderProgram.h"
+#include "Shader.h"
 
 #include <gl/glew.h>
 #include <fstream>
 
+Uniform::Uniform(GLuint Program, GLuint Location)
+{
+	this->Program = Program;
+	this->Location = Location;
+}
+
+GLuint Uniform::GetProgram()
+{
+	return Program;
+}
+
+GLuint Uniform::GetLocation()
+{
+	return Location;
+}
+
+void Uniform::Set(float x)
+{
+	glProgramUniform1f(Program, Location, x);
+}
+
+void Uniform::Set(float x, float y)
+{
+	glProgramUniform2f(Program, Location, x, y);
+}
+
+void Uniform::Set(float x, float y, float z)
+{
+	glProgramUniform3f(Program, Location, x, y, z);
+}
+
+void Uniform::Set(float x, float y, float z, float w)
+{
+	glProgramUniform4f(Program, Location, x, y, z, w);
+}
+
 CLOG_LOGGER_DEF(ShaderProgram);
 
-char* ReadFile(const char* path)
+char* ReadFile(const char* Path)
 {
-	std::ifstream in(path);
+	std::ifstream in(Path);
 	if (!in.is_open())
 	{
 		return nullptr;
@@ -29,19 +65,19 @@ char* ReadFile(const char* path)
 	return buf;
 }
 
-GLuint ShaderProgram::LoadShader(const char* path, GLenum shaderType)
+GLuint ShaderProgram::LoadShader(const char* Path, GLenum ShaderType)
 {
-	char* buf = ReadFile(path);
+	char* buf = ReadFile(Path);
 	if (buf == nullptr)
 	{
-		CLOG_ERROR("Unable to read shader file " << path);
+		CLOG_ERROR("Unable to read shader file " << Path);
 		return 0;
 	}
 
 	const GLchar* sources[] = { buf };
 	GLint lengths[] = { strlen(buf) };
 
-	GLuint shader = glCreateShader(shaderType);
+	GLuint shader = glCreateShader(ShaderType);
 	glShaderSource(shader, 1, sources, lengths);
 	glCompileShader(shader);
 
@@ -59,7 +95,7 @@ GLuint ShaderProgram::LoadShader(const char* path, GLenum shaderType)
 	log[result] = '\0';
 
 	glGetShaderInfoLog(shader, result, 0, log);
-	CLOG_ERROR("Unable to compile shader " << path);
+	CLOG_ERROR("Unable to compile shader " << Path);
 	CLOG_ERROR(log);
 	delete[] log;
 
@@ -68,16 +104,16 @@ GLuint ShaderProgram::LoadShader(const char* path, GLenum shaderType)
 	return 0;
 }
 
-ShaderProgram* ShaderProgram::LoadProgram(const char* vertPath, const char* fragPath)
+ShaderProgram* ShaderProgram::LoadProgram(const char* VertPath, const char* FragPath)
 {
-	GLuint vertShader = LoadShader(vertPath, GL_VERTEX_SHADER);
+	GLuint vertShader = LoadShader(VertPath, GL_VERTEX_SHADER);
 	if (vertShader == 0)
 	{
 		CLOG_ERROR("Unable to load vertex shader");
 		return nullptr;
 	}
 
-	GLuint fragShader = LoadShader(fragPath, GL_FRAGMENT_SHADER);
+	GLuint fragShader = LoadShader(FragPath, GL_FRAGMENT_SHADER);
 	if (fragShader == 0)
 	{
 		CLOG_ERROR("Unable to load fragment shader");
@@ -122,4 +158,14 @@ ShaderProgram::ShaderProgram(GLuint Program)
 ShaderProgram::~ShaderProgram()
 {
 	glDeleteProgram(Program);
+}
+
+GLuint ShaderProgram::GetProgram()
+{
+	return Program;
+}
+
+Uniform ShaderProgram::GetUniform(const char* Name)
+{
+	return Uniform(Program, glGetUniformLocation(Program, Name));
 }

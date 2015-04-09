@@ -7,6 +7,7 @@
 #include "Engine/InputManager.h"
 #include "Engine/GEngine.h"
 #include "Engine/Bootstrap.h"
+#include "Engine/Shader.h"
 
 #include "World/World.h"
 
@@ -56,6 +57,14 @@ void Setup()
 	for (int i = 0; i < 10; ++i)
 	{
 		W_WORLD.SpawnActor<TestActor>(); // these would leak, except that the world cleans up everything on engine shutdown
+	}
+
+	ShaderProgram* Shader = ShaderProgram::LoadProgram("assets/shaders/basic.vert", "assets/shaders/basic.frag");
+	if (Shader != nullptr)
+	{
+		LOG_INFO(GlobalLogger, "Shader program: " << Shader->GetProgram());
+		Uniform Test = Shader->GetUniform("test");
+		Test.Set(123.f);
 	}
 }
 
