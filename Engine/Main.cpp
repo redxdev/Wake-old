@@ -17,7 +17,7 @@ class TestActor : public Actor
 {
 public:
 	TestActor(ActorID Id, bool StartActive, GLuint Shader)
-		: Actor(Id, StartActive)
+		: Actor(Id, StartActive), Shader(Shader)
 	{
 	}
 
