@@ -7,8 +7,7 @@
 // Generally, all you need to do is write WAKE_BOOTSTRAP(Main); at the top of your main.cpp, and then put
 // WAKE_CALL_BOOTSTRAP(Main, argc, argv); in your main function.
 //
-// The reason for the bootstrap having all these macros is that the bootstrap should be called in a very specific
-// way. This also allows the bootstrap to call itself again if the engine needs to be reinitialized.
+// If you need to specify options, simply use the WAKE_BOOTSTRAP_OPT macro instead of the WAKE_BOOTSTRAP macro.
 
 #define WAKE_BOOTSTRAP_FUNC_NAME(Name) __wake_bootstrap_##Name
 #define WAKE_BOOTSTRAP_FUNC_DECL(Name) void WAKE_BOOTSTRAP_FUNC_NAME(Name) (int ArgC, char** ArgV)

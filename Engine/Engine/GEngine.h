@@ -25,6 +25,8 @@ private:
 	GEngine();
 	~GEngine();
 
+	void Render();
+
 	Window GameWindow;
 
 	bool Running;

@@ -1,5 +1,10 @@
 #include "GEngine.h"
 
+#include <SFML/OpenGL.hpp>
+
+#include "../WakeDefines.h"
+#include "../World/World.h"
+
 CLOG_LOGGER_DEF(GEngine);
 
 GEngine& GEngine::Get()
@@ -23,6 +28,8 @@ bool GEngine::Startup(const WindowOptions& Options)
 
 	GameWindow.Initialize(Options);
 
+	glClearColor(WAKE_CLEAR_COLOR, 1.0f);
+
 	GameWindow.Closed.Bind(this, &GEngine::Stop);
 
 	return true;
@@ -42,6 +49,10 @@ void GEngine::Run()
 	{
 		GameWindow.PollEvents();
 
+		Render();
+
+		GameWindow.Display();
+
 		if (!GameWindow.IsOpen())
 			Stop();
 	}
@@ -60,4 +71,11 @@ Window& GEngine::GetGameWindow()
 bool GEngine::IsRunning()
 {
 	return Running;
+}
+
+void GEngine::Render()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	W_WORLD.Draw();
 }

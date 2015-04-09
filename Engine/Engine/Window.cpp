@@ -36,10 +36,13 @@ bool Window::Initialize(const WindowOptions& Options)
 	}
 
 	RenderWindow->create(sf::VideoMode(Options.Width, Options.Height, Options.BitsPerPixel), Options.Title, Options.Fullscreen ? sf::Style::Fullscreen : sf::Style::Close, CtxSettings);
+	RenderWindow->setVerticalSyncEnabled(Options.VerticalSync);
 	RenderWindow->setActive(true);
 
 	glewExperimental = GL_TRUE;
 	glewInit();
+
+	glEnable(GL_DEPTH_TEST);
 
 	return true;
 }
@@ -135,6 +138,11 @@ void Window::PollEvents()
 			break;
 		}
 	}
+}
+
+void Window::Display()
+{
+	RenderWindow->display();
 }
 
 bool Window::IsOpen()
