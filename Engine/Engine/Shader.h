@@ -1,6 +1,7 @@
 #pragma once
 
 #include <gl/glew.h>
+#include <glm/fwd.hpp>
 
 #include "../Logging/LogMacros.h"
 
@@ -16,6 +17,22 @@ public:
 	void Set(float x, float y);
 	void Set(float x, float y, float z);
 	void Set(float x, float y, float z, float w);
+
+	void Set(const glm::vec2& xy);
+	void Set(const glm::vec3& xyz);
+	void Set(const glm::vec4& xyzw);
+
+	void Set(const glm::mat2x2& m22);
+	void Set(const glm::mat2x3& m23);
+	void Set(const glm::mat2x4& m24);
+
+	void Set(const glm::mat3x2& m32);
+	void Set(const glm::mat3x3& m33);
+	void Set(const glm::mat3x4& m34);
+
+	void Set(const glm::mat4x2& m42);
+	void Set(const glm::mat4x3& m43);
+	void Set(const glm::mat4x4& m44);
 
 private:
 	GLuint Program;

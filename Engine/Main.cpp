@@ -11,6 +11,8 @@
 
 #include "World/World.h"
 
+#include <glm/glm.hpp>
+
 class TestActor : public Actor
 {
 public:
@@ -65,6 +67,7 @@ void Setup()
 		LOG_INFO(GlobalLogger, "Shader program: " << Shader->GetProgram());
 		Uniform Test = Shader->GetUniform("test");
 		Test.Set(123.f);
+		Test.Set(glm::vec3(1,2,3));
 	}
 }
 

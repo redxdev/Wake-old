@@ -1,6 +1,8 @@
 #include "Shader.h"
 
 #include <gl/glew.h>
+#include <glm/gtc/type_ptr.hpp>
+
 #include <fstream>
 
 Uniform::Uniform(GLuint Program, GLuint Location)
@@ -38,6 +40,67 @@ void Uniform::Set(float x, float y, float z, float w)
 {
 	glProgramUniform4f(Program, Location, x, y, z, w);
 }
+
+void Uniform::Set(const glm::vec2& xy)
+{
+	glProgramUniform2fv(Program, Location, 1, glm::value_ptr(xy));
+}
+
+void Uniform::Set(const glm::vec3& xyz)
+{
+	glProgramUniform3fv(Program, Location, 1, glm::value_ptr(xyz));
+}
+
+void Uniform::Set(const glm::vec4& xyzw)
+{
+	glProgramUniform4fv(Program, Location, 1, glm::value_ptr(xyzw));
+}
+
+void Uniform::Set(const glm::mat2x2& m22)
+{
+	glProgramUniformMatrix2fv(Program, Location, 1, false, glm::value_ptr(m22));
+}
+
+void Uniform::Set(const glm::mat2x3& m23)
+{
+	glProgramUniformMatrix2x3fv(Program, Location, 1, false, glm::value_ptr(m23));
+}
+
+void Uniform::Set(const glm::mat2x4& m24)
+{
+	glProgramUniformMatrix2x4fv(Program, Location, 1, false, glm::value_ptr(m24));
+}
+
+void Uniform::Set(const glm::mat3x2& m32)
+{
+	glProgramUniformMatrix3x2fv(Program, Location, 1, false, glm::value_ptr(m32));
+}
+
+void Uniform::Set(const glm::mat3x3& m33)
+{
+	glProgramUniformMatrix3fv(Program, Location, 1, false, glm::value_ptr(m33));
+}
+
+void Uniform::Set(const glm::mat3x4& m34)
+{
+	glProgramUniformMatrix3x4fv(Program, Location, 1, false, glm::value_ptr(m34));
+}
+
+void Uniform::Set(const glm::mat4x2& m42)
+{
+	glProgramUniformMatrix4x2fv(Program, Location, 1, false, glm::value_ptr(m42));
+}
+
+void Uniform::Set(const glm::mat4x3& m43)
+{
+	glProgramUniformMatrix4x3fv(Program, Location, 1, false, glm::value_ptr(m43));
+}
+
+void Uniform::Set(const glm::mat4x4& m44)
+{
+	glProgramUniformMatrix4fv(Program, Location, 1, false, glm::value_ptr(m44));
+}
+
 
 CLOG_LOGGER_DEF(ShaderProgram);
 
