@@ -93,6 +93,9 @@
     <ClInclude Include="Engine\Bootstrap.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="World\Actor.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -133,6 +136,12 @@
     </ClCompile>
     <ClCompile Include="Engine\Bootstrap.cpp">
       <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Actor.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\World.cpp">
+      <Filter>Source Files\World</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

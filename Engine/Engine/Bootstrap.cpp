@@ -10,6 +10,8 @@
 #include "../Engine/GEngine.h"
 #include "../Engine/InputManager.h"
 
+#include "../World/World.h"
+
 #include <fstream>
 #include <signal.h>
 
@@ -89,6 +91,12 @@ bool Bootstrap::Startup()
 		return false;
 	}
 
+	if (!W_WORLD.Startup())
+	{
+		CLOG_FATAL("W_WORLD.Startup() failed");
+		return false;
+	}
+
 	DidStartup = true;
 
 	return true;
@@ -97,6 +105,12 @@ bool Bootstrap::Startup()
 bool Bootstrap::Shutdown()
 {
 	CLOG_INFO("shutdown");
+
+	if (!W_WORLD.Shutdown())
+	{
+		CLOG_FATAL("W_WORLD.Shutdown() failed");
+		return false;
+	}
 
 	if (!W_INPUT.Shutdown())
 	{

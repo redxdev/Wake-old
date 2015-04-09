@@ -88,6 +88,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="World\Actor.h" />
     <ClInclude Include="Engine\Input.h" />
     <ClInclude Include="Engine\InputManager.h" />
     <ClInclude Include="Utility\Event.h" />
@@ -108,6 +109,8 @@
     <ClInclude Include="World\World.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="World\World.cpp" />
+    <ClCompile Include="World\Actor.cpp" />
     <ClCompile Include="Engine\Input.cpp" />
     <ClCompile Include="Engine\InputManager.cpp" />
     <ClCompile Include="Engine\Window.cpp" />
