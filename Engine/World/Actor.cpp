@@ -76,37 +76,37 @@ void Actor::Tick()
 	
 }
 
-const glm::vec3& Actor::getPosition() const
+const glm::vec3& Actor::GetPosition() const
 {
 	return Position;
 }
 
-const glm::quat& Actor::getRotation() const
+const glm::quat& Actor::GetRotation() const
 {
 	return Rotation;
 }
 
-const glm::vec3& Actor::getScale() const
+const glm::vec3& Actor::GetScale() const
 {
 	return Scale;
 }
 
-glm::mat4x4 Actor::createMatrix() const
+glm::mat4x4 Actor::CreateMatrix() const
 {
 	return glm::translate(Position) * glm::scale(Scale) * glm::mat4_cast(Rotation);
 }
 
-void Actor::setPosition(const glm::vec3& Position)
+void Actor::SetPosition(const glm::vec3& Position)
 {
 	this->Position = Position;
 }
 
-void Actor::setRotation(const glm::quat& Rotation)
+void Actor::SetRotation(const glm::quat& Rotation)
 {
 	this->Rotation = Rotation;
 }
 
-void Actor::setScale(const glm::vec3& Scale)
+void Actor::SetScale(const glm::vec3& Scale)
 {
 	this->Scale = Scale;
 }

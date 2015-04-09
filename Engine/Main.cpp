@@ -12,6 +12,7 @@
 #include "World/World.h"
 
 #include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 class TestActor : public Actor
 {
@@ -24,6 +25,24 @@ public:
 	virtual void Spawn() override
 	{
 		LOG_INFO(GlobalLogger, "TestActor spawned with an id of " << GetActorID() << "!");
+
+		GLint posAttrib = glGetAttribLocation(Shader.GetProgram(), "position");
+
+		float vertices[] = {
+			0.f, 0.5f, 0.f,
+			0.5f, -0.5f, 0.f,
+			-0.5f, -0.5f, 0.f
+		};
+
+		glGenBuffers(1, &vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+		glGenVertexArrays(1, &vao);
+		glBindVertexArray(vao);
+
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+		glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(posAttrib);
 	}
 
 	virtual void Destroy() override
@@ -31,8 +50,22 @@ public:
 		LOG_INFO(GlobalLogger, "TestActor is being destroyed with an id of " << GetActorID() << "!");
 	}
 
+	virtual void Draw() override
+	{
+		Shader.Use();
+		Shader.GetUniform("matrix").Set(CreateMatrix());
+
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBindVertexArray(vao);
+
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+	}
+
 private:
 	ShaderProgram Shader;
+
+	GLuint vbo;
+	GLuint vao;
 };
 
 void OnInput_Test(const Input& Input)
@@ -53,7 +86,9 @@ void Setup()
 	W_INPUT.CreateBinding("Test", INPUT_BIND(Keyboard, Pressed, Space));
 	W_INPUT.Event("Test").Bind(&OnInput_Test);
 
-	TestActor* A1 = W_WORLD.SpawnActor<TestActor>();
+	TestActor* A1 = W_WORLD.SpawnActor<TestActor>(true, ShaderProgram::LoadProgram("assets/shaders/basic.vert", "assets/shaders/basic.frag"));
+
+	A1->SetPosition(glm::vec3(0, 0, 0));
 }
 
 WAKE_CUSTOM_BOOTSTRAP(

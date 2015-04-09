@@ -28,15 +28,15 @@ public:
 	virtual void Draw();
 	virtual void Tick();
 
-	const glm::vec3& getPosition() const;
-	const glm::quat& getRotation() const;
-	const glm::vec3& getScale() const;
+	const glm::vec3& GetPosition() const;
+	const glm::quat& GetRotation() const;
+	const glm::vec3& GetScale() const;
 
-	glm::mat4x4 createMatrix() const;
+	glm::mat4x4 CreateMatrix() const;
 
-	void setPosition(const glm::vec3& Position);
-	void setRotation(const glm::quat& Rotation);
-	void setScale(const glm::vec3& Scale);
+	void SetPosition(const glm::vec3& Position);
+	void SetRotation(const glm::quat& Rotation);
+	void SetScale(const glm::vec3& Scale);
 
 protected:
 	/**

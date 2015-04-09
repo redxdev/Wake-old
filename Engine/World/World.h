@@ -50,7 +50,7 @@ public:
 			return nullptr;
 		}
 
-		T* Act = new T(Id, Args);
+		T* Act = new T(Id, Args...);
 		Actors.emplace(Id, Act);
 
 		Act->Spawn();

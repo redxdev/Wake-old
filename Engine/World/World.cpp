@@ -101,6 +101,9 @@ void World::Draw()
 {
 	for (auto Itr = Actors.begin(); Itr != Actors.end(); ++Itr)
 	{
+		if (!Itr->second->IsActive())
+			continue;
+
 		Itr->second->Draw();
 	}
 }
@@ -109,6 +112,9 @@ void World::Tick()
 {
 	for (auto Itr = Actors.begin(); Itr != Actors.end(); ++Itr)
 	{
+		if (!Itr->second->IsActive())
+			continue;
+
 		Itr->second->Tick();
 	}
 }
