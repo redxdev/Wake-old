@@ -173,7 +173,7 @@ GLuint ShaderProgram::LoadProgram(const char* VertPath, const char* FragPath)
 	if (vertShader == 0)
 	{
 		CLOG_ERROR("Unable to load vertex shader");
-		return 0
+		return 0;
 	}
 
 	GLuint fragShader = LoadShader(FragPath, GL_FRAGMENT_SHADER);
@@ -181,7 +181,7 @@ GLuint ShaderProgram::LoadProgram(const char* VertPath, const char* FragPath)
 	{
 		CLOG_ERROR("Unable to load fragment shader");
 		glDeleteShader(vertShader);
-		return 0
+		return 0;
 	}
 
 	GLuint program = glCreateProgram();
@@ -210,7 +210,7 @@ GLuint ShaderProgram::LoadProgram(const char* VertPath, const char* FragPath)
 	glDeleteShader(fragShader);
 	glDeleteProgram(program);
 
-	return 0
+	return 0;
 }
 
 ShaderProgram::ShaderProgram(GLuint Program)
