@@ -1,0 +1,11 @@
+#version 430
+
+in vec3 position;
+
+uniform mat4 modelMatrix;
+uniform mat4 worldMatrix;
+
+void main()
+{
+	gl_Position = worldMatrix * vec4((vec3(position,0) * scale) * rot + offset, 1);
+}
