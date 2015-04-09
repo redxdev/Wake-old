@@ -1,28 +1,33 @@
 #include <iostream>
 
-#include "Logging/LogMacros.h"
 #include "WakeDefines.h"
+
+#include "Logging/LogMacros.h"
+
 #include "Engine/InputManager.h"
 #include "Engine/GEngine.h"
 #include "Engine/Bootstrap.h"
 
-void OnRawInput(const Input& Input)
-{
-	switch (Input.Type)
-	{
-	case EInputType::Keyboard:
-		LOG_INFO(GlobalLogger, "Keyboard " << ConvertInputModeToString(Input.Mode) << " " << ConvertKeyboardToString(Input.Code.Keyboard));
-		break;
+#include "World/World.h"
 
-	case EInputType::Mouse:
-		LOG_INFO(GlobalLogger, "Mouse " << ConvertInputModeToString(Input.Mode) << " " << ConvertMouseToString(Input.Code.Mouse));
-		if (Input.Mode == EInputMode::Value)
-		{
-			LOG_INFO(GlobalLogger, "Value - " << Input.Value);
-		}
-		break;
+class TestActor : public Actor
+{
+public:
+	TestActor(ActorID Id, bool StartActive)
+		: Actor(Id, StartActive)
+	{
 	}
-}
+
+	virtual void Spawn() override
+	{
+		LOG_INFO(GlobalLogger, "TestActor spawned with an id of " << GetActorID() << "!");
+	}
+
+	virtual void Destroy() override
+	{
+		LOG_INFO(GlobalLogger, "TestActor is being destroyed with an id of " << GetActorID() << "!");
+	}
+};
 
 void OnInput_Test(const Input& Input)
 {
@@ -36,13 +41,22 @@ void OnInput_Exit(const Input& Input)
 
 void Setup()
 {
-	W_INPUT.OnRawInput.Bind(&OnRawInput);
-
 	W_INPUT.CreateBinding("Exit", INPUT_BIND(Keyboard, Pressed, Escape));
 	W_INPUT.Event("Exit").Bind(&OnInput_Exit);
 	
 	W_INPUT.CreateBinding("Test", INPUT_BIND(Keyboard, Pressed, Space));
 	W_INPUT.Event("Test").Bind(&OnInput_Test);
+
+	TestActor* A1 = W_WORLD.SpawnActor<TestActor>();
+	TestActor* A2 = W_WORLD.SpawnActor<TestActor>();
+
+	W_WORLD.Destroy(A1);
+	W_WORLD.Destroy(A2->GetActorID());
+
+	for (int i = 0; i < 10; ++i)
+	{
+		W_WORLD.SpawnActor<TestActor>(); // these would leak, except that the world cleans up everything on engine shutdown
+	}
 }
 
 WAKE_CUSTOM_BOOTSTRAP(

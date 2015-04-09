@@ -19,7 +19,7 @@ public:
 	bool Shutdown();
 
 	template<typename T>
-	T* SpawnActor()
+	T* SpawnActor(bool StartActive = true)
 	{
 		static_assert(std::is_base_of<Actor, T>::value, "T must subclass Actor");
 
@@ -30,8 +30,10 @@ public:
 			return nullptr;
 		}
 
-		T* Act = new T(CreateActorID());
+		T* Act = new T(Id, StartActive);
 		Actors.emplace(Id, Act);
+
+		Act->Spawn();
 
 		return Act;
 	}
@@ -48,8 +50,10 @@ public:
 			return nullptr;
 		}
 
-		T* Act = new T(CreateActorID(), Args);
+		T* Act = new T(Id, Args);
 		Actors.emplace(Id, Act);
+
+		Act->Spawn();
 
 		return Act;
 	}
