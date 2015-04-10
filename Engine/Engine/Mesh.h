@@ -3,15 +3,19 @@
 #include <memory>
 #include <gl/glew.h>
 
-class Mesh
+class StaticMesh
 {
 public:
 
 
 public:
-	Mesh(GLuint VertexBuffer, GLuint VertexArray);
+	StaticMesh(GLuint VertexBuffer, GLuint VertexArray, GLsizei Count);
+	~StaticMesh();
+
+	void Draw();
 
 private:
 	GLuint VertexBuffer;
 	GLuint VertexArray;
+	GLsizei Count;
 };

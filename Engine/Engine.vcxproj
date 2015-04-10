@@ -113,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Asset.cpp" />
+    <ClCompile Include="Engine\Mesh.cpp" />
     <ClCompile Include="Engine\Shader.cpp" />
     <ClCompile Include="World\World.cpp" />
     <ClCompile Include="World\Actor.cpp" />

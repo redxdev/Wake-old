@@ -58,7 +58,10 @@ void Actor::ToggleActive()
 
 void Actor::Spawn()
 {
-	
+	if (Active)
+	{
+		Activate();
+	}
 }
 
 void Actor::Destroy()
