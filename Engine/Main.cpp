@@ -51,6 +51,10 @@ public:
 	virtual void Destroy() override
 	{
 		LOG_INFO(GlobalLogger, "TestActor is being destroyed with an id of " << GetActorID() << "!");
+
+		glDeleteBuffers(1, &vbo);
+		glDeleteVertexArrays(1, &vao);
+		
 	}
 
 	virtual void Draw() override
