@@ -12,7 +12,7 @@ Component::~Component()
 {
 }
 
-Actor* Component::GetParent()
+Actor* Component::GetParent() const
 {
 	return Parent;
 }

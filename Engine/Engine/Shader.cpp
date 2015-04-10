@@ -11,6 +11,12 @@ Uniform::Uniform(GLuint Program, GLuint Location)
 	this->Location = Location;
 }
 
+Uniform::Uniform(const Uniform& Other)
+{
+	Program = Other.Program;
+	Location = Other.Location;
+}
+
 GLuint Uniform::GetProgram()
 {
 	return Program;

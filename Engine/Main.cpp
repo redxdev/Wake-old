@@ -10,6 +10,7 @@
 #include "Engine/Shader.h"
 
 #include "World/World.h"
+#include "World/StaticMeshComponent.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -20,22 +21,28 @@ int yAxis = 0;
 class TestActor : public Actor
 {
 public:
-	TestActor(ActorID Id, bool StartActive, GLuint Shader)
-		: Actor(Id, StartActive), Shader(Shader)
+	TestActor(ActorID Id, bool StartActive)
+		: Actor(Id, StartActive)
 	{
 	}
 
 	virtual void Spawn() override
 	{
+		Actor::Spawn();
+
 		LOG_INFO(GlobalLogger, "TestActor spawned with an id of " << GetActorID() << "!");
 
-		GLint posAttrib = glGetAttribLocation(Shader.GetProgram(), "position");
+		ShaderProgram* Shader = new ShaderProgram(ShaderProgram::LoadProgram("assets/shaders/basic.vert", "assets/shaders/basic.frag"));
+		GLint posAttrib = glGetAttribLocation(Shader->GetProgram(), "position");
 
 		float vertices[] = {
 			0.f, 0.5f, 0.f,
 			0.5f, -0.5f, 0.f,
 			-0.5f, -0.5f, 0.f
 		};
+
+		GLuint vbo;
+		GLuint vao;
 
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -46,45 +53,32 @@ public:
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 		glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
 		glEnableVertexAttribArray(posAttrib);
+
+		MeshComponent = CreateComponent<StaticMeshComponent>(true, new StaticMesh(vbo, vao, 3), Shader);
 	}
 
 	virtual void Destroy() override
 	{
+		Actor::Destroy();
+
 		LOG_INFO(GlobalLogger, "TestActor is being destroyed with an id of " << GetActorID() << "!");
-
-		glDeleteBuffers(1, &vbo);
-		glDeleteVertexArrays(1, &vao);
-		
-	}
-
-	virtual void Draw() override
-	{
-		Shader.Use();
-		Shader.GetUniform("modelMatrix").Set(CreateMatrix());
-		Shader.GetUniform("viewMatrix").Set(glm::mat4());
-		Shader.GetUniform("projectionMatrix").Set(glm::mat4());
-
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBindVertexArray(vao);
-
-		glDrawArrays(GL_TRIANGLES, 0, 3);
 	}
 
 	virtual void Tick() override
 	{
+		Actor::Tick();
 		SetPosition(GetPosition() + glm::vec3(xAxis, yAxis, 0) * 0.0001f);
 	}
 
 private:
-	ShaderProgram Shader;
+	StaticMeshComponent* MeshComponent;
 
-	GLuint vbo;
-	GLuint vao;
+
 };
 
 void OnInput_New(const Input& Input)
 {
-	W_WORLD.SpawnActor<TestActor>(true, ShaderProgram::LoadProgram("assets/shaders/basic.vert", "assets/shaders/basic.frag"));
+	W_WORLD.SpawnActor<TestActor>();
 }
 
 void Left(const Input& Input)
@@ -138,7 +132,7 @@ void Setup()
 	W_INPUT.Event("DownDown").Bind(&Down);
 	W_INPUT.Event("DownUp").Bind(&Down);
 
-	W_WORLD.SpawnActor<TestActor>(true, ShaderProgram::LoadProgram("assets/shaders/basic.vert", "assets/shaders/basic.frag"));
+	W_WORLD.SpawnActor<TestActor>();
 }
 
 void RunEngine(int ArgC, char** ArgV)

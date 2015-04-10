@@ -10,6 +10,8 @@ class Uniform
 public:
 	Uniform(GLuint Program, GLuint Location);
 
+	Uniform(const Uniform& Other);
+
 	GLuint GetProgram();
 	GLuint GetLocation();
 

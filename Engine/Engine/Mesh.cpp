@@ -13,7 +13,6 @@ StaticMesh::~StaticMesh()
 	glDeleteVertexArrays(1, &VertexArray);
 }
 
-
 void StaticMesh::Draw()
 {
 	glBindVertexArray(VertexArray);

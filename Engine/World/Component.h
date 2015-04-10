@@ -8,7 +8,7 @@ public:
 	Component(Actor* Parent, bool StartActive = true);
 	virtual ~Component();
 
-	Actor* GetParent();
+	Actor* GetParent() const;
 
 	bool IsActive() const;
 	void Activate();

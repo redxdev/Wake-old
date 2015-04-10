@@ -108,6 +108,9 @@
     <ClInclude Include="World\Component.h">
       <Filter>Header Files\World</Filter>
     </ClInclude>
+    <ClInclude Include="World\StaticMeshComponent.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -166,6 +169,9 @@
     </ClCompile>
     <ClCompile Include="World\Component.cpp">
       <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\StaticMeshComponent.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

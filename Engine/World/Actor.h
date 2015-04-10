@@ -25,7 +25,7 @@ public:
 	const std::list<Component*>& GetComponents() const;
 
 	template<typename T>
-	T* AddComponent(bool StartActive = true)
+	T* CreateComponent(bool StartActive = true)
 	{
 		static_assert(std::is_base_of<Component, T>::value, "T must subclass Component");
 
@@ -38,9 +38,9 @@ public:
 	}
 
 	template<typename T, typename... V>
-	T* AddComponent(V... Args)
+	T* CreateComponent(V... Args)
 	{
-		static_assert(std::is_base_of<Actor, T>::value, "T must subclass Component");
+		static_assert(std::is_base_of<Component, T>::value, "T must subclass Component");
 
 		T* Comp = new T(this, Args...);
 		Components.push_back(Comp);
