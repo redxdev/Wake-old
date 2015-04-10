@@ -82,14 +82,9 @@ private:
 	GLuint vao;
 };
 
-TestActor* Test = nullptr;
-
-void OnInput_Test(const Input& Input)
+void OnInput_New(const Input& Input)
 {
-	if (Test != nullptr)
-	{
-		Test->SetScale(Test->GetScale() + glm::vec3(0.1f, 0.1f, 0.1f));
-	}
+	W_WORLD.SpawnActor<TestActor>(true, ShaderProgram::LoadProgram("assets/shaders/basic.vert", "assets/shaders/basic.frag"));
 }
 
 void Left(const Input& Input)
@@ -121,9 +116,9 @@ void Setup()
 {
 	W_INPUT.CreateBinding("Exit", INPUT_BIND(Keyboard, Pressed, Escape));
 	W_INPUT.Event("Exit").Bind(&OnInput_Exit);
-	
-	W_INPUT.CreateBinding("Test", INPUT_BIND(Keyboard, Pressed, Space));
-	W_INPUT.Event("Test").Bind(&OnInput_Test);
+
+	W_INPUT.CreateBinding("New", INPUT_BIND(Keyboard, Pressed, Return));
+	W_INPUT.Event("New").Bind(&OnInput_New);
 
 	W_INPUT.CreateBinding("LeftDown", INPUT_BIND(Keyboard, Pressed, Left));
 	W_INPUT.CreateBinding("LeftUp", INPUT_BIND(Keyboard, Released, Left));
@@ -143,7 +138,7 @@ void Setup()
 	W_INPUT.Event("DownDown").Bind(&Down);
 	W_INPUT.Event("DownUp").Bind(&Down);
 
-	Test = W_WORLD.SpawnActor<TestActor>(true, ShaderProgram::LoadProgram("assets/shaders/basic.vert", "assets/shaders/basic.frag"));
+	W_WORLD.SpawnActor<TestActor>(true, ShaderProgram::LoadProgram("assets/shaders/basic.vert", "assets/shaders/basic.frag"));
 }
 
 void RunEngine(int ArgC, char** ArgV)
