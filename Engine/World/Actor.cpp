@@ -1,5 +1,7 @@
 #include "Actor.h"
 
+#include "Component.h"
+
 #include <glm/gtx/transform.hpp>
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
@@ -19,6 +21,11 @@ Actor::~Actor()
 ActorID Actor::GetActorID() const
 {
 	return AID;
+}
+
+const std::list<Component*>& Actor::GetComponents() const
+{
+	return Components;
 }
 
 bool Actor::IsActive() const
@@ -66,17 +73,36 @@ void Actor::Spawn()
 
 void Actor::Destroy()
 {
-	
+	for (auto Comp : Components)
+	{
+		Comp->Deactivate();
+		Comp->Destroy();
+		delete Comp;
+	}
+
+	Components.clear();
 }
 
 void Actor::Draw()
 {
-	
+	for (auto Comp : Components)
+	{
+		if (Comp->IsActive())
+		{
+			Comp->Draw();
+		}
+	}
 }
 
 void Actor::Tick()
 {
-	
+	for (auto Comp : Components)
+	{
+		if (Comp->IsActive())
+		{
+			Comp->Tick();
+		}
+	}
 }
 
 const glm::vec3& Actor::GetPosition() const

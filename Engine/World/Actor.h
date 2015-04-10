@@ -2,9 +2,13 @@
 
 #include "../Utility/Types.h"
 
+#include <list>
+
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/gtx/quaternion.hpp>
+
+class Component;
 
 /**
  * The most basic type of object in the game world. All objects in the world subclass Actor.
@@ -17,6 +21,34 @@ public:
 	virtual ~Actor();
 
 	ActorID GetActorID() const;
+
+	const std::list<Component*>& GetComponents() const;
+
+	template<typename T>
+	T* AddComponent(bool StartActive = true)
+	{
+		static_assert(std::is_base_of<Component, T>::value, "T must subclass Component");
+
+		T* Comp = new T(this, StartActive);
+		Components.push_back(Comp);
+
+		Comp->Spawn();
+
+		return Comp;
+	}
+
+	template<typename T, typename... V>
+	T* AddComponent(V... Args)
+	{
+		static_assert(std::is_base_of<Actor, T>::value, "T must subclass Component");
+
+		T* Comp = new T(this, Args...);
+		Components.push_back(Comp);
+
+		Comp->Spawn();
+
+		return Comp;
+	}
 
 	bool IsActive() const;
 	void Activate();
@@ -56,4 +88,6 @@ private:
 	glm::vec3 Position = glm::vec3(0, 0, 0);
 	glm::quat Rotation = glm::quat();
 	glm::vec3 Scale = glm::vec3(1, 1, 1);
+
+	std::list<Component*> Components;
 };
