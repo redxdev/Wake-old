@@ -49,6 +49,8 @@ void GEngine::Run()
 	{
 		GameWindow.PollEvents();
 
+		W_WORLD.Tick();
+
 		Render();
 
 		GameWindow.Display();

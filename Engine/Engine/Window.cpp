@@ -38,6 +38,7 @@ bool Window::Initialize(const WindowOptions& Options)
 	RenderWindow->create(sf::VideoMode(Options.Width, Options.Height, Options.BitsPerPixel), Options.Title, Options.Fullscreen ? sf::Style::Fullscreen : sf::Style::Close, CtxSettings);
 	RenderWindow->setVerticalSyncEnabled(Options.VerticalSync);
 	RenderWindow->setActive(true);
+	RenderWindow->setKeyRepeatEnabled(false);
 
 	glewExperimental = GL_TRUE;
 	glewInit();
