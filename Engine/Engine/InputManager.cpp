@@ -12,7 +12,7 @@ InputManager& InputManager::Get()
 
 bool InputManager::Startup()
 {
-	CLOG_INFO("InputManager Startup");
+	CLOG_DEBUG("InputManager Startup");
 
 	W_ENGINE.GetGameWindow().KeyPressed.Bind(this, &InputManager::E_KeyPressed);
 	W_ENGINE.GetGameWindow().KeyReleased.Bind(this, &InputManager::E_KeyReleased);
@@ -25,7 +25,7 @@ bool InputManager::Startup()
 
 bool InputManager::Shutdown()
 {
-	CLOG_INFO("InputManager Shutdown");
+	CLOG_DEBUG("InputManager Shutdown");
 	OnRawInput.Clear();
 
 	return true;

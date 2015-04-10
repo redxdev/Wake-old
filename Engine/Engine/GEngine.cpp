@@ -24,7 +24,7 @@ GEngine::~GEngine()
 
 bool GEngine::Startup(const WindowOptions& Options)
 {
-	CLOG_INFO("Engine startup");
+	CLOG_DEBUG("Engine startup");
 
 	GameWindow.Initialize(Options);
 
@@ -37,7 +37,7 @@ bool GEngine::Startup(const WindowOptions& Options)
 
 bool GEngine::Shutdown()
 {
-	CLOG_INFO("Engine shutdown");
+	CLOG_DEBUG("Engine shutdown");
 	GameWindow.Deinitialize();
 	return true;
 }
