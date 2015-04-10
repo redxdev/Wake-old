@@ -109,12 +109,14 @@
     <ClInclude Include="Engine\GEngine.h" />
     <ClInclude Include="Utility\Types.h" />
     <ClInclude Include="WakeDefines.h" />
+    <ClInclude Include="World\Component.h" />
     <ClInclude Include="World\World.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Asset.cpp" />
     <ClCompile Include="Engine\Mesh.cpp" />
     <ClCompile Include="Engine\Shader.cpp" />
+    <ClCompile Include="World\Component.cpp" />
     <ClCompile Include="World\World.cpp" />
     <ClCompile Include="World\Actor.cpp" />
     <ClCompile Include="Engine\Input.cpp" />

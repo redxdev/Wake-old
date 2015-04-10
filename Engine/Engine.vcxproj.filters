@@ -105,6 +105,9 @@
     <ClInclude Include="Engine\Mesh.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="World\Component.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -160,6 +163,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Mesh.cpp">
       <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Component.cpp">
+      <Filter>Source Files\World</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
