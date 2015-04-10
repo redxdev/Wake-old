@@ -53,7 +53,5 @@ private:
 	LogManager();
 	~LogManager();
 
-	LogManager(const LogManager& Copy) {}
-
 	std::list<LogSink*> Sinks;
 };
