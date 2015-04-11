@@ -1,9 +1,6 @@
 #pragma once
 
 #include <unordered_map>
-#include <unordered_set>
-#include <list>
-#include <functional>
 
 #include "../Logging/LogMacros.h"
 #include "../Utility/Event.h"
@@ -68,10 +65,8 @@ public:
 
 	bool Shutdown();
 
-	bool CreateBinding(const std::string& Name, const InputBinding& Binding);
-	bool CreateRawBinding(const InputBinding& Binding);
+	void Bind(const std::string& Name, const InputBinding& Binding);
 
-	InputEvent& Event(const InputBinding& Binding);
 	InputEvent& Event(const std::string& Name);
 
 private:
@@ -88,8 +83,8 @@ private:
 
 	void CallRawInput(const Input& RawInput);
 
-	std::unordered_map<InputBinding, InputEvent, InputBindingHash> InputMap;
-	std::unordered_map<std::string, InputBinding> BindingMap;
+	std::unordered_map<std::string, InputEvent*> EventMap;
+	std::unordered_map<InputBinding, std::list<InputEvent*>, InputBindingHash> InputMap;
 
 	InputEvent InvalidInputEvent;
 };

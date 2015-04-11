@@ -31,42 +31,35 @@ bool InputManager::Shutdown()
 	return true;
 }
 
-bool InputManager::CreateBinding(const std::string& Name, const InputBinding& Binding)
+void InputManager::Bind(const std::string& Name, const InputBinding& Binding)
 {
-	auto result = BindingMap.emplace(Name, Binding);
-	if (!result.second)
+	auto EventItr = EventMap.find(Name);
+	if (EventItr == EventMap.end())
 	{
-		CLOG_INFO("Binding " << Name << " already exists");
-		return false;
+		EventMap.emplace(Name, new InputEvent());
+		EventItr = EventMap.find(Name); // TODO: fixme
 	}
 
-	return CreateRawBinding(Binding);
-}
+	auto InputItr = InputMap.find(Binding);
+	if (InputItr == InputMap.end())
+	{
+		InputMap.emplace(Binding, std::list<InputEvent*>());
+		InputItr = InputMap.find(Binding);
+	}
 
-bool InputManager::CreateRawBinding(const InputBinding& Binding)
-{
-	return !InputMap.emplace(Binding, InputEvent()).second;
-}
-
-InputManager::InputEvent& InputManager::Event(const InputBinding& Binding)
-{
-	auto found = InputMap.find(Binding);
-	if (found != InputMap.end())
-		return found->second;
-
-	return Event(Binding);
+	InputItr->second.push_back(EventItr->second);
 }
 
 InputManager::InputEvent& InputManager::Event(const std::string& Name)
 {
-	auto found = BindingMap.find(Name);
-	if (found == BindingMap.end())
+	auto found = EventMap.find(Name);
+	if (found == EventMap.end())
 	{
 		CLOG_WARN("Event(\"" << Name << "\") called but binding doesn't exist, using empty event");
 		return InvalidInputEvent;
 	}
 
-	return Event(found->second);
+	return *found->second;
 }
 
 void InputManager::E_KeyPressed(EKeyboardInput Key)
@@ -128,6 +121,9 @@ void InputManager::CallRawInput(const Input& RawInput)
 	auto found = InputMap.find(Binding);
 	if (found != InputMap.end())
 	{
-		found->second.Call(RawInput);
+		for (auto Event : found->second)
+		{
+			Event->Call(RawInput);
+		}
 	}
 }
