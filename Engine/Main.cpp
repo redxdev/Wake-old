@@ -67,7 +67,7 @@ public:
 	virtual void Tick() override
 	{
 		Actor::Tick();
-		SetPosition(GetPosition() + glm::vec3(xAxis, yAxis, 0) * 0.0001f);
+		SetPosition(GetPosition() + glm::vec3(xAxis, yAxis, 0) * W_ENGINE.GetDeltaTime());
 	}
 
 private:

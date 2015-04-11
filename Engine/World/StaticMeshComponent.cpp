@@ -1,6 +1,7 @@
 #include "StaticMeshComponent.h"
 
 #include "Actor.h"
+#include "../Engine/GEngine.h"
 
 StaticMeshComponent::StaticMeshComponent(Actor* Parent, bool StartActive, StaticMesh* Mesh, ShaderProgram* Shader)
 	: Component(Parent, StartActive)
@@ -36,8 +37,8 @@ void StaticMeshComponent::Draw()
 
 	Shader->Use();
 	Shader->GetUniform("modelMatrix").Set(GetParent()->CreateMatrix());
-	Shader->GetUniform("viewMatrix").Set(glm::mat4());
-	Shader->GetUniform("projectionMatrix").Set(glm::mat4());
+	Shader->GetUniform("viewMatrix").Set(W_ENGINE.GetViewMatrix());
+	Shader->GetUniform("projectionMatrix").Set(W_ENGINE.GetProjectionMatrix());
 
 	Mesh->Draw();
 }

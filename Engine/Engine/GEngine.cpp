@@ -44,6 +44,8 @@ bool GEngine::Shutdown()
 
 void GEngine::Run()
 {
+	DeltaClock.restart();
+
 	Running = true;
 	while (Running)
 	{
@@ -54,6 +56,8 @@ void GEngine::Run()
 		Render();
 
 		GameWindow.Display();
+
+		DeltaTime = DeltaClock.restart().asSeconds();
 
 		if (!GameWindow.IsOpen())
 			Stop();
@@ -74,6 +78,32 @@ bool GEngine::IsRunning()
 {
 	return Running;
 }
+
+void GEngine::SetViewMatrix(const glm::mat4& Matrix)
+{
+	ViewMatrix = Matrix;
+}
+
+void GEngine::SetProjectionMatrix(const glm::mat4& Matrix)
+{
+	ProjectionMatrix = Matrix;
+}
+
+const glm::mat4& GEngine::GetViewMatrix() const
+{
+	return ViewMatrix;
+}
+
+const glm::mat4& GEngine::GetProjectionMatrix() const
+{
+	return ProjectionMatrix;
+}
+
+float GEngine::GetDeltaTime() const
+{
+	return DeltaTime;
+}
+
 
 void GEngine::Render()
 {

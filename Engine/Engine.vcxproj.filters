@@ -171,7 +171,7 @@
       <Filter>Source Files\World</Filter>
     </ClCompile>
     <ClCompile Include="World\StaticMeshComponent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\World</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
