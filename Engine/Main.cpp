@@ -11,12 +11,37 @@
 
 #include "World/World.h"
 #include "World/StaticMeshComponent.h"
+#include "World/CameraComponent.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/transform.hpp>
 
 int xAxis = 0;
 int yAxis = 0;
+
+class CameraActor : public Actor
+{
+public:
+	CameraActor(ActorID Id, bool StartActive)
+		: Actor(Id, StartActive)
+	{
+	}
+
+	virtual void Spawn() override
+	{
+		Actor::Spawn();
+
+		Camera = CreateComponent<CameraComponent>(true);
+		Camera->SetFieldOfView(45.f);
+		Camera->SetAspectRatio(4.f/3.f);
+		Camera->SetNearPlane(0.1f);
+		Camera->SetFarPlane(100.f);
+	}
+
+private:
+	CameraComponent* Camera;
+};
 
 class TestActor : public Actor
 {
@@ -72,8 +97,6 @@ public:
 
 private:
 	StaticMeshComponent* MeshComponent;
-
-
 };
 
 void OnInput_New(const Input& Input)
@@ -106,6 +129,13 @@ void OnInput_Exit(const Input& Input)
 	W_ENGINE.Stop();
 }
 
+void Test(const Input& Input)
+{
+	CameraActor* Cam = W_WORLD.SpawnActor<CameraActor>(true);
+	Cam->SetPosition(glm::vec3(4, 3, 3));
+	Cam->LookAt(glm::vec3(0, 0, 0));
+}
+
 void Setup()
 {
 	W_INPUT.Bind("Exit", INPUT_BIND(Keyboard, Pressed, Escape));
@@ -127,6 +157,9 @@ void Setup()
 	W_INPUT.Event("Right").Bind(&Right);
 	W_INPUT.Event("Up").Bind(&Up);
 	W_INPUT.Event("Down").Bind(&Down);
+
+	W_INPUT.Bind("Test", INPUT_BIND(Keyboard, Pressed, Space));
+	W_INPUT.Event("Test").Bind(&Test);
 }
 
 void RunEngine(int ArgC, char** ArgV)

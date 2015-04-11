@@ -6,6 +6,7 @@
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/gtx/quaternion.hpp>
+#include <glm/gtx/matrix_decompose.hpp>
 
 Actor::Actor(ActorID Id, bool StartActive)
 {
@@ -139,6 +140,20 @@ void Actor::SetScale(const glm::vec3& Scale)
 {
 	this->Scale = Scale;
 }
+
+void Actor::LookAt(const glm::vec3& Point)
+{
+	glm::mat4 transform = glm::lookAt(Position, Point, glm::vec3(0, 1, 0));
+	glm::vec3 scale;
+	glm::quat rotation;
+	glm::vec3 translation;
+	glm::vec3 skew;
+	glm::vec4 perspective;
+	glm::decompose(transform, scale, rotation, translation, skew, perspective);
+
+	SetRotation(rotation);
+}
+
 
 void Actor::Activated()
 {

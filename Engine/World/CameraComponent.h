@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Component.h"
+#include <glm/vec3.hpp>
 
 class CameraComponent : public Component
 {
@@ -19,7 +20,7 @@ public:
 	float GetNearPlane() const;
 	float GetFarPlane() const;
 
-	void SetAsWindow(float FieldOfView = 90.f, float NearPlane = 0.001f, float FarPlane = 1000.f);
+	void SetAsWindow(float FieldOfView = 45.f, float NearPlane = 0.1f, float FarPlane = 100.f);
 
 private:
 	float FieldOfView;

@@ -70,6 +70,8 @@ public:
 	void SetRotation(const glm::quat& Rotation);
 	void SetScale(const glm::vec3& Scale);
 
+	void LookAt(const glm::vec3& Point);
+
 protected:
 	/**
 	 * Called when the actor has been activated.
