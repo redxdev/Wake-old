@@ -109,6 +109,7 @@
     <ClInclude Include="Engine\GEngine.h" />
     <ClInclude Include="Utility\Types.h" />
     <ClInclude Include="WakeDefines.h" />
+    <ClInclude Include="World\CameraComponent.h" />
     <ClInclude Include="World\Component.h" />
     <ClInclude Include="World\StaticMeshComponent.h" />
     <ClInclude Include="World\World.h" />
@@ -117,6 +118,7 @@
     <ClCompile Include="Engine\Asset.cpp" />
     <ClCompile Include="Engine\Mesh.cpp" />
     <ClCompile Include="Engine\Shader.cpp" />
+    <ClCompile Include="World\CameraComponent.cpp" />
     <ClCompile Include="World\Component.cpp" />
     <ClCompile Include="World\StaticMeshComponent.cpp" />
     <ClCompile Include="World\World.cpp" />

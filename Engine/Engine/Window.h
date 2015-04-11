@@ -40,6 +40,9 @@ public:
 
 	bool IsOpen();
 
+	uint32 GetWidth();
+	uint32 GetHeight();
+
 	W_EVENT(Closed);
 	W_EVENT(Resized, uint32, uint32);
 	W_EVENT(LostFocus);

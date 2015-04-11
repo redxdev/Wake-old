@@ -150,3 +150,13 @@ bool Window::IsOpen()
 {
 	return RenderWindow->isOpen();
 }
+
+uint32 Window::GetWidth()
+{
+	return RenderWindow->getSize().x;
+}
+
+uint32 Window::GetHeight()
+{
+	return RenderWindow->getSize().y;
+}
