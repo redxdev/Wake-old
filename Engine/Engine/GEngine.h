@@ -14,6 +14,7 @@ class GEngine
 public:
 	static GEngine& Get();
 
+public:
 	bool Startup(const WindowOptions& Options = WindowOptions());
 	bool Shutdown();
 
@@ -31,6 +32,9 @@ public:
 	const glm::mat4& GetProjectionMatrix() const;
 
 	float GetDeltaTime() const;
+
+	W_EVENT(Tick);
+	W_EVENT(Draw);
 
 private:
 	GEngine();

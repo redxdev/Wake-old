@@ -19,6 +19,7 @@
 
 int xAxis = 0;
 int yAxis = 0;
+int rot = 0;
 
 class CameraActor : public Actor
 {
@@ -33,10 +34,6 @@ public:
 		Actor::Spawn();
 
 		Camera = CreateComponent<CameraComponent>(true);
-		Camera->SetFieldOfView(45.f);
-		Camera->SetAspectRatio(4.f/3.f);
-		Camera->SetNearPlane(0.1f);
-		Camera->SetFarPlane(100.f);
 	}
 
 private:
@@ -54,8 +51,6 @@ public:
 	virtual void Spawn() override
 	{
 		Actor::Spawn();
-
-		LOG_INFO(GlobalLogger, "TestActor spawned with an id of " << GetActorID() << "!");
 
 		ShaderProgram* Shader = new ShaderProgram(ShaderProgram::LoadProgram("assets/shaders/basic.vert", "assets/shaders/basic.frag"));
 		GLint posAttrib = glGetAttribLocation(Shader->GetProgram(), "position");
@@ -84,25 +79,15 @@ public:
 
 	virtual void Destroy() override
 	{
-		Actor::Destroy();
-
-		LOG_INFO(GlobalLogger, "TestActor is being destroyed with an id of " << GetActorID() << "!");
 	}
 
 	virtual void Tick() override
 	{
-		Actor::Tick();
-		SetPosition(GetPosition() + glm::vec3(xAxis, yAxis, 0) * W_ENGINE.GetDeltaTime());
 	}
 
 private:
 	StaticMeshComponent* MeshComponent;
 };
-
-void OnInput_New(const Input& Input)
-{
-	W_WORLD.SpawnActor<TestActor>();
-}
 
 void Left(const Input& Input)
 {
@@ -124,42 +109,72 @@ void Down(const Input& Input)
 	yAxis += Input.Mode == EInputMode::Pressed ? -1 : 1;
 }
 
+void RotLeft(const Input& Input)
+{
+	rot += Input.Mode == EInputMode::Pressed ? 1 : -1;
+}
+
+void RotRight(const Input& Input)
+{
+	rot += Input.Mode == EInputMode::Pressed ? -1 : 1;
+}
+
 void OnInput_Exit(const Input& Input)
 {
 	W_ENGINE.Stop();
 }
 
-void Test(const Input& Input)
+CameraActor* Cam = nullptr;
+
+void Tick()
 {
-	CameraActor* Cam = W_WORLD.SpawnActor<CameraActor>(true);
-	Cam->SetPosition(glm::vec3(0, 0, 3));
-	Cam->LookAt(glm::vec3(0, 0, 0));
+	auto fwd = Cam->GetForward();
+	auto right = Cam->GetRight();
+	Cam->SetPosition(Cam->GetPosition() + (Cam->GetForward() * (float)yAxis + Cam->GetRight() * (float)xAxis) * W_ENGINE.GetDeltaTime());
+	Cam->SetRotation(Cam->GetRotation() * glm::quat(glm::vec3(0, rot, 0) * W_ENGINE.GetDeltaTime()));
 }
 
 void Setup()
 {
+	Actor* Test = W_WORLD.SpawnActor<TestActor>();
+	Test = W_WORLD.SpawnActor<TestActor>();
+	Test->SetPosition(glm::vec3(1, 0, 1));
+	Test->SetRotation(glm::quat(glm::vec3(0, glm::pi<float>() / 2.f, 0)));
+
+	Cam = W_WORLD.SpawnActor<CameraActor>(true);
+	Cam->SetPosition(glm::vec3(0, 0, 3));
+	Cam->SetRotation(glm::quat(glm::vec3(0, 0, 0)));
+
 	W_INPUT.Bind("Exit", INPUT_BIND(Keyboard, Pressed, Escape));
 	W_INPUT.Event("Exit").Bind(&OnInput_Exit);
 
-	W_INPUT.Bind("New", INPUT_BIND(Keyboard, Pressed, Return));
-	W_INPUT.Event("New").Bind(&OnInput_New);
-
 	W_INPUT.Bind("Left", INPUT_BIND(Keyboard, Pressed, Left));
 	W_INPUT.Bind("Left", INPUT_BIND(Keyboard, Released, Left));
+
 	W_INPUT.Bind("Right", INPUT_BIND(Keyboard, Pressed, Right));
 	W_INPUT.Bind("Right", INPUT_BIND(Keyboard, Released, Right));
+
 	W_INPUT.Bind("Up", INPUT_BIND(Keyboard, Pressed, Up));
 	W_INPUT.Bind("Up", INPUT_BIND(Keyboard, Released, Up));
+
 	W_INPUT.Bind("Down", INPUT_BIND(Keyboard, Pressed, Down));
 	W_INPUT.Bind("Down", INPUT_BIND(Keyboard, Released, Down));
+
+	W_INPUT.Bind("RotLeft", INPUT_BIND(Keyboard, Pressed, A));
+	W_INPUT.Bind("RotLeft", INPUT_BIND(Keyboard, Released, A));
+	
+	W_INPUT.Bind("RotRight", INPUT_BIND(Keyboard, Pressed, D));
+	W_INPUT.Bind("RotRight", INPUT_BIND(Keyboard, Released, D));
 	
 	W_INPUT.Event("Left").Bind(&Left);
 	W_INPUT.Event("Right").Bind(&Right);
 	W_INPUT.Event("Up").Bind(&Up);
 	W_INPUT.Event("Down").Bind(&Down);
 
-	W_INPUT.Bind("Test", INPUT_BIND(Keyboard, Pressed, Space));
-	W_INPUT.Event("Test").Bind(&Test);
+	W_INPUT.Event("RotLeft").Bind(&RotLeft);
+	W_INPUT.Event("RotRight").Bind(&RotRight);
+
+	W_ENGINE.Tick.Bind(&Tick);
 }
 
 void RunEngine(int ArgC, char** ArgV)

@@ -8,6 +8,8 @@
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/matrix_decompose.hpp>
 
+#include <cassert>
+
 Actor::Actor(ActorID Id, bool StartActive)
 {
 	AID = Id;
@@ -123,7 +125,7 @@ const glm::vec3& Actor::GetScale() const
 
 glm::mat4x4 Actor::CreateMatrix() const
 {
-	return glm::translate(Position) * glm::mat4_cast(Rotation) * glm::scale(Scale);
+	return glm::scale(Scale) * glm::mat4_cast(Rotation) * glm::translate(Position);
 }
 
 void Actor::SetPosition(const glm::vec3& Position)
@@ -141,19 +143,15 @@ void Actor::SetScale(const glm::vec3& Scale)
 	this->Scale = Scale;
 }
 
-void Actor::LookAt(const glm::vec3& Point)
+glm::vec3 Actor::GetForward() const
 {
-	glm::mat4 transform = glm::lookAt(Position, Point, glm::vec3(0, 1, 0));
-	glm::vec3 scale;
-	glm::quat rotation;
-	glm::vec3 translation;
-	glm::vec3 skew;
-	glm::vec4 perspective;
-	glm::decompose(transform, scale, rotation, translation, skew, perspective);
-
-	SetRotation(rotation);
+	return Rotation * glm::vec3(0, 0, -1);
 }
 
+glm::vec3 Actor::GetRight() const
+{
+	return Rotation * glm::vec3(1, 0, 0);
+}
 
 void Actor::Activated()
 {
