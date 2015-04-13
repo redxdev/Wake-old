@@ -137,13 +137,17 @@ void Tick()
 void Setup()
 {
 	Actor* Test = W_WORLD.SpawnActor<TestActor>();
+	Test->SetPosition(glm::vec3(-1, 0, -1));
+	Test = W_WORLD.SpawnActor<TestActor>();
+	Test->SetPosition(glm::vec3(-1, 0, 1));
+	Test = W_WORLD.SpawnActor<TestActor>();
+	Test->SetPosition(glm::vec3(1, 0, -1));
 	Test = W_WORLD.SpawnActor<TestActor>();
 	Test->SetPosition(glm::vec3(1, 0, 1));
 	Test->SetRotation(glm::quat(glm::vec3(0, glm::pi<float>() / 2.f, 0)));
 
 	Cam = W_WORLD.SpawnActor<CameraActor>(true);
 	Cam->SetPosition(glm::vec3(0, 0, 3));
-	Cam->SetRotation(glm::quat(glm::vec3(0, 0, 0)));
 
 	W_INPUT.Bind("Exit", INPUT_BIND(Keyboard, Pressed, Escape));
 	W_INPUT.Event("Exit").Bind(&OnInput_Exit);

@@ -125,7 +125,7 @@ const glm::vec3& Actor::GetScale() const
 
 glm::mat4x4 Actor::CreateMatrix() const
 {
-	return glm::scale(Scale) * glm::mat4_cast(Rotation) * glm::translate(Position);
+	return glm::translate(Position) * glm::mat4_cast(Rotation) * glm::scale(Scale);
 }
 
 void Actor::SetPosition(const glm::vec3& Position)
