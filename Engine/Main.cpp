@@ -76,12 +76,11 @@ public:
 		MeshComponent = CreateComponent<StaticMeshComponent>(true, new StaticMesh(vbo, vao, 3), Shader);
 	}
 
-	virtual void Destroy() override
-	{
-	}
-
 	virtual void Tick() override
 	{
+		Actor::Tick();
+
+		SetRotation(GetRotation() * glm::quat(glm::vec3(0, glm::pi<float>() / 2.f, 0) * W_ENGINE.GetDeltaTime()));
 	}
 
 private:
