@@ -160,3 +160,8 @@ uint32 Window::GetHeight()
 {
 	return RenderWindow->getSize().y;
 }
+
+sf::Window* Window::GetRenderWindow()
+{
+	return RenderWindow;
+}

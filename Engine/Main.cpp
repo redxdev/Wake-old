@@ -19,7 +19,6 @@
 
 int xAxis = 0;
 int yAxis = 0;
-int rot = 0;
 
 class CameraActor : public Actor
 {
@@ -109,16 +108,6 @@ void Down(const Input& Input)
 	yAxis += Input.Mode == EInputMode::Pressed ? -1 : 1;
 }
 
-void RotLeft(const Input& Input)
-{
-	rot += Input.Mode == EInputMode::Pressed ? 1 : -1;
-}
-
-void RotRight(const Input& Input)
-{
-	rot += Input.Mode == EInputMode::Pressed ? -1 : 1;
-}
-
 void OnInput_Exit(const Input& Input)
 {
 	W_ENGINE.Stop();
@@ -131,7 +120,14 @@ void Tick()
 	auto fwd = Cam->GetForward();
 	auto right = Cam->GetRight();
 	Cam->SetPosition(Cam->GetPosition() + (Cam->GetForward() * (float)yAxis + Cam->GetRight() * (float)xAxis) * W_ENGINE.GetDeltaTime());
-	Cam->SetRotation(Cam->GetRotation() * glm::quat(glm::vec3(0, rot, 0) * W_ENGINE.GetDeltaTime()));
+
+	auto MousePos = sf::Mouse::getPosition(*W_ENGINE.GetGameWindow().GetRenderWindow());
+	auto Center = sf::Vector2i(W_ENGINE.GetGameWindow().GetWidth() / 2, W_ENGINE.GetGameWindow().GetHeight() / 2);
+	float xChange = Center.x - MousePos.x;
+	float yChange = Center.y - MousePos.y;
+	auto rot = glm::vec3(yChange, xChange, 0) * W_ENGINE.GetDeltaTime();
+	Cam->SetRotation(Cam->GetRotation() * glm::quat(rot));
+	sf::Mouse::setPosition(Center, *W_ENGINE.GetGameWindow().GetRenderWindow());
 }
 
 void Setup()
@@ -152,33 +148,26 @@ void Setup()
 	W_INPUT.Bind("Exit", INPUT_BIND(Keyboard, Pressed, Escape));
 	W_INPUT.Event("Exit").Bind(&OnInput_Exit);
 
-	W_INPUT.Bind("Left", INPUT_BIND(Keyboard, Pressed, Left));
-	W_INPUT.Bind("Left", INPUT_BIND(Keyboard, Released, Left));
+	W_INPUT.Bind("Left", INPUT_BIND(Keyboard, Pressed, A));
+	W_INPUT.Bind("Left", INPUT_BIND(Keyboard, Released, A));
 
-	W_INPUT.Bind("Right", INPUT_BIND(Keyboard, Pressed, Right));
-	W_INPUT.Bind("Right", INPUT_BIND(Keyboard, Released, Right));
+	W_INPUT.Bind("Right", INPUT_BIND(Keyboard, Pressed, D));
+	W_INPUT.Bind("Right", INPUT_BIND(Keyboard, Released, D));
 
-	W_INPUT.Bind("Up", INPUT_BIND(Keyboard, Pressed, Up));
-	W_INPUT.Bind("Up", INPUT_BIND(Keyboard, Released, Up));
+	W_INPUT.Bind("Up", INPUT_BIND(Keyboard, Pressed, W));
+	W_INPUT.Bind("Up", INPUT_BIND(Keyboard, Released, W));
 
-	W_INPUT.Bind("Down", INPUT_BIND(Keyboard, Pressed, Down));
-	W_INPUT.Bind("Down", INPUT_BIND(Keyboard, Released, Down));
-
-	W_INPUT.Bind("RotLeft", INPUT_BIND(Keyboard, Pressed, A));
-	W_INPUT.Bind("RotLeft", INPUT_BIND(Keyboard, Released, A));
-	
-	W_INPUT.Bind("RotRight", INPUT_BIND(Keyboard, Pressed, D));
-	W_INPUT.Bind("RotRight", INPUT_BIND(Keyboard, Released, D));
+	W_INPUT.Bind("Down", INPUT_BIND(Keyboard, Pressed, S));
+	W_INPUT.Bind("Down", INPUT_BIND(Keyboard, Released, S));
 	
 	W_INPUT.Event("Left").Bind(&Left);
 	W_INPUT.Event("Right").Bind(&Right);
 	W_INPUT.Event("Up").Bind(&Up);
 	W_INPUT.Event("Down").Bind(&Down);
 
-	W_INPUT.Event("RotLeft").Bind(&RotLeft);
-	W_INPUT.Event("RotRight").Bind(&RotRight);
-
 	W_ENGINE.Tick.Bind(&Tick);
+
+	sf::Mouse::setPosition(sf::Vector2i(W_ENGINE.GetGameWindow().GetWidth() / 2, W_ENGINE.GetGameWindow().GetHeight() / 2), *W_ENGINE.GetGameWindow().GetRenderWindow());
 }
 
 void RunEngine(int ArgC, char** ArgV)

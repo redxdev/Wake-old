@@ -1,5 +1,8 @@
 #include "Input.h"
 
+// This is all really ugly, but it makes writing these functions much easier.
+// All C_* macros are undefined before the end of this file.
+
 #define C_AUTO(KeyName) case sf::Keyboard::KeyName: return EKeyboardInput::KeyName
 #define C_MAN(KeyName, Input) case sf::Keyboard::KeyName: return EKeyboardInput::Input
 
@@ -227,6 +230,8 @@ const char* ConvertKeyboardToString(EKeyboardInput Key)
 		C_AUTO(Pause);
 	}
 }
+
+#undef C_AUTO
 
 EMouseInput ConvertSFMouseToInput(sf::Mouse::Button Button)
 {
