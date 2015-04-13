@@ -132,7 +132,7 @@ void OnInput_Exit(const Input& Input)
 void Test(const Input& Input)
 {
 	CameraActor* Cam = W_WORLD.SpawnActor<CameraActor>(true);
-	Cam->SetPosition(glm::vec3(4, 3, 3));
+	Cam->SetPosition(glm::vec3(0, 0, 3));
 	Cam->LookAt(glm::vec3(0, 0, 0));
 }
 

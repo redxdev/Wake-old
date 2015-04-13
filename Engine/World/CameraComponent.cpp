@@ -4,6 +4,8 @@
 #include "../Engine/GEngine.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/transform.hpp>
+#include <glm/gtx/matrix_decompose.hpp>
 
 CameraComponent::CameraComponent(Actor* Parent, bool StartActive)
 	: Component(Parent, StartActive)
@@ -15,7 +17,7 @@ void CameraComponent::Tick()
 {
 	Component::Tick();
 
-	glm::mat4 ViewMatrix = GetParent()->CreateMatrix();
+	glm::mat4 ViewMatrix = glm::translate(-GetParent()->GetPosition()) * glm::mat4_cast(GetParent()->GetRotation()) * glm::scale(GetParent()->GetScale());
 	glm::mat4 ProjectionMatrix = glm::perspective(FieldOfView, AspectRatio, NearPlane, FarPlane);
 
 	W_ENGINE.SetViewMatrix(ViewMatrix);
