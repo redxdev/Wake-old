@@ -153,6 +153,11 @@ glm::vec3 Actor::GetRight() const
 	return Rotation * glm::vec3(1, 0, 0);
 }
 
+glm::vec3 Actor::GetUp() const
+{
+	return Rotation * glm::vec3(0, 1, 0);
+}
+
 void Actor::Activated()
 {
 	
