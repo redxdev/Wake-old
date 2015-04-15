@@ -122,10 +122,12 @@ void Tick()
 
 	auto MousePos = sf::Mouse::getPosition(*W_ENGINE.GetGameWindow().GetRenderWindow());
 	auto Center = sf::Vector2i(W_ENGINE.GetGameWindow().GetWidth() / 2, W_ENGINE.GetGameWindow().GetHeight() / 2);
-	float xChange = Center.x - MousePos.x;
-	float yChange = Center.y - MousePos.y;
-	auto rot = glm::vec3(yChange, xChange, 0) * W_ENGINE.GetDeltaTime();
-	Cam->SetRotation(Cam->GetRotation() * glm::quat(rot));
+	float xChange = glm::clamp(Center.x - MousePos.x, -5, 5) * W_ENGINE.GetDeltaTime();
+	float yChange = glm::clamp(Center.y - MousePos.y, -5, 5) * W_ENGINE.GetDeltaTime();
+	auto Pitch = glm::angleAxis(yChange, Cam->GetRight());
+	auto Yaw = glm::angleAxis(xChange, Cam->GetUp());
+	Cam->SetRotation(Pitch * Yaw * Cam->GetRotation());
+
 	sf::Mouse::setPosition(Center, *W_ENGINE.GetGameWindow().GetRenderWindow());
 }
 
