@@ -80,7 +80,7 @@ public:
 	{
 		Actor::Tick();
 
-		SetRotation(GetRotation() * glm::quat(glm::vec3(0, glm::pi<float>() / 2.f, 0) * W_ENGINE.GetDeltaTime()));
+		SetRotation(GetRotation() + glm::vec3(0, glm::pi<float>() / 2.f, 0) * W_ENGINE.GetDeltaTime());
 	}
 
 private:
@@ -124,8 +124,8 @@ void Tick()
 	auto Center = sf::Vector2i(W_ENGINE.GetGameWindow().GetWidth() / 2, W_ENGINE.GetGameWindow().GetHeight() / 2);
 	float xChange = Center.x - MousePos.x;
 	float yChange = Center.y - MousePos.y;
-	auto rot = glm::vec3(yChange, xChange, 0) * W_ENGINE.GetDeltaTime();
-	Cam->SetRotation(Cam->GetRotation() * glm::quat(rot));
+	auto rot = glm::vec3(-yChange, -xChange, 0) * W_ENGINE.GetDeltaTime();
+	Cam->SetRotation(Cam->GetRotation() + rot);
 	sf::Mouse::setPosition(Center, *W_ENGINE.GetGameWindow().GetRenderWindow());
 }
 
@@ -139,7 +139,7 @@ void Setup()
 	Test->SetPosition(glm::vec3(1, 0, -1));
 	Test = W_WORLD.SpawnActor<TestActor>();
 	Test->SetPosition(glm::vec3(1, 0, 1));
-	Test->SetRotation(glm::quat(glm::vec3(0, glm::pi<float>() / 2.f, 0)));
+	Test->SetRotation(glm::vec3(0, glm::pi<float>() / 2.f, 0));
 
 	Cam = W_WORLD.SpawnActor<CameraActor>(true);
 	Cam->SetPosition(glm::vec3(0, 0, 3));

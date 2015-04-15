@@ -61,13 +61,14 @@ public:
 	virtual void Tick();
 
 	const glm::vec3& GetPosition() const;
-	const glm::quat& GetRotation() const;
+	const glm::vec3& GetRotation() const;
 	const glm::vec3& GetScale() const;
 
+	glm::mat4x4 CreateRotationMatrix() const;
 	glm::mat4x4 CreateMatrix() const;
 
 	void SetPosition(const glm::vec3& Position);
-	void SetRotation(const glm::quat& Rotation);
+	void SetRotation(const glm::vec3& Rotation);
 	void SetScale(const glm::vec3& Scale);
 
 	glm::vec3 GetForward() const;
@@ -89,7 +90,7 @@ private:
 	bool Active;
 
 	glm::vec3 Position = glm::vec3(0, 0, 0);
-	glm::quat Rotation = glm::quat();
+	glm::vec3 Rotation = glm::vec3(0, 0, 0);
 	glm::vec3 Scale = glm::vec3(1, 1, 1);
 
 	std::list<Component*> Components;

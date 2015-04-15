@@ -6,7 +6,6 @@
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/gtx/quaternion.hpp>
-#include <glm/gtx/matrix_decompose.hpp>
 
 #include <cassert>
 
@@ -113,7 +112,7 @@ const glm::vec3& Actor::GetPosition() const
 	return Position;
 }
 
-const glm::quat& Actor::GetRotation() const
+const glm::vec3& Actor::GetRotation() const
 {
 	return Rotation;
 }
@@ -123,9 +122,14 @@ const glm::vec3& Actor::GetScale() const
 	return Scale;
 }
 
+glm::mat4x4 Actor::CreateRotationMatrix() const
+{
+	return glm::rotate(Rotation[0], glm::vec3(1, 0, 0)) * glm::rotate(Rotation[1], glm::vec3(0, 1, 0)) * glm::rotate(Rotation[2], glm::vec3(0, 0, 1));
+}
+
 glm::mat4x4 Actor::CreateMatrix() const
 {
-	return glm::translate(Position) * glm::mat4_cast(Rotation) * glm::scale(Scale);
+	return glm::translate(Position) * CreateRotationMatrix() * glm::scale(Scale);
 }
 
 void Actor::SetPosition(const glm::vec3& Position)
@@ -133,7 +137,7 @@ void Actor::SetPosition(const glm::vec3& Position)
 	this->Position = Position;
 }
 
-void Actor::SetRotation(const glm::quat& Rotation)
+void Actor::SetRotation(const glm::vec3& Rotation)
 {
 	this->Rotation = Rotation;
 }
@@ -145,12 +149,14 @@ void Actor::SetScale(const glm::vec3& Scale)
 
 glm::vec3 Actor::GetForward() const
 {
-	return Rotation * glm::vec3(0, 0, -1);
+	glm::vec4 Result = CreateRotationMatrix() * glm::vec4(0, 0, 1, 1);
+	return glm::vec3(Result[0], Result[1], Result[2]);
 }
 
 glm::vec3 Actor::GetRight() const
 {
-	return Rotation * glm::vec3(1, 0, 0);
+	glm::vec4 Result = glm::normalize(CreateRotationMatrix() * glm::vec4(1, 0, 0, 1));
+	return glm::vec3(Result[0], Result[1], Result[2]);
 }
 
 void Actor::Activated()
