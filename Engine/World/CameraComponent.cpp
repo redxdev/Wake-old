@@ -17,7 +17,7 @@ void CameraComponent::Tick()
 {
 	Component::Tick();
 
-	glm::mat4 ViewMatrix = GetParent()->CreateRotationMatrix() * glm::translate(-GetParent()->GetPosition());
+	glm::mat4 ViewMatrix = glm::mat4_cast(glm::inverse(GetParent()->GetRotation())) * glm::translate(-GetParent()->GetPosition());
 	glm::mat4 ProjectionMatrix = glm::perspective(FieldOfView, AspectRatio, NearPlane, FarPlane);
 
 	W_ENGINE.SetViewMatrix(ViewMatrix);
