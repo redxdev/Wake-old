@@ -16,6 +16,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/transform.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 int xAxis = 0;
 int yAxis = 0;
@@ -122,11 +123,10 @@ void Tick()
 
 	auto MousePos = sf::Mouse::getPosition(*W_ENGINE.GetGameWindow().GetRenderWindow());
 	auto Center = sf::Vector2i(W_ENGINE.GetGameWindow().GetWidth() / 2, W_ENGINE.GetGameWindow().GetHeight() / 2);
-	float xChange = glm::clamp(Center.x - MousePos.x, -5, 5) * W_ENGINE.GetDeltaTime();
-	float yChange = glm::clamp(Center.y - MousePos.y, -5, 5) * W_ENGINE.GetDeltaTime();
-	auto Pitch = glm::angleAxis(yChange, Cam->GetRight());
-	auto Yaw = glm::angleAxis(xChange, Cam->GetUp());
-	Cam->SetRotation(Pitch * Yaw * Cam->GetRotation());
+	float xChange = glm::clamp(MousePos.x - Center.x, -5, 5) * W_ENGINE.GetDeltaTime();
+	float yChange = glm::clamp(MousePos.y - Center.y, -5, 5) * W_ENGINE.GetDeltaTime();
+	auto Rotation = glm::quat(glm::vec3(yChange, xChange, 0));
+	Cam->SetRotation(Rotation * Cam->GetRotation());
 
 	sf::Mouse::setPosition(Center, *W_ENGINE.GetGameWindow().GetRenderWindow());
 }
