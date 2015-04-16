@@ -32,6 +32,7 @@ public:
 	{
 		Actor::Spawn();
 
+		// Make our camera component
 		Camera = CreateComponent<CameraComponent>(true);
 	}
 
