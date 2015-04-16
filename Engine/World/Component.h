@@ -2,12 +2,18 @@
 
 class Actor;
 
+/**
+ * A reusable class that can be attached to an Actor.
+ */
 class Component
 {
 public:
 	Component(Actor* Parent, bool StartActive = true);
 	virtual ~Component();
 
+	/**
+	 * Gets the parent actor (the actor this component is attached to).
+	 */
 	Actor* GetParent() const;
 
 	bool IsActive() const;

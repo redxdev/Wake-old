@@ -2,8 +2,14 @@
 
 #include <list>
 
+/**
+ * Defines an event.
+ */
 #define W_EVENT(Name, ...) Event<__VA_ARGS__> (Name)
 
+/**
+ * Base callable class.
+ */
 template<typename... Arguments>
 class Callable
 {
@@ -20,6 +26,9 @@ public:
 	}
 };
 
+/**
+ * Contains a callable function.
+ */
 template<typename... Arguments>
 class StaticCallable : public Callable<Arguments...>
 {
@@ -52,6 +61,9 @@ private:
 	FuncPtr Function;
 };
 
+/**
+ * Contains a callable member function.
+ */
 template<typename T, typename... Arguments>
 class InstancedCallable : public Callable<Arguments...>
 {
@@ -86,6 +98,9 @@ private:
 	FuncPtr Function;
 };
 
+/**
+ * A callable event. Use the W_EVENT macro for defining events.
+ */
 template<typename... Arguments>
 class Event
 {
@@ -95,22 +110,34 @@ public:
 		Clear();
 	}
 
+	/**
+	 * Bind a Callable delegate to this event.
+	 */
 	void Bind(Callable<Arguments...>* Delegate)
 	{
 		Delegates.push_back(Delegate);
 	}
 
+	/**
+	 * Bind a function to this event.
+	 */
 	void Bind(void (*FuncPtr)(Arguments...))
 	{
 		Bind(new StaticCallable<Arguments...>(FuncPtr));
 	}
 
+	/**
+	 * Bind a member function to this event.
+	 */
 	template<typename T>
 	void Bind(T* Instance, void (T::*FuncPtr)(Arguments...))
 	{
 		Bind(new InstancedCallable<T, Arguments...>(Instance, FuncPtr));
 	}
 
+	/**
+	 * Unbind a callable delegate. This will delete the Callable object.
+	 */
 	void Unbind(Callable<Arguments...>* Delegate)
 	{
 		for (auto Itr = Delegates.begin(); Itr != Delegates.end(); ++Itr)
@@ -123,17 +150,26 @@ public:
 		}
 	}
 
+	/**
+	 * Unbind a function.
+	 */
 	void Unbind(void (*FuncPtr)(Arguments...))
 	{
 		Unbind(new StaticCallable<Arguments...>(FuncPtr));
 	}
 
+	/**
+	 * Unbind a member function.
+	 */
 	template<typename T>
 	void Unbind(T* Instance, void (T::*FuncPtr)(Arguments...))
 	{
 		Unbind(new InstancedCallable<T, Arguments...>(Instance, FuncPtr));
 	}
 
+	/**
+	 * Check if a Callable delegate is bound to this event.
+	 */
 	bool IsBound(Callable<Arguments...>* Delegate) const
 	{
 		for (Callable<Arguments...>* Other : Delegates)
@@ -145,17 +181,26 @@ public:
 		return false;
 	}
 
+	/**
+	 * Check if a function is bound to this event.
+	 */
 	bool IsBound(void (*FuncPtr)(Arguments...))
 	{
 		return IsCallable(new StaticCallable<Arguments...>(FuncPtr));
 	}
 
+	/**
+	 * Check if a member function is bound to this event.
+	 */
 	template<typename T>
 	bool IsBound(T* Instance, void (T::*FuncPtr)(Arguments...))
 	{
 		return IsBound(new InstancedCallable<T, Arguments...>(Instance, FuncPtr));
 	}
 
+	/**
+	 * Call this event.
+	 */
 	void Call(Arguments... Args)
 	{
 		for (Callable<Arguments...>* Delegate : Delegates)
@@ -164,6 +209,9 @@ public:
 		}
 	}
 
+	/**
+	 * Clear all binds from this event, deleting the Callable objects.
+	 */
 	void Clear()
 	{
 		for (Callable<Arguments...>* Delegate : Delegates)

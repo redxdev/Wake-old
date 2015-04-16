@@ -25,12 +25,18 @@ struct WindowOptions
 	bool VerticalSync = false;
 };
 
+/**
+ * Wrapper for SFML Window.
+ */
 class Window
 {
 public:
 	Window();
 	~Window();
 
+	/**
+	 * Create (or re-create) a window with specified options.
+	 */
 	bool Initialize(const WindowOptions& Options);
 
 	void Deinitialize();
@@ -43,7 +49,12 @@ public:
 	uint32 GetWidth();
 	uint32 GetHeight();
 
+	/**
+	 * Get the SFML window.
+	 */
 	sf::Window* GetRenderWindow();
+
+	// Window Events
 
 	W_EVENT(Closed);
 	W_EVENT(Resized, uint32, uint32);

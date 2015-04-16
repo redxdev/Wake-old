@@ -5,8 +5,8 @@
 #include "LogSink.h"
 
 /**
-* Logging sink for output to the console.
-*/
+ * Logging sink for output to the console.
+ */
 class ConsoleSink : public LogSink
 {
 public:

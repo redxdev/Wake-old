@@ -9,6 +9,9 @@
 
 #define W_WORLD (World::Get())
 
+/**
+ * The game world.
+ */
 class World
 {
 	CLOG_LOGGER_DECL;
@@ -18,6 +21,9 @@ public:
 	bool Startup();
 	bool Shutdown();
 
+	/**
+	 * Spawn an actor.
+	 */
 	template<typename T>
 	T* SpawnActor(bool StartActive = true)
 	{
@@ -38,6 +44,9 @@ public:
 		return Act;
 	}
 
+	/**
+	 * Spawn an actor.
+	 */
 	template<typename T, typename... V>
 	T* SpawnActor(V... Args)
 	{
@@ -58,6 +67,9 @@ public:
 		return Act;
 	}
 
+	/**
+	 * Get the actor represented by an id.
+	 */
 	Actor* GetActor(ActorID Id);
 
 	bool Destroy(Actor* Act);

@@ -8,6 +8,9 @@
 
 #define W_ENGINE (GEngine::Get())
 
+/**
+ * Handles the main game loop, the render window, and render/tick events.
+ */
 class GEngine
 {
 	CLOG_LOGGER_DECL;

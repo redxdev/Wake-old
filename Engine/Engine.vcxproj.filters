@@ -99,9 +99,6 @@
     <ClInclude Include="Engine\Shader.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Asset.h">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Mesh.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
@@ -162,9 +159,6 @@
       <Filter>Source Files\World</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Shader.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Asset.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Mesh.cpp">

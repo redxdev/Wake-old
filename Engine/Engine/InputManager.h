@@ -8,8 +8,14 @@
 
 #define W_INPUT (InputManager::Get())
 
+/**
+ * Shorthand for creating an InputBinding.
+ */
 #define INPUT_BIND(Type, Mode, Code) (InputBinding((EInputType::Type), (EInputMode::Mode), (E##Type##Input::Code)))
 
+/**
+ * Represents a type of input, used by the input manager.
+ */
 struct InputBinding
 {
 	InputBinding()
@@ -54,7 +60,7 @@ class InputManager
 {
 	CLOG_LOGGER_DECL;
 public:
-	typedef Event<const Input&> InputEvent;
+	typedef W_EVENT(InputEvent, const Input&);
 
 public:
 	static InputManager& Get();
@@ -65,8 +71,14 @@ public:
 
 	bool Shutdown();
 
+	/**
+	 * Create a new named binding, or add to an existing one.
+	 */
 	void Bind(const std::string& Name, const InputBinding& Binding);
 
+	/**
+	 * Retrieve the event for a named binding.
+	 */
 	InputEvent& Event(const std::string& Name);
 
 private:

@@ -88,7 +88,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\Asset.h" />
     <ClInclude Include="Engine\Mesh.h" />
     <ClInclude Include="Engine\Shader.h" />
     <ClInclude Include="World\Actor.h" />
@@ -115,7 +114,6 @@
     <ClInclude Include="World\World.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\Asset.cpp" />
     <ClCompile Include="Engine\Mesh.cpp" />
     <ClCompile Include="Engine\Shader.cpp" />
     <ClCompile Include="World\CameraComponent.cpp" />

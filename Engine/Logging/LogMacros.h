@@ -9,24 +9,24 @@
 #define CLOG_INSTANCE __wlog_class_logger
 
 /**
-* Declare a logger for use with CLOG_ macros. Use within a class.
-*/
+ * Declare a logger for use with CLOG_ macros. Use within a class.
+ */
 #define CLOG_LOGGER_DECL private: static Logger CLOG_INSTANCE;
 
 /**
-* Define a logger for use with CLOG_ macros. Use within a CPP file.
-*
-* \param classname The name of the class this logger is for.
-*/
+ * Define a logger for use with CLOG_ macros. Use within a CPP file.
+ *
+ * \param classname The name of the class this logger is for.
+ */
 #define CLOG_LOGGER_DEF(classname) Logger classname::CLOG_INSTANCE(#classname);
 
 /**
-* Log a message.
-*
-* \param logger The logger object.
-* \param level The LogLevel to use.
-* \param message The message to log. This supports the use of stream operators (>> and <<).
-*/
+ * Log a message.
+ *
+ * \param logger The logger object.
+ * \param level The LogLevel to use.
+ * \param message The message to log. This supports the use of stream operators (>> and <<).
+ */
 #define WAKE_LOG(logger, level, message) \
 { \
 	std::stringstream __wlog_ls_sstream; \
@@ -35,11 +35,11 @@
 }
 
 /**
-* Log a message to a class logger.
-*
-* \param level The LogLevel to use.
-* \param message The message to log. This supports the use of stream operators (>> and <<).
-*/
+ * Log a message to a class logger.
+ *
+ * \param level The LogLevel to use.
+ * \param message The message to log. This supports the use of stream operators (<<).
+ */
 #define WAKE_CLOG(level, message) WAKE_LOG(CLOG_INSTANCE, level, message)
 
 #ifndef WAKE_LOG_NO_TRACE

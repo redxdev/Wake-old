@@ -9,7 +9,6 @@
 
 #include "../Engine/GEngine.h"
 #include "../Engine/InputManager.h"
-#include "../Engine/Asset.h"
 
 #include "../World/World.h"
 
@@ -92,12 +91,6 @@ bool Bootstrap::Startup()
 		return false;
 	}
 
-	if (!W_ASSET.Startup())
-	{
-		CLOG_FATAL("W_ASSET.Startup() failed");
-		return false;
-	}
-
 	if (!W_WORLD.Startup())
 	{
 		CLOG_FATAL("W_WORLD.Startup() failed");
@@ -116,12 +109,6 @@ bool Bootstrap::Shutdown()
 	if (!W_WORLD.Shutdown())
 	{
 		CLOG_FATAL("W_WORLD.Shutdown() failed");
-		return false;
-	}
-
-	if (!W_ASSET.Shutdown())
-	{
-		CLOG_FATAL("W_ASSET.Shutdown() failed");
 		return false;
 	}
 

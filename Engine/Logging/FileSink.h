@@ -6,16 +6,16 @@
 #include "LogSink.h"
 
 /**
-* Logging sink for output to a file.
-*/
+ * Logging sink for output to a file.
+ */
 class FileSink : public LogSink
 {
 public:
 	/**
-	* Constructor for a new FileSink instance.
-	*
-	* \param Filename The file to write.
-	*/
+	 * Constructor for a new FileSink instance.
+	 *
+	 * \param Filename The file to write.
+	 */
 	FileSink(const char* Filename);
 
 	virtual ~FileSink();

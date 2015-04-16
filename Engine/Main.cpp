@@ -18,9 +18,8 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/gtx/quaternion.hpp>
 
-int xAxis = 0;
-int yAxis = 0;
-
+// Simple actor that just has a camera component attached to it.
+// Only here because you can't spawn a component without an actor.
 class CameraActor : public Actor
 {
 public:
@@ -40,6 +39,8 @@ private:
 	CameraComponent* Camera;
 };
 
+// Spinning triangle actor. Does its own setup/teardown, so all we have
+// to do is spawn it in whatever position we like.
 class TestActor : public Actor
 {
 public:
@@ -77,6 +78,14 @@ public:
 		MeshComponent = CreateComponent<StaticMeshComponent>(true, new StaticMesh(vbo, vao, 3), Shader);
 	}
 
+	virtual void Destroy() override
+	{
+		delete MeshComponent->GetShader();
+		delete MeshComponent->GetMesh();
+
+		Actor::Destroy();
+	}
+
 	virtual void Tick() override
 	{
 		Actor::Tick();
@@ -88,26 +97,6 @@ private:
 	StaticMeshComponent* MeshComponent;
 };
 
-void Left(const Input& Input)
-{
-	xAxis += Input.Mode == EInputMode::Pressed ? -1 : 1;
-}
-
-void Right(const Input& Input)
-{
-	xAxis += Input.Mode == EInputMode::Pressed ? 1 : -1;
-}
-
-void Up(const Input& Input)
-{
-	yAxis += Input.Mode == EInputMode::Pressed ? 1 : -1;
-}
-
-void Down(const Input& Input)
-{
-	yAxis += Input.Mode == EInputMode::Pressed ? -1 : 1;
-}
-
 void OnInput_Exit(const Input& Input)
 {
 	W_ENGINE.Stop();
@@ -115,24 +104,9 @@ void OnInput_Exit(const Input& Input)
 
 CameraActor* Cam = nullptr;
 
-void Tick()
-{
-	auto fwd = Cam->GetForward();
-	auto right = Cam->GetRight();
-	Cam->SetPosition(Cam->GetPosition() + (Cam->GetForward() * (float)yAxis + Cam->GetRight() * (float)xAxis) * W_ENGINE.GetDeltaTime());
-
-	auto MousePos = sf::Mouse::getPosition(*W_ENGINE.GetGameWindow().GetRenderWindow());
-	auto Center = sf::Vector2i(W_ENGINE.GetGameWindow().GetWidth() / 2, W_ENGINE.GetGameWindow().GetHeight() / 2);
-	float xChange = glm::clamp(MousePos.x - Center.x, -5, 5) * W_ENGINE.GetDeltaTime();
-	float yChange = glm::clamp(MousePos.y - Center.y, -5, 5) * W_ENGINE.GetDeltaTime();
-	auto Rotation = glm::quat(glm::vec3(yChange, xChange, 0));
-	Cam->SetRotation(Rotation * Cam->GetRotation());
-
-	sf::Mouse::setPosition(Center, *W_ENGINE.GetGameWindow().GetRenderWindow());
-}
-
 void Setup()
 {
+	// Spawn a bunch of triangles
 	Actor* Test = W_WORLD.SpawnActor<TestActor>();
 	Test->SetPosition(glm::vec3(-1, 0, -1));
 	Test = W_WORLD.SpawnActor<TestActor>();
@@ -143,54 +117,47 @@ void Setup()
 	Test->SetPosition(glm::vec3(1, 0, 1));
 	Test->SetRotation(glm::quat(glm::vec3(0, glm::pi<float>() / 2.f, 0)));
 
+	// Create the camera
 	Cam = W_WORLD.SpawnActor<CameraActor>(true);
 	Cam->SetPosition(glm::vec3(0, 0, 3));
 
+	// Create a named binding "Exit" and bind escape to it
 	W_INPUT.Bind("Exit", INPUT_BIND(Keyboard, Pressed, Escape));
+
+	// Bind the function OnInput_Exit to the Exit event.
 	W_INPUT.Event("Exit").Bind(&OnInput_Exit);
-
-	W_INPUT.Bind("Left", INPUT_BIND(Keyboard, Pressed, A));
-	W_INPUT.Bind("Left", INPUT_BIND(Keyboard, Released, A));
-
-	W_INPUT.Bind("Right", INPUT_BIND(Keyboard, Pressed, D));
-	W_INPUT.Bind("Right", INPUT_BIND(Keyboard, Released, D));
-
-	W_INPUT.Bind("Up", INPUT_BIND(Keyboard, Pressed, W));
-	W_INPUT.Bind("Up", INPUT_BIND(Keyboard, Released, W));
-
-	W_INPUT.Bind("Down", INPUT_BIND(Keyboard, Pressed, S));
-	W_INPUT.Bind("Down", INPUT_BIND(Keyboard, Released, S));
-	
-	W_INPUT.Event("Left").Bind(&Left);
-	W_INPUT.Event("Right").Bind(&Right);
-	W_INPUT.Event("Up").Bind(&Up);
-	W_INPUT.Event("Down").Bind(&Down);
-
-	W_ENGINE.Tick.Bind(&Tick);
-
-	sf::Mouse::setPosition(sf::Vector2i(W_ENGINE.GetGameWindow().GetWidth() / 2, W_ENGINE.GetGameWindow().GetHeight() / 2), *W_ENGINE.GetGameWindow().GetRenderWindow());
 }
 
+// Create the bootstrap in a separate scope since the bootstrap's shutdown
+// happens when it gets destroyed (falls out of scope).
 void RunEngine(int ArgC, char** ArgV)
 {
+	// Set some options
 	BootstrapOptions Options;
 	Options.DefaultLogSinks = true;
 	Options.DontRunEngine = false;
 
+	// Create the bootstrap
 	Bootstrap Engine(ArgC, ArgV, Options);
 	if (!Engine.Startup())
 	{
+		// Something went wrong :(
 		return;
 	}
 
+	// Run our custom setup
 	Setup();
 
+	// Run the engine
 	Engine.Run();
+
+	// Everything is cleaned up when the bootstrap falls out of scope.
 }
 
-int main(int argc, char** argv)
+int main(int ArgC, char** ArgV)
 {
-	RunEngine(argc, argv);
+	// Run the engine
+	RunEngine(ArgC, ArgV);
 
 #ifdef WAKE_EXIT_PAUSE
 	std::cout << "Press return to exit..." << std::endl;

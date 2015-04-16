@@ -20,10 +20,20 @@ public:
 
 	virtual ~Actor();
 
+	/**
+	 * Get the internal id for this actor. Use this id to keep references to actors unless
+	 * you really need the speed of direct access and know what you're doing.
+	 */
 	ActorID GetActorID() const;
 
+	/**
+	 * Get the list of components on this actor.
+	 */
 	const std::list<Component*>& GetComponents() const;
 
+	/**
+	 * Create a component on this actor.
+	 */
 	template<typename T>
 	T* CreateComponent(bool StartActive = true)
 	{
@@ -37,6 +47,9 @@ public:
 		return Comp;
 	}
 
+	/**
+	 * Create a component on this actor.
+	 */
 	template<typename T, typename... V>
 	T* CreateComponent(V... Args)
 	{

@@ -10,6 +10,11 @@ struct BootstrapOptions
 	WindowOptions WindowOptions;
 };
 
+/**
+ * Sets up and starts the engine. You don't need to use this class if you want to do everything yourself, but
+ * it is recommended to use this. If you just want to do extra setup, call Startup, do your setup, then
+ * call Run.
+ */
 class Bootstrap
 {
 	CLOG_LOGGER_DECL;

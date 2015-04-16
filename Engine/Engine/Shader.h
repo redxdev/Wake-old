@@ -5,6 +5,9 @@
 
 #include "../Logging/LogMacros.h"
 
+/**
+ * Utility to encapsulate a OpenGL uniform.
+ */
 class Uniform
 {
 public:
@@ -41,6 +44,9 @@ private:
 	GLuint Location;
 };
 
+/**
+ * Utility to encapsulate an OpenGL shader program.
+ */
 class ShaderProgram
 {
 	CLOG_LOGGER_DECL;
