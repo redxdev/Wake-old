@@ -1,10 +1,11 @@
 #include "Mesh.h"
 
-StaticMesh::StaticMesh(GLuint VertexBuffer, GLuint VertexArray, GLsizei Count)
+StaticMesh::StaticMesh(GLuint VertexBuffer, GLuint VertexArray, GLsizei Count, GLenum Mode)
 {
 	this->VertexBuffer = VertexBuffer;
 	this->VertexArray = VertexArray;
 	this->Count = Count;
+	this->Mode = Mode;
 }
 
 StaticMesh::~StaticMesh()
@@ -18,5 +19,5 @@ void StaticMesh::Draw()
 	glBindVertexArray(VertexArray);
 	glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
 
-	glDrawArrays(GL_TRIANGLES, 0, Count);
+	glDrawArrays(Mode, 0, Count);
 }

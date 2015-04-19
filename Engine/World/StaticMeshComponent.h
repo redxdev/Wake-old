@@ -17,7 +17,15 @@ public:
 
 	virtual void Draw() override;
 
+	void SetR(float val) {R = val;}
+	void SetG(float val) {G = val;}
+	void SetB(float val) {B = val;}
+
 private:
 	StaticMesh* Mesh;
 	ShaderProgram* Shader;
+
+	float R = 0;
+	float G = 0;
+	float B = 0;
 };

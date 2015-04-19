@@ -39,6 +39,7 @@ void StaticMeshComponent::Draw()
 	Shader->GetUniform("modelMatrix").Set(GetParent()->CreateMatrix());
 	Shader->GetUniform("viewMatrix").Set(W_ENGINE.GetViewMatrix());
 	Shader->GetUniform("projectionMatrix").Set(W_ENGINE.GetProjectionMatrix());
+	Shader->GetUniform("inColor").Set(R, G, B);
 
 	Mesh->Draw();
 }

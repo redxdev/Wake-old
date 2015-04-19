@@ -44,10 +44,12 @@ public:
 	void PollEvents();
 	void Display();
 
-	bool IsOpen();
+	bool IsOpen() const;
 
-	uint32 GetWidth();
-	uint32 GetHeight();
+	uint32 GetWidth() const;
+	uint32 GetHeight() const;
+
+	void SetTitle(const char* Title);
 
 	/**
 	 * Get the SFML window.

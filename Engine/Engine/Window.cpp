@@ -146,20 +146,26 @@ void Window::Display()
 	RenderWindow->display();
 }
 
-bool Window::IsOpen()
+bool Window::IsOpen() const
 {
 	return RenderWindow->isOpen();
 }
 
-uint32 Window::GetWidth()
+uint32 Window::GetWidth() const
 {
 	return RenderWindow->getSize().x;
 }
 
-uint32 Window::GetHeight()
+uint32 Window::GetHeight() const
 {
 	return RenderWindow->getSize().y;
 }
+
+void Window::SetTitle(const char* Title)
+{
+	RenderWindow->setTitle(Title);
+}
+
 
 sf::Window* Window::GetRenderWindow()
 {

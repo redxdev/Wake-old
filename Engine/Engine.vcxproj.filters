@@ -37,6 +37,12 @@
     <Filter Include="Source Files\World">
       <UniqueIdentifier>{0398c954-6856-43c9-8016-abff76e7dcb0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Game">
+      <UniqueIdentifier>{197fd6e4-fca3-4639-bbd7-aa5ba68b7084}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{c84cfff9-b6c0-46b0-a43d-d083f8cb2735}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logging\ConsoleSink.h">
@@ -68,9 +74,6 @@
     </ClInclude>
     <ClInclude Include="Logging\VSDebugSink.h">
       <Filter>Header Files\Logging</Filter>
-    </ClInclude>
-    <ClInclude Include="WakeDefines.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\GEngine.h">
       <Filter>Header Files\Engine</Filter>
@@ -110,6 +113,18 @@
     </ClInclude>
     <ClInclude Include="World\CameraComponent.h">
       <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Setup.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Player.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\FallingObject.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="WakeDefines.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +187,15 @@
     </ClCompile>
     <ClCompile Include="World\CameraComponent.cpp">
       <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Setup.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Player.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\FallingObject.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
