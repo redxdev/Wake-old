@@ -86,7 +86,7 @@ void GameSetup()
 	auto p = W_WORLD.SpawnActor<Player>(true, Program, Mesh);
 	p->SetScale(glm::vec3(0.2, 0.2, 1));
 
-	for (int i = 0; i < 400; ++i)
+	for (int i = 0; i < 400; ++i) // IF THIS RUNS SLOW, CHANGE 400 TO 200
 	{
 		auto o = W_WORLD.SpawnActor<FallingObject>(true, Program, Mesh2, p->GetActorID(), d(gen) * 2 - 1);
 		o->SetScale(glm::vec3(0.02f, 0.08f, 1.0f));
