@@ -12,6 +12,8 @@
 
 #include "../World/World.h"
 
+#include "../Scripting/ScriptManager.h"
+
 #include <fstream>
 #include <signal.h>
 
@@ -47,6 +49,13 @@ void Bootstrap::Run()
 	CLOG_DEBUG("Setting signal handler");
 	signal(SIGINT, &BootstrapSignalHandler);
 
+	CLOG_DEBUG("Initializing scripting engine");
+	if(!W_SCRIPT.Init())
+	{
+		CLOG_ERROR("W_SCRIPT.Init() failed");
+		return;
+	}
+
 	CLOG_INFO("Running engine");
 
 	W_ENGINE.Run();
@@ -54,10 +63,10 @@ void Bootstrap::Run()
 
 bool Bootstrap::Startup()
 {
-	std::ifstream ConfigTest("wake.cfg");
+	std::ifstream ConfigTest("config/cfg.lua");
 	if (!ConfigTest.good())
 	{
-		std::cerr << "Bootstrap: Unable to open wake.cfg. Make sure the working directory is set to Distribution." << std::endl;
+		std::cerr << "Bootstrap: Unable to find config/cfg.lua, make sure the working directory is set to Distribution." << std::endl;
 		return false;
 	}
 
@@ -97,6 +106,12 @@ bool Bootstrap::Startup()
 		return false;
 	}
 
+	if (!W_SCRIPT.Startup())
+	{
+		CLOG_FATAL("W_SCRIPT.Startup() failed");
+		return false;
+	}
+
 	DidStartup = true;
 
 	return true;
@@ -105,6 +120,12 @@ bool Bootstrap::Startup()
 bool Bootstrap::Shutdown()
 {
 	CLOG_INFO("shutdown");
+
+	if (!W_SCRIPT.Shutdown())
+	{
+		CLOG_FATAL("W_SCRIPT.Shutdown() failed");
+		return false;
+	}
 
 	if (!W_WORLD.Shutdown())
 	{

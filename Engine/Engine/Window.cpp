@@ -166,7 +166,6 @@ void Window::SetTitle(const char* Title)
 	RenderWindow->setTitle(Title);
 }
 
-
 sf::Window* Window::GetRenderWindow()
 {
 	return RenderWindow;

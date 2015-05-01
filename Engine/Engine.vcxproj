@@ -39,12 +39,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros">
-    <NuGetPackageImportStamp>cadbbecd</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>bbaf7044</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <Linkage-glew>static</Linkage-glew>
     <Linkage-rxd_glew>static</Linkage-rxd_glew>
+    <Linkage-lua>
+    </Linkage-lua>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -59,12 +61,14 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WAKE_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\luajit;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua51.lib;Opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\luajit;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -77,14 +81,16 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WAKE_RELEASE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\luajit;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>Opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua51.lib;Opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\luajit;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -92,6 +98,7 @@
     <ClInclude Include="Engine\Shader.h" />
     <ClInclude Include="Game\Setup.h" />
     <ClInclude Include="Scripting\ScriptManager.h" />
+    <ClInclude Include="Utility\luaext.h" />
     <ClInclude Include="World\Actor.h" />
     <ClInclude Include="Engine\Input.h" />
     <ClInclude Include="Engine\InputManager.h" />
@@ -151,8 +158,6 @@
     <Import Project="..\packages\rxd_glew.redist.1.10.0.1\build\native\rxd_glew.redist.targets" Condition="Exists('..\packages\rxd_glew.redist.1.10.0.1\build\native\rxd_glew.redist.targets')" />
     <Import Project="..\packages\rxd_glew.1.10.0.1\build\native\rxd_glew.targets" Condition="Exists('..\packages\rxd_glew.1.10.0.1\build\native\rxd_glew.targets')" />
     <Import Project="..\packages\glm.0.9.6.3\build\native\glm.targets" Condition="Exists('..\packages\glm.0.9.6.3\build\native\glm.targets')" />
-    <Import Project="..\packages\lua.redist.5.2.2.13\build\native\lua.redist.targets" Condition="Exists('..\packages\lua.redist.5.2.2.13\build\native\lua.redist.targets')" />
-    <Import Project="..\packages\lua.5.2.2.13\build\native\lua.targets" Condition="Exists('..\packages\lua.5.2.2.13\build\native\lua.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -165,7 +170,5 @@
     <Error Condition="!Exists('..\packages\rxd_glew.redist.1.10.0.1\build\native\rxd_glew.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\rxd_glew.redist.1.10.0.1\build\native\rxd_glew.redist.targets'))" />
     <Error Condition="!Exists('..\packages\rxd_glew.1.10.0.1\build\native\rxd_glew.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\rxd_glew.1.10.0.1\build\native\rxd_glew.targets'))" />
     <Error Condition="!Exists('..\packages\glm.0.9.6.3\build\native\glm.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\glm.0.9.6.3\build\native\glm.targets'))" />
-    <Error Condition="!Exists('..\packages\lua.redist.5.2.2.13\build\native\lua.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\lua.redist.5.2.2.13\build\native\lua.redist.targets'))" />
-    <Error Condition="!Exists('..\packages\lua.5.2.2.13\build\native\lua.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\lua.5.2.2.13\build\native\lua.targets'))" />
   </Target>
 </Project>
