@@ -39,7 +39,7 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros">
-    <NuGetPackageImportStamp>08a7edb6</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>cadbbecd</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -91,6 +91,7 @@
     <ClInclude Include="Engine\Mesh.h" />
     <ClInclude Include="Engine\Shader.h" />
     <ClInclude Include="Game\Setup.h" />
+    <ClInclude Include="Scripting\ScriptManager.h" />
     <ClInclude Include="World\Actor.h" />
     <ClInclude Include="Engine\Input.h" />
     <ClInclude Include="Engine\InputManager.h" />
@@ -118,6 +119,7 @@
     <ClCompile Include="Engine\Mesh.cpp" />
     <ClCompile Include="Engine\Shader.cpp" />
     <ClCompile Include="Game\Setup.cpp" />
+    <ClCompile Include="Scripting\ScriptManager.cpp" />
     <ClCompile Include="World\CameraComponent.cpp" />
     <ClCompile Include="World\Component.cpp" />
     <ClCompile Include="World\StaticMeshComponent.cpp" />
@@ -149,6 +151,8 @@
     <Import Project="..\packages\rxd_glew.redist.1.10.0.1\build\native\rxd_glew.redist.targets" Condition="Exists('..\packages\rxd_glew.redist.1.10.0.1\build\native\rxd_glew.redist.targets')" />
     <Import Project="..\packages\rxd_glew.1.10.0.1\build\native\rxd_glew.targets" Condition="Exists('..\packages\rxd_glew.1.10.0.1\build\native\rxd_glew.targets')" />
     <Import Project="..\packages\glm.0.9.6.3\build\native\glm.targets" Condition="Exists('..\packages\glm.0.9.6.3\build\native\glm.targets')" />
+    <Import Project="..\packages\lua.redist.5.2.2.13\build\native\lua.redist.targets" Condition="Exists('..\packages\lua.redist.5.2.2.13\build\native\lua.redist.targets')" />
+    <Import Project="..\packages\lua.5.2.2.13\build\native\lua.targets" Condition="Exists('..\packages\lua.5.2.2.13\build\native\lua.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -161,5 +165,7 @@
     <Error Condition="!Exists('..\packages\rxd_glew.redist.1.10.0.1\build\native\rxd_glew.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\rxd_glew.redist.1.10.0.1\build\native\rxd_glew.redist.targets'))" />
     <Error Condition="!Exists('..\packages\rxd_glew.1.10.0.1\build\native\rxd_glew.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\rxd_glew.1.10.0.1\build\native\rxd_glew.targets'))" />
     <Error Condition="!Exists('..\packages\glm.0.9.6.3\build\native\glm.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\glm.0.9.6.3\build\native\glm.targets'))" />
+    <Error Condition="!Exists('..\packages\lua.redist.5.2.2.13\build\native\lua.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\lua.redist.5.2.2.13\build\native\lua.redist.targets'))" />
+    <Error Condition="!Exists('..\packages\lua.5.2.2.13\build\native\lua.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\lua.5.2.2.13\build\native\lua.targets'))" />
   </Target>
 </Project>
