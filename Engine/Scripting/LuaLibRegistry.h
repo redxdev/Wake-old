@@ -6,7 +6,7 @@
 
 #define W_INT_LLREGISTRY (LuaLibRegistry::Get())
 
-#define W_REGISTER_LUA_LIB(OpenFunc) static LuaLibAutomator __w_llautomator(OpenFunc)
+#define W_REGISTER_LUA_LIB(OpenFunc) static LuaLibAutomator __w_llautomator_##OpenFunc(OpenFunc)
 
 class LuaLibAutomator
 {

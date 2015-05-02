@@ -36,6 +36,7 @@ public:
 
 	/**
 	 * Create (or re-create) a window with specified options.
+	 * \returns true on success, false on failure.
 	 */
 	bool Initialize(const WindowOptions& Options);
 

@@ -1,8 +1,8 @@
 #include "ScriptManager.h"
 
 #include "../Utility/luaext.h"
-
 #include "../Logging/LuaLogging.h"
+#include "../Engine/GEngine.h"
 
 #include "LuaLibRegistry.h"
 
@@ -57,8 +57,16 @@ bool ScriptManager::Init()
 	if(!DoFile("config/cfg.lua"))
 		return false;
 
+	// Window Config
+	lua_getglobal(State, "config");
+	if (!lua_istable(State, -1))
+	{
+		CLOG_ERROR("config is not a table");
+		return false;
+	}
+
 	CLOG_INFO("Running init scripts");
-	if(!DoFile("lib/init.lua"))
+	if (!DoFile("lib/init.lua"))
 		return false;
 
 	if (!DoFile("game/init.lua"))

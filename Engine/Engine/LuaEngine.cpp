@@ -36,3 +36,73 @@ int luaopen_engine(lua_State* L)
 }
 
 W_REGISTER_LUA_LIB(luaopen_engine);
+
+static int readwopt_int(lua_State* L, const char* Key)
+{
+	lua_pushstring(L, Key);
+	lua_gettable(L, -2);
+	if (!lua_isnumber(L, -1))
+		luaL_error(L, "%s must be a number", Key);
+
+	int result = (int)lua_tonumber(L, -1);
+	lua_pop(L, 1);
+	return result;
+}
+
+static const char* readwopt_str(lua_State* L, const char* Key)
+{
+	lua_pushstring(L, Key);
+	lua_gettable(L, -2);
+	if (!lua_isstring(L, -1))
+		luaL_error(L, "%s must be a string", Key);
+
+	const char* result = lua_tostring(L, -1);
+	lua_pop(L, 1);
+	return result;
+}
+
+static bool readwopt_bool(lua_State* L, const char* Key)
+{
+	lua_pushstring(L, Key);
+	lua_gettable(L, -2);
+	if (!lua_isboolean(L, -1))
+		luaL_error(L, "%s must be a boolean", Key);
+
+	bool result = lua_toboolean(L, -1);
+	lua_pop(L, 1);
+	return result;
+}
+
+static int l_window_initialize(lua_State* L)
+{
+	luaL_checktype(L, 1, LUA_TTABLE);
+
+	WindowOptions WOpt;
+	WOpt.Width = readwopt_int(L, "width");
+	WOpt.Height = readwopt_int(L, "height");
+	WOpt.DepthBits = readwopt_int(L, "depthBits");
+	WOpt.StencilBits = readwopt_int(L, "stencilBits");
+	WOpt.AntiAliasing = readwopt_int(L, "antiAliasing");
+	WOpt.BitsPerPixel = readwopt_int(L, "bitsPerPixel");
+	WOpt.OGL_Major = readwopt_int(L, "oglMajor");
+	WOpt.OGL_Minor = readwopt_int(L, "oglMinor");
+	WOpt.Title = readwopt_str(L, "title");
+	WOpt.Fullscreen = readwopt_bool(L, "fullscreen");
+	WOpt.VerticalSync = readwopt_bool(L, "verticalSync");
+
+	lua_pushboolean(L, W_ENGINE.GetGameWindow().Initialize(WOpt));
+	return 1;
+}
+
+static const struct luaL_reg windowlib_f[] = {
+	{ "initialize", l_window_initialize },
+	{NULL, NULL}
+};
+
+int luaopen_window(lua_State* L)
+{
+	luaL_register(L, "window", windowlib_f);
+	return 1;
+}
+
+W_REGISTER_LUA_LIB(luaopen_window);

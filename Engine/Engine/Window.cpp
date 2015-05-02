@@ -2,6 +2,8 @@
 
 #include <GL/glew.h>
 
+#include "../WakeDefines.h"
+
 Window::Window()
 {
 	RenderWindow = nullptr;
@@ -44,6 +46,8 @@ bool Window::Initialize(const WindowOptions& Options)
 	glewInit();
 
 	glEnable(GL_DEPTH_TEST);
+
+	glClearColor(WAKE_CLEAR_COLOR, 1.0f);
 
 	return true;
 }

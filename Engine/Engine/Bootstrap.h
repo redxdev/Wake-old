@@ -7,7 +7,6 @@ struct BootstrapOptions
 {
 	bool DefaultLogSinks = true;
 	bool DontRunEngine = false;
-	WindowOptions WindowOptions;
 };
 
 /**

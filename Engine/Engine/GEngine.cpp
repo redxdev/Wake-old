@@ -2,7 +2,6 @@
 
 #include <SFML/OpenGL.hpp>
 
-#include "../WakeDefines.h"
 #include "../World/World.h"
 
 CLOG_LOGGER_DEF(GEngine);
@@ -22,13 +21,9 @@ GEngine::~GEngine()
 {
 }
 
-bool GEngine::Startup(const WindowOptions& Options)
+bool GEngine::Startup()
 {
 	CLOG_DEBUG("Engine startup");
-
-	GameWindow.Initialize(Options);
-
-	glClearColor(WAKE_CLEAR_COLOR, 1.0f);
 
 	GameWindow.Closed.Bind(this, &GEngine::Stop);
 
@@ -105,7 +100,6 @@ float GEngine::GetDeltaTime() const
 {
 	return DeltaTime;
 }
-
 
 void GEngine::Render()
 {

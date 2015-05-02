@@ -4,6 +4,7 @@
 #include <SFML/System/Clock.hpp>
 
 #include "../Logging/LogMacros.h"
+#include "../Utility/luaext.h"
 #include "Window.h"
 
 #define W_ENGINE (GEngine::Get())
@@ -18,7 +19,7 @@ public:
 	static GEngine& Get();
 
 public:
-	bool Startup(const WindowOptions& Options = WindowOptions());
+	bool Startup();
 	bool Shutdown();
 
 	void Run();

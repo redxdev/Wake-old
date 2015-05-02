@@ -88,7 +88,7 @@ bool Bootstrap::Startup()
 
 	CLOG_INFO("init");
 
-	if(!W_ENGINE.Startup(Options.WindowOptions))
+	if(!W_ENGINE.Startup())
 	{
 		CLOG_FATAL("W_ENGINE.Startup() failed");
 		return false;
