@@ -94,8 +94,35 @@ static int l_window_initialize(lua_State* L)
 	return 1;
 }
 
+static int l_window_isOpen(lua_State* L)
+{
+	lua_pushboolean(L, W_ENGINE.GetGameWindow().IsOpen());
+	return 1;
+}
+
+static int l_window_getWidth(lua_State* L)
+{
+	lua_pushnumber(L, W_ENGINE.GetGameWindow().GetWidth());
+	return 1;
+}
+
+static int l_window_getHeight(lua_State* L)
+{
+	lua_pushnumber(L, W_ENGINE.GetGameWindow().GetHeight());
+	return 1;
+}
+
+static int l_window_setTitle(lua_State* L)
+{
+	W_ENGINE.GetGameWindow().SetTitle(luaL_checkstring(L, 1));
+	return 0;
+}
+
 static const struct luaL_reg windowlib_f[] = {
 	{ "initialize", l_window_initialize },
+	{ "isOpen", l_window_isOpen },
+	{ "getWidth", l_window_getWidth },
+	{ "getHeight", l_window_getHeight },
 	{NULL, NULL}
 };
 
