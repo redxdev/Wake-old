@@ -4,6 +4,8 @@
 
 #include "../Logging/LuaLogging.h"
 
+#include "LuaLibRegistry.h"
+
 CLOG_LOGGER_DEF(ScriptManager);
 
 ScriptManager& ScriptManager::Get()
@@ -30,8 +32,7 @@ bool ScriptManager::Startup()
 
 	luaL_openlibs(State);
 
-	lua_pushcfunction(State, luaopen_log);
-	lua_call(State, 0, 0);
+	W_INT_LLREGISTRY.RegisterAll(State);
 
 	SetPath(W_SCRIPT_PATH);
 

@@ -1,5 +1,8 @@
 #include "LuaLogging.h"
+
 #include "LogMacros.h"
+
+#include "../Scripting/LuaLibRegistry.h"
 
 Logger ScriptLogger("sg");
 
@@ -132,3 +135,5 @@ int luaopen_log(lua_State* L)
 	luaL_register(L, "log", loglib_f);
 	return 1;
 }
+
+W_REGISTER_LUA_LIB(luaopen_log);

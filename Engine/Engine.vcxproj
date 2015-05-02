@@ -94,10 +94,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\LuaEngine.h" />
     <ClInclude Include="Engine\Mesh.h" />
     <ClInclude Include="Engine\Shader.h" />
     <ClInclude Include="Game\Setup.h" />
     <ClInclude Include="Logging\LuaLogging.h" />
+    <ClInclude Include="Scripting\LuaLibRegistry.h" />
     <ClInclude Include="Scripting\ScriptManager.h" />
     <ClInclude Include="Utility\luaext.h" />
     <ClInclude Include="World\Actor.h" />
@@ -124,10 +126,12 @@
     <ClInclude Include="World\World.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\LuaEngine.cpp" />
     <ClCompile Include="Engine\Mesh.cpp" />
     <ClCompile Include="Engine\Shader.cpp" />
     <ClCompile Include="Game\Setup.cpp" />
     <ClCompile Include="Logging\LuaLogging.cpp" />
+    <ClCompile Include="Scripting\LuaLibRegistry.cpp" />
     <ClCompile Include="Scripting\ScriptManager.cpp" />
     <ClCompile Include="World\CameraComponent.cpp" />
     <ClCompile Include="World\Component.cpp" />
