@@ -1,8 +1,9 @@
 -- Information library, primarily used to print out client info on startup
+local logger = log.new("ClientInfo")
 
-log.info(_VERSION)
+logger:info(_VERSION)
 
 if jit ~= nil then
-	log.info(jit.version)
-	log.info(jit.os .. " " .. jit.arch)
+	logger:info(jit.version)
+	logger:info(jit.os .. " " .. jit.arch)
 end
