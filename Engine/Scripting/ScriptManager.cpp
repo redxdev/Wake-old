@@ -2,6 +2,8 @@
 
 #include "../Utility/luaext.h"
 
+#include "../Logging/LuaLogging.h"
+
 CLOG_LOGGER_DEF(ScriptManager);
 
 ScriptManager& ScriptManager::Get()
@@ -25,7 +27,12 @@ bool ScriptManager::Startup()
 	CLOG_DEBUG("ScriptManager Startup");
 
 	State = luaL_newstate();
+
 	luaL_openlibs(State);
+
+	lua_pushcfunction(State, luaopen_log);
+	lua_call(State, 0, 0);
+
 	SetPath(W_SCRIPT_PATH);
 
 	return true;

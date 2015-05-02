@@ -97,6 +97,7 @@
     <ClInclude Include="Engine\Mesh.h" />
     <ClInclude Include="Engine\Shader.h" />
     <ClInclude Include="Game\Setup.h" />
+    <ClInclude Include="Logging\LuaLogging.h" />
     <ClInclude Include="Scripting\ScriptManager.h" />
     <ClInclude Include="Utility\luaext.h" />
     <ClInclude Include="World\Actor.h" />
@@ -126,6 +127,7 @@
     <ClCompile Include="Engine\Mesh.cpp" />
     <ClCompile Include="Engine\Shader.cpp" />
     <ClCompile Include="Game\Setup.cpp" />
+    <ClCompile Include="Logging\LuaLogging.cpp" />
     <ClCompile Include="Scripting\ScriptManager.cpp" />
     <ClCompile Include="World\CameraComponent.cpp" />
     <ClCompile Include="World\Component.cpp" />
