@@ -23,6 +23,10 @@ public:
 
 	bool DoFile(const char* Path);
 
+	bool IsActive() const;
+
+	lua_State* GetState();
+
 private:
 	ScriptManager();
 	~ScriptManager();

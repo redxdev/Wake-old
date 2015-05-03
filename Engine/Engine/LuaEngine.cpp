@@ -3,6 +3,7 @@
 #include "GEngine.h"
 
 #include "../Scripting/LuaLibRegistry.h"
+#include "../Utility/LuaEvent.h"
 
 static int l_stop(lua_State* L)
 {
@@ -32,6 +33,16 @@ static const struct luaL_reg enginelib_f[] = {
 int luaopen_engine(lua_State* L)
 {
 	luaL_register(L, "engine", enginelib_f);
+
+	// events
+	lua_pushstring(L, "tick");
+	PushLuaValue<>(L, W_ENGINE.Tick);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "draw");
+	PushLuaValue<>(L, W_ENGINE.Draw);
+	lua_settable(L, -3);
+
 	return 1;
 }
 
@@ -68,7 +79,7 @@ static bool readwopt_bool(lua_State* L, const char* Key)
 	if (!lua_isboolean(L, -1))
 		luaL_error(L, "%s must be a boolean", Key);
 
-	bool result = lua_toboolean(L, -1);
+	bool result = lua_toboolean(L, -1) != 0;
 	lua_pop(L, 1);
 	return result;
 }
@@ -129,6 +140,27 @@ static const struct luaL_reg windowlib_f[] = {
 int luaopen_window(lua_State* L)
 {
 	luaL_register(L, "window", windowlib_f);
+
+	// events
+	lua_pushstring(L, "closed");
+	PushLuaValue<>(L, W_ENGINE.GetGameWindow().Closed);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "resized");
+	PushLuaValue<uint32, uint32>(L, W_ENGINE.GetGameWindow().Resized);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "lostFocus");
+	PushLuaValue<>(L, W_ENGINE.GetGameWindow().LostFocus);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "gainedFocus");
+	PushLuaValue<>(L, W_ENGINE.GetGameWindow().GainedFocus);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "textEntered");
+	PushLuaValue<uint32>(L, W_ENGINE.GetGameWindow().TextEntered);
+	lua_settable(L, -3);
 	return 1;
 }
 

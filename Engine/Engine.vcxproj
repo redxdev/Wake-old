@@ -103,7 +103,7 @@
     <ClInclude Include="Scripting\LuaLibRegistry.h" />
     <ClInclude Include="Scripting\ScriptManager.h" />
     <ClInclude Include="Utility\LuaEvent.h" />
-    <ClInclude Include="Utility\luaext.h" />
+    <ClInclude Include="Utility\LuaExt.h" />
     <ClInclude Include="World\Actor.h" />
     <ClInclude Include="Engine\Input.h" />
     <ClInclude Include="Engine\InputManager.h" />

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+#include <assert.h>
 
 /**
  * Defines an event.
@@ -105,6 +106,11 @@ template<typename... Arguments>
 class Event
 {
 public:
+	Event()
+	{
+		CurrentItr = Delegates.end();
+	}
+
 	~Event()
 	{
 		Clear();
@@ -140,12 +146,29 @@ public:
 	 */
 	void Unbind(Callable<Arguments...>* Delegate)
 	{
-		for (auto Itr = Delegates.begin(); Itr != Delegates.end(); ++Itr)
+		auto Itr = Delegates.begin();
+		while (Itr != Delegates.end())
 		{
-			if (Itr->Equals(Delegate))
+			if ((*Itr)->Equals(Delegate))
 			{
 				delete *Itr;
-				Delegates.erase(Itr);
+				if (Itr == CurrentItr)
+				{
+					Itr = Delegates.erase(Itr);
+					CurrentItr = Itr;
+					if (CurrentItr != Delegates.begin())
+					{
+						--CurrentItr;
+					}
+				}
+				else
+				{
+					Itr = Delegates.erase(Itr);
+				}
+			}
+			else
+			{
+				++Itr;
 			}
 		}
 	}
@@ -203,9 +226,17 @@ public:
 	 */
 	void Call(Arguments... Args)
 	{
-		for (Callable<Arguments...>* Delegate : Delegates)
+		assert(CurrentItr == Delegates.end() && "Event called recursively");
+
+		CurrentItr = Delegates.begin();
+		while (CurrentItr != Delegates.end())
 		{
-			Delegate->Call(Args...);
+			(*CurrentItr)->Call(Args...);
+
+			if (CurrentItr == Delegates.end())
+				break;
+
+			++CurrentItr;
 		}
 	}
 
@@ -214,6 +245,11 @@ public:
 	 */
 	void Clear()
 	{
+		if (CurrentItr != Delegates.end())
+		{
+			CurrentItr = Delegates.end();
+		}
+
 		for (Callable<Arguments...>* Delegate : Delegates)
 		{
 			delete Delegate;
@@ -224,4 +260,6 @@ public:
 
 private:
 	std::list<Callable<Arguments...>*> Delegates;
+	
+	typename std::list<Callable<Arguments...>*>::iterator CurrentItr;
 };

@@ -101,3 +101,13 @@ bool ScriptManager::DoFile(const char* Path)
 
 	return true;
 }
+
+bool ScriptManager::IsActive() const
+{
+	return State != nullptr;
+}
+
+lua_State* ScriptManager::GetState()
+{
+	return State;
+}

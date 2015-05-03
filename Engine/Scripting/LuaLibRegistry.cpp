@@ -1,8 +1,8 @@
 #include "LuaLibRegistry.h"
 
-LuaLibAutomator::LuaLibAutomator(lua_CFunction Func)
+LuaLibAutomator::LuaLibAutomator(lua_CFunction Func, int Priority)
 {
-	W_INT_LLREGISTRY.AddToRegistry(Func);
+	W_INT_LLREGISTRY.AddToRegistry(Func, Priority);
 }
 
 LuaLibRegistry& LuaLibRegistry::Get()
@@ -11,16 +11,18 @@ LuaLibRegistry& LuaLibRegistry::Get()
 	return Instance;
 }
 
-void LuaLibRegistry::AddToRegistry(lua_CFunction Func)
+void LuaLibRegistry::AddToRegistry(lua_CFunction Func, int Priority)
 {
-	Functions.push_back(Func);
+	Libraries.push_back(std::make_tuple(Priority, Func));
 }
 
 void LuaLibRegistry::RegisterAll(lua_State* L)
 {
-	for (lua_CFunction Func : Functions)
+	Libraries.sort([](std::tuple<int, lua_CFunction> A, std::tuple<int, lua_CFunction> B){return std::get<0>(A) > std::get<0>(B);});
+
+	for (auto Entry : Libraries)
 	{
-		lua_pushcfunction(L, Func);
+		lua_pushcfunction(L, std::get<1>(Entry));
 		lua_call(L, 0, 0);
 	}
 }
