@@ -25,8 +25,6 @@ bool GEngine::Startup()
 {
 	CLOG_DEBUG("Engine startup");
 
-	GameWindow.Closed.Bind(this, &GEngine::Stop);
-
 	return true;
 }
 
