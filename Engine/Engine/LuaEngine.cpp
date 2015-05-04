@@ -161,6 +161,15 @@ int luaopen_window(lua_State* L)
 	lua_pushstring(L, "textEntered");
 	PushLuaValue<uint32>(L, W_ENGINE.GetGameWindow().TextEntered);
 	lua_settable(L, -3);
+
+	lua_pushstring(L, "keyPressed");
+	PushLuaValue<EKeyboardInput>(L, W_ENGINE.GetGameWindow().KeyPressed);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "keyReleased");
+	PushLuaValue<EKeyboardInput>(L, W_ENGINE.GetGameWindow().KeyReleased);
+	lua_settable(L, -3);
+
 	return 1;
 }
 

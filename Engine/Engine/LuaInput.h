@@ -1,5 +1,5 @@
 #pragma once
 
-#include "../Utility/luaext.h"
+#include "../Utility/LuaExt.h"
 
 int luaopen_input(lua_State* L);

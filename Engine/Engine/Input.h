@@ -4,6 +4,7 @@
 #include <SFML/Window/Mouse.hpp>
 
 #include "../Utility/Types.h"
+#include "../Utility/LuaExt.h"
 
 enum class EKeyboardInput : uint8
 {
@@ -180,3 +181,5 @@ struct Input
 	float Value;
 	InputCode Code;
 };
+
+void PushLuaValue(lua_State* L, EKeyboardInput Key);

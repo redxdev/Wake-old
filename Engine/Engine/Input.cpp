@@ -319,3 +319,8 @@ const char* ConvertInputModeToString(EInputMode Mode)
 		return "Value";
 	}
 }
+
+void PushLuaValue(lua_State* L, EKeyboardInput Key)
+{
+	lua_pushnumber(L, (int32)Key);
+}
