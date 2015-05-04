@@ -1,8 +1,6 @@
 #include "ScriptManager.h"
 
-#include "../Utility/luaext.h"
-#include "../Logging/LuaLogging.h"
-#include "../Engine/GEngine.h"
+#include "../Utility/LuaExt.h"
 
 #include "LuaLibRegistry.h"
 

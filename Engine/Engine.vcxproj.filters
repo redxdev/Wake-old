@@ -132,9 +132,6 @@
     <ClInclude Include="Scripting\LuaLibRegistry.h">
       <Filter>Header Files\Scripting</Filter>
     </ClInclude>
-    <ClInclude Include="Utility\LuaEvent.h">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="Scripting\LuaEngine.h">
       <Filter>Header Files\Scripting</Filter>
     </ClInclude>
@@ -145,6 +142,9 @@
       <Filter>Header Files\Scripting</Filter>
     </ClInclude>
     <ClInclude Include="Utility\LuaExt.h">
+      <Filter>Header Files\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting\LuaEvent.h">
       <Filter>Header Files\Scripting</Filter>
     </ClInclude>
   </ItemGroup>
@@ -218,12 +218,6 @@
     <ClCompile Include="Scripting\LuaLibRegistry.cpp">
       <Filter>Source Files\Scripting</Filter>
     </ClCompile>
-    <ClCompile Include="Utility\LuaEvent.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="Utility\LuaExt.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
     <ClCompile Include="Scripting\LuaInput.cpp">
       <Filter>Source Files\Scripting</Filter>
     </ClCompile>
@@ -231,6 +225,12 @@
       <Filter>Source Files\Scripting</Filter>
     </ClCompile>
     <ClCompile Include="Scripting\LuaLogging.cpp">
+      <Filter>Source Files\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\LuaExt.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripting\LuaEvent.cpp">
       <Filter>Source Files\Scripting</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,6 +1,6 @@
 #include "LuaEvent.h"
 
-#include "../Scripting/LuaLibRegistry.h"
+#include "LuaLibRegistry.h"
 
 static ILuaEventWrapper* check_event(lua_State* L)
 {

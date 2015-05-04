@@ -1,9 +1,48 @@
 #include "LuaInput.h"
 
 #include "../Engine/InputManager.h"
+#include "LuaEvent.h"
 #include "LuaLibRegistry.h"
 
+static int l_bind(lua_State* L)
+{
+	const char* Name = luaL_checkstring(L, 1);
+
+	InputBinding Binding;
+	Binding.Type = (EInputType)(uint8)luaL_checknumber(L, 2);
+	Binding.Mode = (EInputMode)(uint8)luaL_checknumber(L, 3);
+	switch (Binding.Type)
+	{
+	default:
+		break;
+
+	case EInputType::Keyboard:
+		Binding.Code.Keyboard = (EKeyboardInput)(uint8)luaL_checknumber(L, 4);
+		break;
+
+	case EInputType::Mouse:
+		Binding.Code.Mouse = (EMouseInput)(uint8)luaL_checknumber(L, 4);
+		break;
+	}
+
+	W_INPUT.Bind(Name, Binding);
+
+	return 0;
+}
+
+static int l_event(lua_State* L)
+{
+	const char* Name = luaL_checkstring(L, 1);
+
+	InputManager::InputEvent& Event = W_INPUT.Event(Name);
+	PushLuaValue<const Input&>(L, Event);
+
+	return 1;
+}
+
 static const struct luaL_reg inputlib_f[] = {
+	{ "bind", l_bind },
+	{ "event", l_event },
 	{NULL, NULL}
 };
 
@@ -17,8 +56,8 @@ static void add_constant(lua_State* L, const char* Name, int32 Value)
 #define C_AUTO(KeyName) add_constant(L, #KeyName, (int32)EKeyboardInput::KeyName)
 static void push_keyboard_constants(lua_State* L)
 {
-	// keyboard
 	lua_newtable(L);
+	C_AUTO(Unknown);
 	C_AUTO(A);
 	C_AUTO(B);
 	C_AUTO(C);
@@ -122,12 +161,51 @@ static void push_keyboard_constants(lua_State* L)
 }
 #undef C_AUTO
 
+static void push_mouse_constants(lua_State* L)
+{
+	lua_newtable(L);
+	add_constant(L, "Unknown", (int32)EMouseInput::Unknown);
+	add_constant(L, "Left", (int32)EMouseInput::Left);
+	add_constant(L, "Right", (int32)EMouseInput::Right);
+	add_constant(L, "X1", (int32)EMouseInput::X1);
+	add_constant(L, "X2", (int32)EMouseInput::X2);
+}
+
+static void push_type_constants(lua_State* L)
+{
+	lua_newtable(L);
+	add_constant(L, "Unknown", (int32)EInputType::Unknown);
+	add_constant(L, "Mouse", (int32)EInputType::Mouse);
+	add_constant(L, "Keyboard", (int32)EInputType::Keyboard);
+}
+
+static void push_mode_constants(lua_State* L)
+{
+	lua_newtable(L);
+	add_constant(L, "Unknown", (int32)EInputMode::Unknown);
+	add_constant(L, "Pressed", (int32)EInputMode::Pressed);
+	add_constant(L, "Released", (int32)EInputMode::Released);
+	add_constant(L, "Value", (int32)EInputMode::Value);
+}
+
 int luaopen_input(lua_State* L)
 {
 	luaL_register(L, "input", inputlib_f);
 	
-	lua_pushstring(L, "keyboard");
+	lua_pushstring(L, "key");
 	push_keyboard_constants(L);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "mouse");
+	push_mouse_constants(L);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "type");
+	push_type_constants(L);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "mode");
+	push_mode_constants(L);
 	lua_settable(L, -3);
 
 	return 1;

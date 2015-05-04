@@ -2,7 +2,8 @@
 
 #include "../Engine/GEngine.h"
 #include "LuaLibRegistry.h"
-#include "../Utility/LuaEvent.h"
+#include "LuaEvent.h"
+#include "../Scripting/LuaInput.h"
 
 static int l_stop(lua_State* L)
 {
@@ -167,6 +168,30 @@ int luaopen_window(lua_State* L)
 
 	lua_pushstring(L, "keyReleased");
 	PushLuaValue<EKeyboardInput>(L, W_ENGINE.GetGameWindow().KeyReleased);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "mouseButtonPressed");
+	PushLuaValue<EMouseInput>(L, W_ENGINE.GetGameWindow().MouseButtonPressed);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "mouseButtonReleased");
+	PushLuaValue<EMouseInput>(L, W_ENGINE.GetGameWindow().MouseButtonReleased);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "mouseWheelMoved");
+	PushLuaValue<int32>(L, W_ENGINE.GetGameWindow().MouseWheelMoved);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "mouseMoved");
+	PushLuaValue<int32, int32>(L, W_ENGINE.GetGameWindow().MouseMoved);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "mouseEntered");
+	PushLuaValue<>(L, W_ENGINE.GetGameWindow().MouseEntered);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "mouseLeft");
+	PushLuaValue<>(L, W_ENGINE.GetGameWindow().MouseLeft);
 	lua_settable(L, -3);
 
 	return 1;

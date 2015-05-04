@@ -1,7 +1,7 @@
 #pragma once
 
-#include "LuaExt.h"
-#include "Event.h"
+#include "../Utility/LuaExt.h"
+#include "../Utility/Event.h"
 #include "../Scripting/ScriptManager.h"
 
 template<typename... Arguments>

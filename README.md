@@ -2,6 +2,10 @@
 
 Wake is a small OpenGL game engine written in C++. It is built around a simple Actor/Component framework.
 
+## Scripting
+
+Wake supports Lua for scripting via LuaJIT. Scripts can be found in the Distribution directory under game, lib, and config.
+
 ## Actors
 
 An actor is anything that is in the world. Every physical (and many non-physical) objects are represented as actors. Every actor

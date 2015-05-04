@@ -322,5 +322,54 @@ const char* ConvertInputModeToString(EInputMode Mode)
 
 void PushLuaValue(lua_State* L, EKeyboardInput Key)
 {
-	lua_pushnumber(L, (int32)Key);
+	lua_pushnumber(L, (uint8)Key);
+}
+
+void PushLuaValue(lua_State* L, EMouseInput Button)
+{
+	lua_pushnumber(L, (uint8)Button);
+}
+
+void PushLuaValue(lua_State* L, EInputMode Mode)
+{
+	lua_pushnumber(L, (uint8)Mode);
+}
+
+void PushLuaValue(lua_State* L, EInputType Type)
+{
+	lua_pushnumber(L, (uint8)Type);
+}
+
+void PushLuaValue(lua_State* L, const Input& Input)
+{
+	lua_newtable(L);
+
+	lua_pushstring(L, "type");
+	PushLuaValue(L, Input.Type);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "mode");
+	PushLuaValue(L, Input.Mode);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "value");
+	lua_pushnumber(L, Input.Value);
+	lua_settable(L, -3);
+
+	lua_pushstring(L, "code");
+	switch (Input.Type)
+	{
+	default:
+		PushLuaValue(L, 0);
+		break;
+
+	case EInputType::Keyboard:
+		PushLuaValue(L, Input.Code.Keyboard);
+		break;
+
+	case EInputType::Mouse:
+		PushLuaValue(L, Input.Code.Mouse);
+		break;
+	}
+	lua_settable(L, -3);
 }
