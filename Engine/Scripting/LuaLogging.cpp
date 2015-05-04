@@ -1,8 +1,8 @@
 #include "LuaLogging.h"
 
-#include "LogMacros.h"
+#include "../Logging/LogMacros.h"
 
-#include "../Scripting/LuaLibRegistry.h"
+#include "LuaLibRegistry.h"
 
 Logger ScriptLogger("sg");
 

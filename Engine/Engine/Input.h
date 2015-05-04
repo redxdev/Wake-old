@@ -181,5 +181,3 @@ struct Input
 	float Value;
 	InputCode Code;
 };
-
-void PushLuaValue(lua_State* L, EKeyboardInput Key);

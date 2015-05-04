@@ -1,8 +1,7 @@
 #include "LuaEngine.h"
 
-#include "GEngine.h"
-
-#include "../Scripting/LuaLibRegistry.h"
+#include "../Engine/GEngine.h"
+#include "LuaLibRegistry.h"
 #include "../Utility/LuaEvent.h"
 
 static int l_stop(lua_State* L)

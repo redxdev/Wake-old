@@ -1,7 +1,7 @@
 #include "LuaInput.h"
 
-#include "InputManager.h"
-#include "../Scripting/LuaLibRegistry.h"
+#include "../Engine/InputManager.h"
+#include "LuaLibRegistry.h"
 
 static const struct luaL_reg inputlib_f[] = {
 	{NULL, NULL}

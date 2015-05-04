@@ -129,23 +129,23 @@
     <ClInclude Include="Scripting\ScriptManager.h">
       <Filter>Header Files\Scripting</Filter>
     </ClInclude>
-    <ClInclude Include="Logging\LuaLogging.h">
-      <Filter>Header Files\Logging</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\LuaEngine.h">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
     <ClInclude Include="Scripting\LuaLibRegistry.h">
       <Filter>Header Files\Scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\LuaInput.h">
-      <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Utility\LuaEvent.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="Scripting\LuaEngine.h">
+      <Filter>Header Files\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting\LuaInput.h">
+      <Filter>Header Files\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting\LuaLogging.h">
+      <Filter>Header Files\Scripting</Filter>
+    </ClInclude>
     <ClInclude Include="Utility\LuaExt.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Scripting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -212,26 +212,26 @@
     <ClCompile Include="Game\Setup.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Logging\LuaLogging.cpp">
-      <Filter>Source Files\Logging</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\LuaEngine.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Scripting\ScriptManager.cpp">
       <Filter>Source Files\Scripting</Filter>
     </ClCompile>
     <ClCompile Include="Scripting\LuaLibRegistry.cpp">
       <Filter>Source Files\Scripting</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\LuaInput.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Utility\LuaEvent.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="Utility\LuaExt.cpp">
       <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripting\LuaInput.cpp">
+      <Filter>Source Files\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripting\LuaEngine.cpp">
+      <Filter>Source Files\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripting\LuaLogging.cpp">
+      <Filter>Source Files\Scripting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
