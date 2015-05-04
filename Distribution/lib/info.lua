@@ -1,4 +1,4 @@
--- Information library, primarily used to print out client info on startup
+-- Information library, used to print out client info on startup
 local logger = log.new("ClientInfo")
 
 logger:info(_VERSION)
