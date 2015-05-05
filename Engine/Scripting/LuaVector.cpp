@@ -173,11 +173,41 @@ static int l_vector2_m_tostring(lua_State* L)
 	return 1;
 }
 
+static int l_vector2_m_eq(lua_State* L)
+{
+	auto& VecA = *check_vec2(L, 1);
+	auto& VecB = *check_vec2(L, 2);
+	lua_pushboolean(L, VecA == VecB);
+	return 1;
+}
+
 static int l_vector2_m_len(lua_State* L)
 {
 	check_vec2(L, 1);
 	lua_pushnumber(L, 2);
 	return 1;
+}
+
+static int l_vector2_m_mul(lua_State* L)
+{
+	if (lua_isnumber(L, 1))
+	{
+		float Num = luaL_checknumber(L, 1);
+		auto& Vec = *check_vec2(L, 2);
+		PushLuaValue(L, Num * Vec);
+		return 1;
+	}
+	else if (lua_isnumber(L, 2))
+	{
+		auto& Vec = *check_vec2(L, 1);
+		float Num = luaL_checknumber(L, 2);
+		PushLuaValue(L, Vec * Num);
+		return 1;
+	}
+	else
+	{
+		return l_vector2_dot(L);
+	}
 }
 
 static const struct luaL_reg vector2_f[] = {
@@ -194,9 +224,10 @@ static const struct luaL_reg vector2_f[] = {
 
 static const struct luaL_reg vector2_m[] = {
 	{ "__gc", l_vector2_m_gc },
+	{ "__eq", l_vector2_m_eq },
 	{ "__tostring", l_vector2_m_tostring },
 	{ "__len", l_vector2_m_len },
-	{ "__mul", l_vector2_dot },
+	{ "__mul", l_vector2_m_mul },
 	{ "table", l_vector2_table },
 	{ "get", l_vector2_get },
 	{ "set", l_vector2_set },
