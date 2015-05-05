@@ -10,5 +10,8 @@ end
 
 window.closed:bind(gameWindowClosed)
 
-local a = Vector3.new(1, 2, 3)
-local b = Vector3.new({1, 3, 5})
+local a = Vector4.new(1, 2, 3, 4)
+local b = Vector4.new{5, 6, 7, 8}
+print(a / 10)
+print(10 / a)
+print(a / b)

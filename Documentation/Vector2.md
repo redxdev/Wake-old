@@ -19,7 +19,7 @@ place of a Vector2 object in most cases:
     print(Vector2.dot(Vector2.new(1, 2), Vector2.new(3, 4)))
 
 This will work with mathematical operators as well, as long as at least one
-operand is a Vector2
+operand is a Vector2 (excluding equality).
 
     local a = Vector2.new(1, 2)
     print(a * {3, 4})
@@ -44,7 +44,7 @@ Constructor. Creates a new Vector2 with components `x` and `y`.
 
 ### Vector2:table() : table
 
-Get the table representation of this Vector.
+Get the table representation of this Vector3.
 
 ### Vector2:get(index : number) : number
 
@@ -56,7 +56,7 @@ Set the component at `index` to `val`.
 
 ### Vector2:setAll(x : number, y : number)
 
-Set component x to `x` and component y to `y`.
+Set the values of all components.
 
 ### Vector2:dot(val : Vector2) : number
 
@@ -74,14 +74,26 @@ Get the length of a vector.
 
 Applies a function `f` to all components in a vector, returning a new vector.
 
+### Vector2:normalized() : Vector2
+
+Get the normalized vector.
+
+### Vector2:reflect(normal : Vector3) : Vector2
+
+Reflect a vector.
+
+### Vector2:refract(normal : Vector3, index : number) : Vector2
+
+Refract a vector.
+
 ### String
 
 Vector2 will return itself as a string in the form `(x, y)`.
 
 ### Equality
 
-A Vector2 is equal to all other Vector2s with the same components. This includes
-tables that can be converted to Vector2s
+A Vector2 is equal to all other Vector2s with the same components. Due to the
+way lua handles tables, this will not work unless both components are Vector2s.
 
 ### Length Operator
 
