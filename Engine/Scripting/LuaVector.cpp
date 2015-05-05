@@ -2,7 +2,7 @@
 
 #include "LuaLibRegistry.h"
 
-#include <glm/vec2.hpp>
+#include <glm/glm.hpp>
 #include <sstream>
 
 struct Vec2Container
@@ -32,7 +32,7 @@ static int l_vector2_new(lua_State* L)
 	{
 	default:
 		luaL_error(L, "Expected 1 or 2 arguments");
-		break;
+		return 0;
 
 	case 0:
 		PushLuaValue(L, glm::vec2());
@@ -43,7 +43,7 @@ static int l_vector2_new(lua_State* L)
 		{
 		default:
 			luaL_error(L, "Argument #1 must be a table or a Vector2");
-			break;
+			return 0;
 
 		case LUA_TUSERDATA:
 			{
@@ -132,6 +132,31 @@ static int l_vector2_setall(lua_State* L)
 	return 0;
 }
 
+static int l_vector2_dot(lua_State* L)
+{
+	auto& VecA = *check_vec2(L, 1);
+	auto& VecB = *check_vec2(L, 2);
+
+	lua_pushnumber(L, glm::dot(VecA, VecB));
+	return 1;
+}
+
+static int l_vector2_distance(lua_State* L)
+{
+	auto& VecA = *check_vec2(L, 1);
+	auto& VecB = *check_vec2(L, 2);
+
+	lua_pushnumber(L, glm::distance(VecA, VecB));
+	return 1;
+}
+
+static int l_vector2_length(lua_State* L)
+{
+	auto& Vec = *check_vec2(L, 1);
+	lua_pushnumber(L, glm::length(Vec));
+	return 1;
+}
+
 static int l_vector2_m_gc(lua_State* L)
 {
 	delete check_vec2(L, 1);
@@ -161,6 +186,9 @@ static const struct luaL_reg vector2_f[] = {
 	{ "get", l_vector2_get },
 	{ "set", l_vector2_set },
 	{ "setAll", l_vector2_setall },
+	{ "dot", l_vector2_dot },
+	{ "distance", l_vector2_distance },
+	{ "length", l_vector2_length },
 	{NULL, NULL}
 };
 
@@ -168,10 +196,14 @@ static const struct luaL_reg vector2_m[] = {
 	{ "__gc", l_vector2_m_gc },
 	{ "__tostring", l_vector2_m_tostring },
 	{ "__len", l_vector2_m_len },
+	{ "__mul", l_vector2_dot },
 	{ "table", l_vector2_table },
 	{ "get", l_vector2_get },
 	{ "set", l_vector2_set },
 	{ "setAll", l_vector2_setall },
+	{ "dot", l_vector2_dot },
+	{ "distance", l_vector2_distance },
+	{ "length", l_vector2_length },
 	{ NULL, NULL }
 };
 
