@@ -74,7 +74,7 @@ Get the length of a vector.
 
 Applies a function `f` to all components in a vector, returning a new vector.
 
-### To String
+### String
 
 Vector2 will return itself as a string in the form `(x, y)`.
 

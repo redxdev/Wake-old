@@ -23,21 +23,17 @@ glm::vec2* luaW_checkvector2(lua_State* L, int idx)
 {
 	if (lua_istable(L, idx))
 	{
+		luaL_argcheck(L, lua_objlen(L, 1), 1, "table must be of length 2");
+
 		lua_pushnumber(L, 1);
 		lua_gettable(L, idx);
-		if (!lua_isnumber(L, -1))
-		{
-			luaL_error(L, "First index of table must be a number");
-		}
+		luaL_argcheck(L, lua_isnumber(L, -1), 1, "First index of table must be a number");
 		double X = lua_tonumber(L, -1);
 		lua_pop(L, 1);
 
 		lua_pushnumber(L, 2);
 		lua_gettable(L, idx);
-		if (!lua_isnumber(L, -1))
-		{
-			luaL_error(L, "Second index of table must be a number");
-		}
+		luaL_argcheck(L, lua_isnumber(L, -1), 1, "Second index of table must be a number");
 		double Y = lua_tonumber(L, -1);
 		PushLuaValue(L, glm::vec2(X, Y));
 		return luaW_checkvector2(L, -1);
