@@ -10,5 +10,5 @@ end
 
 window.closed:bind(gameWindowClosed)
 
-local a = Vector2.new(10, 20)
-local b = Vector2.new({5, 6})
+local a = Vector3.new(1, 2, 3)
+local b = Vector3.new({1, 3, 5})

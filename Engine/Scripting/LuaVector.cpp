@@ -27,13 +27,13 @@ glm::vec2* luaW_checkvector2(lua_State* L, int idx)
 
 		lua_pushnumber(L, 1);
 		lua_gettable(L, idx);
-		luaL_argcheck(L, lua_isnumber(L, -1), 1, "First index of table must be a number");
+		luaL_argcheck(L, lua_isnumber(L, -1), 1, "first index of table must be a number");
 		double X = lua_tonumber(L, -1);
 		lua_pop(L, 1);
 
 		lua_pushnumber(L, 2);
 		lua_gettable(L, idx);
-		luaL_argcheck(L, lua_isnumber(L, -1), 1, "Second index of table must be a number");
+		luaL_argcheck(L, lua_isnumber(L, -1), 1, "second index of table must be a number");
 		double Y = lua_tonumber(L, -1);
 		PushLuaValue(L, glm::vec2(X, Y));
 		return luaW_checkvector2(L, -1);
@@ -49,7 +49,7 @@ static int l_vector2_new(lua_State* L)
 	switch (lua_gettop(L))
 	{
 	default:
-		luaL_error(L, "Expected 1 or 2 arguments");
+		luaL_error(L, "expected 0, 1 or 2 arguments");
 		return 0;
 
 	case 0:
@@ -105,15 +105,15 @@ static int l_vector2_set(lua_State* L)
 	int Index = (int)luaL_checknumber(L, 2);
 	luaL_argcheck(L, Index == 1 || Index == 2, 2, "Must be between 1 and 2");
 	double Value = luaL_checknumber(L, 3);
-	Vec[Index-1] = Value;
+	Vec[Index-1] = (float)Value;
 	return 0;
 }
 
 static int l_vector2_setall(lua_State* L)
 {
 	auto& Vec = *luaW_checkvector2(L, 1);
-	Vec[0] = luaL_checknumber(L, 2);
-	Vec[1] = luaL_checknumber(L, 3);
+	Vec[0] = (float)luaL_checknumber(L, 2);
+	Vec[1] = (float)luaL_checknumber(L, 3);
 	return 0;
 }
 
@@ -151,14 +151,14 @@ static int l_vector2_apply(lua_State* L)
 	lua_pushnumber(L, Vec[0]);
 	lua_call(L, 1, 1);
 
-	float X = lua_tonumber(L, -1);
+	float X = (float)lua_tonumber(L, -1);
 	lua_pop(L, 1);
 
 	lua_pushvalue(L, 2);
 	lua_pushnumber(L, Vec[1]);
 	lua_call(L, 1, 1);
 
-	float Y = lua_tonumber(L, -1);
+	float Y = (float)lua_tonumber(L, -1);
 	lua_pop(L, 1);
 
 	PushLuaValue(L, glm::vec2(X, Y));
@@ -353,3 +353,156 @@ int luaopen_vector2(lua_State* L)
 }
 
 W_REGISTER_LUA_LIB(luaopen_vector2);
+
+struct Vec3Container
+{
+	glm::vec3* Vector;
+};
+
+void PushLuaValue(lua_State* L, const glm::vec3& Value)
+{
+	Vec3Container* Data = (Vec3Container*)lua_newuserdata(L, sizeof(Vec3Container));
+	Data->Vector = new glm::vec3(Value);
+
+	luaL_getmetatable(L, "Wake.Vector3");
+	lua_setmetatable(L, -2);
+}
+
+glm::vec3* luaW_checkvector3(lua_State* L, int idx)
+{
+	if (lua_istable(L, idx))
+	{
+		luaL_argcheck(L, lua_objlen(L, 1) == 3, 1, "table must be of length 3");
+
+		lua_pushnumber(L, 1);
+		lua_gettable(L, idx);
+		luaL_argcheck(L, lua_isnumber(L, -1), 1, "First index of table must be a number");
+		double X = lua_tonumber(L, -1);
+		lua_pop(L, 1);
+
+		lua_pushnumber(L, 2);
+		lua_gettable(L, idx);
+		luaL_argcheck(L, lua_isnumber(L, -1), 1, "Second index of table must be a number");
+		double Y = lua_tonumber(L, -1);
+
+		lua_pushnumber(L, 3);
+		lua_gettable(L, idx);
+		luaL_argcheck(L, lua_isnumber(L, -1), 1, "Third index of table must be a number");
+		double Z = lua_tonumber(L, -1);
+
+		PushLuaValue(L, glm::vec3(X, Y, Z));
+		return luaW_checkvector3(L, -1);
+	}
+
+	void* Data = luaL_checkudata(L, idx, "Wake.Vector3");
+	luaL_argcheck(L, Data != NULL, idx, "'Vector2' expected");
+	return ((Vec3Container*)Data)->Vector;
+}
+
+static int l_vector3_new(lua_State* L)
+{
+	switch (lua_gettop(L))
+	{
+	default:
+		luaL_error(L, "expected 0, 1 or 3 arguments");
+		return 0;
+
+	case 0:
+		PushLuaValue(L, glm::vec3());
+		return 1;
+
+	case 1:
+		{
+			glm::vec3* Vec = luaW_checkvector3(L, 1);
+			PushLuaValue(L, *Vec);
+			return 1;
+		}
+
+	case 3:
+		{
+			double X = luaL_checknumber(L, 1);
+			double Y = luaL_checknumber(L, 2);
+			double Z = luaL_checknumber(L, 3);
+			PushLuaValue(L, glm::vec3(X, Y, Z));
+			return 1;
+		}
+	}
+}
+
+static int l_vector3_m_gc(lua_State* L)
+{
+	delete luaW_checkvector3(L, 1);
+	return 0;
+}
+
+static int l_vector3_m_tostring(lua_State* L)
+{
+	auto& Vec = *luaW_checkvector3(L, 1);
+	std::stringstream ss;
+	ss << "(" << Vec[0] << "," << Vec[1] << "," << Vec[2] << ")";
+	lua_pushstring(L, ss.str().c_str());
+
+	return 1;
+}
+
+static int l_vector3_table(lua_State* L)
+{
+	auto& Vec = *luaW_checkvector3(L, 1);
+
+	lua_newtable(L);
+
+	lua_pushnumber(L, 1);
+	lua_pushnumber(L, Vec[0]);
+	lua_settable(L, -3);
+
+	lua_pushnumber(L, 2);
+	lua_pushnumber(L, Vec[1]);
+	lua_settable(L, -3);
+
+	lua_pushnumber(L, 3);
+	lua_pushnumber(L, Vec[2]);
+	lua_settable(L, -3);
+
+	return 1;
+}
+
+static int l_vector3_get(lua_State* L)
+{
+	auto& Vec = *luaW_checkvector3(L, 1);
+	int Index = (int)luaL_checknumber(L, 2);
+	luaL_argcheck(L, Index >= 1 && Index <= 3, 2, "must be between 1 and 3");
+	lua_pushnumber(L, Vec[Index - 1]);
+	return 1;
+}
+
+static const struct luaL_reg vector3_f[] = {
+	{ "new", l_vector3_new },
+	{ "table", l_vector3_table },
+	{ "get", l_vector3_get },
+	{ NULL, NULL }
+};
+
+static const struct luaL_reg vector3_m[] = {
+	{ "__gc", l_vector3_m_gc },
+	{ "__tostring", l_vector3_m_tostring },
+	{ "table", l_vector3_table },
+	{ "get", l_vector3_get },
+	{ NULL, NULL }
+};
+
+int luaopen_vector3(lua_State* L)
+{
+	luaL_newmetatable(L, "Wake.Vector3");
+
+	lua_pushstring(L, "__index");
+	lua_pushvalue(L, -2);
+	lua_settable(L, -3);
+
+	luaL_register(L, NULL, vector3_m);
+
+	luaL_register(L, "Vector3", vector3_f);
+
+	return 1;
+}
+
+W_REGISTER_LUA_LIB(luaopen_vector3);
