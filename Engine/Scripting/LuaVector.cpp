@@ -23,7 +23,7 @@ glm::vec2* luaW_checkvector2(lua_State* L, int idx)
 {
 	if (lua_istable(L, idx))
 	{
-		luaL_argcheck(L, lua_objlen(L, 1), 1, "table must be of length 2");
+		luaL_argcheck(L, lua_objlen(L, 1) == 2, 1, "table must be of length 2");
 
 		lua_pushnumber(L, 1);
 		lua_gettable(L, idx);
