@@ -11,7 +11,7 @@ struct LuaLogger
 	Logger* Logger;
 };
 
-static Logger* check_logger(lua_State* L)
+Logger* luaW_checklogger(lua_State* L)
 {
 	void* Data = luaL_checkudata(L, 1, "Wake.log");
 	luaL_argcheck(L, Data != NULL, 1, "'log' expected");
@@ -22,7 +22,7 @@ static void log_impl(lua_State* L, LogLevel Level)
 {
 	if (lua_type(L, 1) == LUA_TUSERDATA)
 	{
-		Logger* Log = check_logger(L);
+		Logger* Log = luaW_checklogger(L);
 		const char* Str = luaL_checkstring(L, 2);
 		WAKE_LOG(*Log, Level, Str);
 	}
@@ -88,13 +88,13 @@ static int l_fatal(lua_State* L)
 
 static int l_m_gc(lua_State* L)
 {
-	delete check_logger(L);
+	delete luaW_checklogger(L);
 	return 0;
 }
 
 static int l_m_tostring(lua_State* L)
 {
-	Logger* Log = check_logger(L);
+	Logger* Log = luaW_checklogger(L);
 	lua_pushstring(L, Log->GetName());
 	return 1;
 }

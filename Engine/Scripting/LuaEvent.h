@@ -106,6 +106,8 @@ struct LEWContainer
 	ILuaEventWrapper* Wrapper;
 };
 
+ILuaEventWrapper* luaW_checkevent(lua_State* L);
+
 template<typename... T>
 void PushLuaValue(lua_State* L, Event<T...>& E)
 {

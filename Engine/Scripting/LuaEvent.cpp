@@ -2,7 +2,7 @@
 
 #include "LuaLibRegistry.h"
 
-static ILuaEventWrapper* check_event(lua_State* L)
+ILuaEventWrapper* luaW_checkevent(lua_State* L)
 {
 	void* DataPtr = luaL_checkudata(L, 1, "Wake.event");
 	luaL_argcheck(L, DataPtr != NULL, 1, "'event' expected");
@@ -13,7 +13,7 @@ static ILuaEventWrapper* check_event(lua_State* L)
 
 static int l_bind(lua_State* L)
 {
-	auto Container = check_event(L);
+	auto Container = luaW_checkevent(L);
 
 	luaL_argcheck(L, lua_isfunction(L, 2), 2, "'function' expected");
 	lua_pushvalue(L, 2);
@@ -24,7 +24,7 @@ static int l_bind(lua_State* L)
 
 static int l_unbind(lua_State* L)
 {
-	auto Container = check_event(L);
+	auto Container = luaW_checkevent(L);
 
 	luaL_argcheck(L, lua_isfunction(L, 2), 2, "'function' expected");
 	lua_pushvalue(L, 2);
@@ -35,7 +35,7 @@ static int l_unbind(lua_State* L)
 
 static int l_clear(lua_State* L)
 {
-	auto Container = check_event(L);
+	auto Container = luaW_checkevent(L);
 	Container->Clear();
 
 	return 0;
@@ -43,13 +43,13 @@ static int l_clear(lua_State* L)
 
 static int l_m_gc(lua_State* L)
 {
-	delete check_event(L);
+	delete luaW_checkevent(L);
 	return 0;
 }
 
 static int l_m_tostring(lua_State* L)
 {
-	auto Container = check_event(L);
+	auto Container = luaW_checkevent(L);
 	lua_pushstring(L, "Event<>");
 	return 1;
 }
