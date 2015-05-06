@@ -3,6 +3,7 @@
 #include "LuaLibRegistry.h"
 
 #include <glm/glm.hpp>
+#include <glm/gtx/string_cast.hpp>
 #include <sstream>
 
 struct Vec2Container
@@ -23,7 +24,7 @@ glm::vec2* luaW_checkvector2(lua_State* L, int idx)
 {
 	if (lua_istable(L, idx))
 	{
-		luaL_argcheck(L, lua_objlen(L, 1) == 2, 1, "table must be of length 2");
+		luaL_argcheck(L, lua_objlen(L, idx) == 2, 1, "table must be of length 2");
 
 		lua_pushnumber(L, 1);
 		lua_gettable(L, idx);
@@ -198,9 +199,7 @@ static int l_vector2_m_gc(lua_State* L)
 static int l_vector2_m_tostring(lua_State* L)
 {
 	auto& Vec = *luaW_checkvector2(L, 1);
-	std::stringstream ss;
-	ss << "(" << Vec[0] << "," << Vec[1] << ")";
-	lua_pushstring(L, ss.str().c_str());
+	lua_pushstring(L, glm::to_string(Vec).c_str());
 
 	return 1;
 }
@@ -402,7 +401,7 @@ glm::vec3* luaW_checkvector3(lua_State* L, int idx)
 {
 	if (lua_istable(L, idx))
 	{
-		luaL_argcheck(L, lua_objlen(L, 1) == 3, 1, "table must be of length 3");
+		luaL_argcheck(L, lua_objlen(L, idx) == 3, 1, "table must be of length 3");
 
 		lua_pushnumber(L, 1);
 		lua_gettable(L, idx);
@@ -613,9 +612,7 @@ static int l_vector3_m_eq(lua_State* L)
 static int l_vector3_m_tostring(lua_State* L)
 {
 	auto& Vec = *luaW_checkvector3(L, 1);
-	std::stringstream ss;
-	ss << "(" << Vec[0] << "," << Vec[1] << "," << Vec[2] << ")";
-	lua_pushstring(L, ss.str().c_str());
+	lua_pushstring(L, glm::to_string(Vec).c_str());
 
 	return 1;
 }
@@ -811,7 +808,7 @@ glm::vec4* luaW_checkvector4(lua_State* L, int idx)
 {
 	if (lua_istable(L, idx))
 	{
-		luaL_argcheck(L, lua_objlen(L, 1) == 4, 1, "table must be of length 4");
+		luaL_argcheck(L, lua_objlen(L, idx) == 4, 1, "table must be of length 4");
 
 		lua_pushnumber(L, 1);
 		lua_gettable(L, idx);
@@ -1031,9 +1028,7 @@ static int l_vector4_refract(lua_State* L)
 static int l_vector4_m_tostring(lua_State* L)
 {
 	auto& Vec = *luaW_checkvector4(L, 1);
-	std::stringstream ss;
-	ss << "(" << Vec[0] << "," << Vec[1] << "," << Vec[2] << "," << Vec[3] << ")";
-	lua_pushstring(L, ss.str().c_str());
+	lua_pushstring(L, glm::to_string(Vec).c_str());
 
 	return 1;
 }

@@ -93,7 +93,7 @@ Get the result of the cross product between two vectors.
 
 ### String
 
-Vector3 will return itself as a string in the form `(x, y, z)`.
+Vector3 will return itself as a string.
 
 ### Equality
 

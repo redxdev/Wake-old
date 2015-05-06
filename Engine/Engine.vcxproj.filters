@@ -150,7 +150,7 @@
     <ClInclude Include="Scripting\LuaVector.h">
       <Filter>Header Files\Scripting</Filter>
     </ClInclude>
-    <ClInclude Include="Scripting\LuaMatrix.h">
+    <ClInclude Include="Scripting\LuaMatrix2x2.h">
       <Filter>Header Files\Scripting</Filter>
     </ClInclude>
   </ItemGroup>
@@ -242,7 +242,7 @@
     <ClCompile Include="Scripting\LuaVector.cpp">
       <Filter>Source Files\Scripting</Filter>
     </ClCompile>
-    <ClCompile Include="Scripting\LuaMatrix.cpp">
+    <ClCompile Include="Scripting\LuaMatrix2x2.cpp">
       <Filter>Source Files\Scripting</Filter>
     </ClCompile>
   </ItemGroup>

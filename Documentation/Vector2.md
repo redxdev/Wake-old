@@ -88,7 +88,7 @@ Refract a vector.
 
 ### String
 
-Vector2 will return itself as a string in the form `(x, y)`.
+Vector2 will return itself as a string.
 
 ### Equality
 

@@ -89,7 +89,7 @@ Refract a vector.
 
 ### String
 
-Vector4 will return itself as a string in the form `(x, y, z, w)`.
+Vector4 will return itself as a string.
 
 ### Equality
 
