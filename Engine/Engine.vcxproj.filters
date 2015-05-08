@@ -153,6 +153,9 @@
     <ClInclude Include="Scripting\LuaMatrix2x2.h">
       <Filter>Header Files\Scripting</Filter>
     </ClInclude>
+    <ClInclude Include="Scripting\LuaMatrix2x3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -244,6 +247,9 @@
     </ClCompile>
     <ClCompile Include="Scripting\LuaMatrix2x2.cpp">
       <Filter>Source Files\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripting\LuaMatrix2x3.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

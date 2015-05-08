@@ -4,6 +4,8 @@
 #include "../Utility/Event.h"
 #include "../Scripting/ScriptManager.h"
 
+#define W_MT_EVENT ("Wake.Event")
+
 template<typename... Arguments>
 class LuaCallable : public Callable<Arguments...>
 {
@@ -114,7 +116,7 @@ void PushLuaValue(lua_State* L, Event<T...>& E)
 	auto Container = (LEWContainer*)lua_newuserdata(L, sizeof(LEWContainer));
 	Container->Wrapper = new LuaEventWrapper<T...>(E);
 
-	luaL_getmetatable(L, "Wake.event");
+	luaL_getmetatable(L, W_MT_EVENT);
 	lua_setmetatable(L, -2);
 }
 

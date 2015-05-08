@@ -16,7 +16,7 @@ void PushLuaValue(lua_State* L, const glm::vec2& Value)
 	Vec2Container* Data = (Vec2Container*)lua_newuserdata(L, sizeof(Vec2Container));
 	Data->Vector = new glm::vec2(Value);
 
-	luaL_getmetatable(L, "Wake.Vector2");
+	luaL_getmetatable(L, W_MT_VEC2);
 	lua_setmetatable(L, -2);
 }
 
@@ -40,7 +40,7 @@ glm::vec2* luaW_checkvector2(lua_State* L, int idx)
 		return luaW_checkvector2(L, -1);
 	}
 
-	void* Data = luaL_checkudata(L, idx, "Wake.Vector2");
+	void* Data = luaL_checkudata(L, idx, W_MT_VEC2);
 	luaL_argcheck(L, Data != NULL, idx, "'Vector2' expected");
 	return ((Vec2Container*)Data)->Vector;
 }
@@ -368,7 +368,7 @@ static const struct luaL_reg vector2_m[] = {
 
 int luaopen_vector2(lua_State* L)
 {
-	luaL_newmetatable(L, "Wake.Vector2");
+	luaL_newmetatable(L, W_MT_VEC2);
 
 	lua_pushstring(L, "__index");
 	lua_pushvalue(L, -2);
@@ -393,7 +393,7 @@ void PushLuaValue(lua_State* L, const glm::vec3& Value)
 	Vec3Container* Data = (Vec3Container*)lua_newuserdata(L, sizeof(Vec3Container));
 	Data->Vector = new glm::vec3(Value);
 
-	luaL_getmetatable(L, "Wake.Vector3");
+	luaL_getmetatable(L, W_MT_VEC3);
 	lua_setmetatable(L, -2);
 }
 
@@ -423,7 +423,7 @@ glm::vec3* luaW_checkvector3(lua_State* L, int idx)
 		return luaW_checkvector3(L, -1);
 	}
 
-	void* Data = luaL_checkudata(L, idx, "Wake.Vector3");
+	void* Data = luaL_checkudata(L, idx, W_MT_VEC3);
 	luaL_argcheck(L, Data != NULL, idx, "'Vector3' expected");
 	return ((Vec3Container*)Data)->Vector;
 }
@@ -775,7 +775,7 @@ static const struct luaL_reg vector3_m[] = {
 
 int luaopen_vector3(lua_State* L)
 {
-	luaL_newmetatable(L, "Wake.Vector3");
+	luaL_newmetatable(L, W_MT_VEC3);
 
 	lua_pushstring(L, "__index");
 	lua_pushvalue(L, -2);
@@ -800,7 +800,7 @@ void PushLuaValue(lua_State* L, const glm::vec4& Value)
 	Vec4Container* Data = (Vec4Container*)lua_newuserdata(L, sizeof(Vec4Container));
 	Data->Vector = new glm::vec4(Value);
 
-	luaL_getmetatable(L, "Wake.Vector4");
+	luaL_getmetatable(L, W_MT_VEC4);
 	lua_setmetatable(L, -2);
 }
 
@@ -835,7 +835,7 @@ glm::vec4* luaW_checkvector4(lua_State* L, int idx)
 		return luaW_checkvector4(L, -1);
 	}
 
-	void* Data = luaL_checkudata(L, idx, "Wake.Vector4");
+	void* Data = luaL_checkudata(L, idx, W_MT_VEC4);
 	luaL_argcheck(L, Data != NULL, idx, "'Vector4' expected");
 	return ((Vec4Container*)Data)->Vector;
 }
@@ -1190,7 +1190,7 @@ static const struct luaL_reg vector4_m[] = {
 
 int luaopen_vector4(lua_State* L)
 {
-	luaL_newmetatable(L, "Wake.Vector4");
+	luaL_newmetatable(L, W_MT_VEC4);
 
 	lua_pushstring(L, "__index");
 	lua_pushvalue(L, -2);

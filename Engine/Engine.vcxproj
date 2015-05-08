@@ -102,6 +102,7 @@
     <ClInclude Include="Scripting\LuaLogging.h" />
     <ClInclude Include="Scripting\LuaLibRegistry.h" />
     <ClInclude Include="Scripting\LuaMatrix2x2.h" />
+    <ClInclude Include="Scripting\LuaMatrix2x3.h" />
     <ClInclude Include="Scripting\LuaVector.h" />
     <ClInclude Include="Scripting\ScriptManager.h" />
     <ClInclude Include="Scripting\LuaEvent.h" />
@@ -138,6 +139,7 @@
     <ClCompile Include="Scripting\LuaLogging.cpp" />
     <ClCompile Include="Scripting\LuaLibRegistry.cpp" />
     <ClCompile Include="Scripting\LuaMatrix2x2.cpp" />
+    <ClCompile Include="Scripting\LuaMatrix2x3.cpp" />
     <ClCompile Include="Scripting\LuaVector.cpp" />
     <ClCompile Include="Scripting\ScriptManager.cpp" />
     <ClCompile Include="Scripting\LuaEvent.cpp" />

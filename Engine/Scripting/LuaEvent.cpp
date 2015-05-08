@@ -4,7 +4,7 @@
 
 ILuaEventWrapper* luaW_checkevent(lua_State* L)
 {
-	void* DataPtr = luaL_checkudata(L, 1, "Wake.event");
+	void* DataPtr = luaL_checkudata(L, 1, W_MT_EVENT);
 	luaL_argcheck(L, DataPtr != NULL, 1, "'event' expected");
 	LEWContainer* LEC = (LEWContainer*)DataPtr;
 	ILuaEventWrapper* Container = LEC->Wrapper;
@@ -72,7 +72,7 @@ static const struct luaL_reg eventlib_m[] = {
 
 int luaopen_event(lua_State* L)
 {
-	luaL_newmetatable(L, "Wake.event");
+	luaL_newmetatable(L, W_MT_EVENT);
 
 	lua_pushstring(L, "__index");
 	lua_pushvalue(L, -2);

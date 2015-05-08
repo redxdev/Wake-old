@@ -13,7 +13,7 @@ struct LuaLogger
 
 Logger* luaW_checklogger(lua_State* L)
 {
-	void* Data = luaL_checkudata(L, 1, "Wake.log");
+	void* Data = luaL_checkudata(L, 1, W_MT_LOGGER);
 	luaL_argcheck(L, Data != NULL, 1, "'log' expected");
 	return ((LuaLogger*)Data)->Logger;
 }
@@ -38,7 +38,7 @@ static int l_new(lua_State* L)
 	LuaLogger* LogData = (LuaLogger*)lua_newuserdata(L, sizeof(LuaLogger));
 	LogData->Logger = new Logger(luaL_checkstring(L, 1));
 
-	luaL_getmetatable(L, "Wake.log");
+	luaL_getmetatable(L, W_MT_LOGGER);
 	lua_setmetatable(L, -2);
 
 	return 1;
@@ -124,7 +124,7 @@ static const struct luaL_reg loglib_m[] = {
 
 int luaopen_log(lua_State* L)
 {
-	luaL_newmetatable(L, "Wake.log");
+	luaL_newmetatable(L, W_MT_LOGGER);
 
 	lua_pushstring(L, "__index");
 	lua_pushvalue(L, -2);
