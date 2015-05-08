@@ -1,5 +1,7 @@
 #include "LuaMatrix2x3.h"
 
+#include "LuaMatrix2x3.h"
+
 #include "LuaLibRegistry.h"
 
 #include <glm/glm.hpp>

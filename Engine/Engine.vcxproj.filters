@@ -129,9 +129,6 @@
     <ClInclude Include="Scripting\ScriptManager.h">
       <Filter>Header Files\Scripting</Filter>
     </ClInclude>
-    <ClInclude Include="Scripting\LuaLibRegistry.h">
-      <Filter>Header Files\Scripting</Filter>
-    </ClInclude>
     <ClInclude Include="Scripting\LuaEngine.h">
       <Filter>Header Files\Scripting</Filter>
     </ClInclude>
@@ -139,9 +136,6 @@
       <Filter>Header Files\Scripting</Filter>
     </ClInclude>
     <ClInclude Include="Scripting\LuaLogging.h">
-      <Filter>Header Files\Scripting</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility\LuaExt.h">
       <Filter>Header Files\Scripting</Filter>
     </ClInclude>
     <ClInclude Include="Scripting\LuaEvent.h">
@@ -154,7 +148,14 @@
       <Filter>Header Files\Scripting</Filter>
     </ClInclude>
     <ClInclude Include="Scripting\LuaMatrix2x3.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting\LuaMatrix2x4.h">
+      <Filter>Header Files\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting\LuaLibRegistry.h" />
+    <ClInclude Include="Utility\LuaExt.h">
+      <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -249,7 +250,10 @@
       <Filter>Source Files\Scripting</Filter>
     </ClCompile>
     <ClCompile Include="Scripting\LuaMatrix2x3.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripting\LuaMatrix2x4.cpp">
+      <Filter>Source Files\Scripting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
