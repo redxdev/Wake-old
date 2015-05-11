@@ -356,50 +356,65 @@ static int M_DivImpl(lua_State* L)
 // Specialized functions
 //
 
+static int Vec3_CrossImpl(lua_State* L)
+{
+	auto& VecA = *luaW_checkvector3(L, 1);
+	auto& VecB = *luaW_checkvector3(L, 2);
+
+	PushLuaValue(L, glm::cross(VecA, VecB));
+	return 1;
+}
+
 //
 // Registration
 //
 
-static const luaL_reg vector2_f[] = {
-	{ "new", NewImpl<glm::vec2> },
-	{ "table", TableImpl<glm::vec2> },
-	{ "get", GetImpl<glm::vec2> },
-	{ "set", SetImpl<glm::vec2> },
-	{ "setAll", SetAllImpl<glm::vec2> },
-	{ "dot", DotImpl<glm::vec2> },
-	{ "distance", DistanceImpl<glm::vec2> },
-	{ "length", LengthImpl<glm::vec2> },
-	{ "apply", ApplyImpl<glm::vec2> },
-	{ "normalize", NormalizeImpl<glm::vec2> },
-	{ "reflect", ReflectImpl<glm::vec2> },
-	{ "refract", RefractImpl<glm::vec2> },
-	{ NULL, NULL }
-};
+#define VECTOR_LIB_F(Name, Type, ...) \
+static const luaL_reg Name##_f[] = { \
+	{ "new", NewImpl<Type> }, \
+	{ "table", TableImpl<Type> }, \
+	{ "get", GetImpl<Type> }, \
+	{ "set", SetImpl<Type> }, \
+	{ "setAll", SetAllImpl<Type> }, \
+	{ "dot", DotImpl<Type> }, \
+	{ "distance", DistanceImpl<Type> }, \
+	{ "length", LengthImpl<Type> }, \
+	{ "apply", ApplyImpl<Type> }, \
+	{ "normalize", NormalizeImpl<Type> }, \
+	{ "reflect", ReflectImpl<Type> }, \
+	{ "refract", RefractImpl<Type> }, \
+	__VA_ARGS__, \
+	{ NULL, NULL } \
+}
 
-static const luaL_reg vector2_m[] = {
-	{ "__gc", M_GCImpl<glm::vec2> },
-	{ "__eq", M_EqualImpl<glm::vec2> },
-	{ "__tostring", M_ToStringImpl<glm::vec2> },
-	{ "__len",  M_LengthImpl<glm::vec2> },
-	{ "__unm", M_UnaryMinusImpl<glm::vec2> },
-	{ "__add", M_AddImpl<glm::vec2> },
-	{ "__sub", M_SubImpl<glm::vec2> },
-	{ "__mul", M_MulImpl<glm::vec2> },
-	{ "__div", M_DivImpl<glm::vec2> },
-	{ "new", NewImpl<glm::vec2> },
-	{ "table", TableImpl<glm::vec2> },
-	{ "get", GetImpl<glm::vec2> },
-	{ "set", SetImpl<glm::vec2> },
-	{ "setAll", SetAllImpl<glm::vec2> },
-	{ "dot", DotImpl<glm::vec2> },
-	{ "distance", DistanceImpl<glm::vec2> },
-	{ "length", LengthImpl<glm::vec2> },
-	{ "apply", ApplyImpl<glm::vec2> },
-	{ "normalize", NormalizeImpl<glm::vec2> },
-	{ "reflect", ReflectImpl<glm::vec2> },
-	{ "refract", RefractImpl<glm::vec2> },
-	{ NULL, NULL }
-};
+#define VECTOR_LIB_M(Name, Type, ...) \
+static const luaL_reg Name##_m[] = { \
+	{ "__gc", M_GCImpl<Type> }, \
+	{ "__eq", M_EqualImpl<Type> }, \
+	{ "__tostring", M_ToStringImpl<Type> }, \
+	{ "__len", M_LengthImpl<Type> }, \
+	{ "__unm", M_UnaryMinusImpl<Type> }, \
+	{ "__add", M_AddImpl<Type> }, \
+	{ "__sub", M_SubImpl<Type> }, \
+	{ "__mul", M_MulImpl<Type> }, \
+	{ "__div", M_DivImpl<Type> }, \
+	{ "table", TableImpl<Type> }, \
+	{ "get", GetImpl<Type> }, \
+	{ "set", SetImpl<Type> }, \
+	{ "setAll", SetAllImpl<Type> }, \
+	{ "dot", DotImpl<Type> }, \
+	{ "distance", DistanceImpl<Type> }, \
+	{ "length", LengthImpl<Type> }, \
+	{ "apply", ApplyImpl<Type> }, \
+	{ "normalize", NormalizeImpl<Type> }, \
+	{ "reflect", ReflectImpl<Type> }, \
+	{ "refract", RefractImpl<Type> }, \
+	__VA_ARGS__, \
+	{ NULL, NULL } \
+}
+
+VECTOR_LIB_F(vector2, glm::vec2);
+VECTOR_LIB_M(vector2, glm::vec2);
 
 void PushLuaValue(lua_State* L, const glm::vec2& Value)
 {
@@ -425,3 +440,68 @@ int luaopen_vector2(lua_State* L)
 }
 
 W_REGISTER_LUA_LIB(luaopen_vector2);
+
+VECTOR_LIB_F(vector3, glm::vec3,
+{ "cross", Vec3_CrossImpl }
+);
+
+VECTOR_LIB_M(vector3, glm::vec3,
+{ "cross", Vec3_CrossImpl }
+);
+
+void PushLuaValue(lua_State* L, const glm::vec3& Value)
+{
+	PushVectorImpl<glm::vec3>(L, Value);
+}
+
+glm::vec3* luaW_checkvector3(lua_State* L, int idx)
+{
+	return CheckVectorImpl<glm::vec3>(L, idx);
+}
+
+int luaopen_vector3(lua_State* L)
+{
+	luaL_newmetatable(L, VectorInfo<glm::vec3>::MetatableName());
+	lua_pushstring(L, "__index");
+	lua_pushvalue(L, -2);
+	lua_settable(L, -3);
+	luaL_register(L, NULL, vector3_m);
+
+	luaL_register(L, VectorInfo<glm::vec3>::TypeName(), vector3_f);
+
+	return 1;
+}
+
+W_REGISTER_LUA_LIB(luaopen_vector3);
+
+VECTOR_LIB_F(vector4, glm::vec4);
+
+VECTOR_LIB_M(vector4, glm::vec4);
+
+void PushLuaValue(lua_State* L, const glm::vec4& Value)
+{
+	PushVectorImpl<glm::vec4>(L, Value);
+}
+
+glm::vec4* luaW_checkvector4(lua_State* L, int idx)
+{
+	return CheckVectorImpl<glm::vec4>(L, idx);
+}
+
+int luaopen_vector4(lua_State* L)
+{
+	luaL_newmetatable(L, VectorInfo<glm::vec4>::MetatableName());
+	lua_pushstring(L, "__index");
+	lua_pushvalue(L, -2);
+	lua_settable(L, -3);
+	luaL_register(L, NULL, vector4_m);
+
+	luaL_register(L, VectorInfo<glm::vec4>::TypeName(), vector4_f);
+
+	return 1;
+}
+
+W_REGISTER_LUA_LIB(luaopen_vector4);
+
+#undef VECTOR_LIB_F
+#undef VECTOR_LIB_M
