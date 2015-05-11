@@ -144,9 +144,6 @@
     <ClInclude Include="Scripting\LuaVector.h">
       <Filter>Header Files\Scripting</Filter>
     </ClInclude>
-    <ClInclude Include="Scripting\LuaMatrix2x2.h">
-      <Filter>Header Files\Scripting</Filter>
-    </ClInclude>
     <ClInclude Include="Scripting\LuaMatrix2x3.h">
       <Filter>Header Files\Scripting</Filter>
     </ClInclude>
@@ -156,6 +153,9 @@
     <ClInclude Include="Scripting\LuaLibRegistry.h" />
     <ClInclude Include="Utility\LuaExt.h">
       <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting\LuaMatrix.h">
+      <Filter>Header Files\Scripting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -246,13 +246,13 @@
     <ClCompile Include="Scripting\LuaVector.cpp">
       <Filter>Source Files\Scripting</Filter>
     </ClCompile>
-    <ClCompile Include="Scripting\LuaMatrix2x2.cpp">
-      <Filter>Source Files\Scripting</Filter>
-    </ClCompile>
     <ClCompile Include="Scripting\LuaMatrix2x3.cpp">
       <Filter>Source Files\Scripting</Filter>
     </ClCompile>
     <ClCompile Include="Scripting\LuaMatrix2x4.cpp">
+      <Filter>Source Files\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripting\LuaMatrix.cpp">
       <Filter>Source Files\Scripting</Filter>
     </ClCompile>
   </ItemGroup>
