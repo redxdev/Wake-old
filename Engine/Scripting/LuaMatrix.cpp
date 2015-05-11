@@ -1,4 +1,4 @@
-#include "LuaMatrix.h"
+/*#include "LuaMatrix.h"
 
 #include "LuaLibRegistry.h"
 
@@ -204,14 +204,14 @@ static int SetAllImpl(lua_State* L)
 }
 
 template<typename MatType>
-static int GCImpl(lua_State* L)
+static int M_GCImpl(lua_State* L)
 {
 	delete CheckMatrixImpl<MatType>(L, 1);
 	return 0;
 }
 
 template<typename MatType>
-static int EqualImpl(lua_State* L)
+static int M_EqualImpl(lua_State* L)
 {
 	auto& MatA = *CheckMatrixImpl<MatType>(L, 1);
 	auto& MatB = *CheckMatrixImpl<MatType>(L, 2);
@@ -220,7 +220,7 @@ static int EqualImpl(lua_State* L)
 }
 
 template<typename MatType>
-static int ToStringImpl(lua_State* L)
+static int M_ToStringImpl(lua_State* L)
 {
 	auto& Mat = *CheckMatrixImpl<MatType>(L, 1);
 	lua_pushstring(L, glm::to_string(Mat).c_str());
@@ -240,9 +240,9 @@ struct MatReg
 	};
 
 	static const luaL_reg metafunctions[] = {
-		{ "__gc", GCImpl<MatType> },
-		{ "__eq", EqualImpl<MatType> },
-		{ "__tostring", ToStringImpl<MatType> },
+		{ "__gc", M_GCImpl<MatType> },
+		{ "__eq", M_EqualImpl<MatType> },
+		{ "__tostring", M_ToStringImpl<MatType> },
 		{ "table", TableImpl<MatType> },
 		{ "get", GetImpl<MatType> },
 		{ "set", SetImpl<MatType> },
@@ -280,4 +280,4 @@ int luaopen_matrix2x2(lua_State* L)
 	return 1;
 }
 
-W_REGISTER_LUA_LIB(luaopen_matrix2x2);
+W_REGISTER_LUA_LIB(luaopen_matrix2x2);*/

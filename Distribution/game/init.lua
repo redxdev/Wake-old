@@ -10,8 +10,10 @@ end
 
 window.closed:bind(gameWindowClosed)
 
-local a = Matrix2x2.new(1, 2, 3, 4)
+local a = Vector2.new(1, 2)
+local b = Vector2.new{4, 3}
 
 print(a)
-a:setAll(10, 20, 30, 40)
-print(a)
+print(a / 2)
+print(2 / a)
+print(a / b)
