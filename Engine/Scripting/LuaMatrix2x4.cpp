@@ -79,6 +79,96 @@ static int l_new(lua_State* L)
 	}
 }
 
+static int l_table(lua_State* L)
+{
+	auto& Mat = *luaW_checkmatrix2x4(L, 1);
+
+	lua_newtable(L);
+	for (int i = 0; i < 8; ++i)
+	{
+		float Value = Mat[i / 4][i % 4];
+		lua_pushnumber(L, i + 1);
+		lua_pushnumber(L, Value);
+		lua_settable(L, -3);
+	}
+
+	return 1;
+}
+
+static int l_get(lua_State* L)
+{
+	auto& Mat = *luaW_checkmatrix2x4(L, 1);
+	switch (lua_gettop(L))
+	{
+	default:
+		luaL_error(L, "expected 2 or 3 arguments");
+		return 0;
+
+	case 2:
+	{
+		int Index = (int)luaL_checknumber(L, 2);
+		luaL_argcheck(L, Index >= 1 && Index <= 2, 2, "must be >= 1 and <= 2");
+		PushLuaValue(L, Mat[Index - 1]);
+		return 1;
+	}
+
+	case 3:
+	{
+		int Index1 = (int)luaL_checknumber(L, 2);
+		luaL_argcheck(L, Index1 >= 1 && Index1 <= 2, 2, "must be >= 1 and <= 2");
+		int Index2 = (int)luaL_checknumber(L, 3);
+		luaL_argcheck(L, Index2 >= 1 && Index2 <= 4, 3, "must be >= 1 and <= 4");
+		lua_pushnumber(L, Mat[Index1 - 1][Index2 - 1]);
+		return 1;
+	}
+	}
+}
+
+static int l_set(lua_State* L)
+{
+	auto& Mat = *luaW_checkmatrix2x4(L, 1);
+	int Index1 = (int)luaL_checknumber(L, 2);
+	luaL_argcheck(L, Index1 >= 1 && Index1 <= 2, 2, "must be >= 1 and <= 2");
+	int Index2 = (int)luaL_checknumber(L, 3);
+	luaL_argcheck(L, Index2 >= 1 && Index2 <= 4, 3, "must be >= 1 and <= 4");
+
+	Mat[Index1 - 1][Index2 - 1] = (float)luaL_checknumber(L, 4);
+	return 0;
+}
+
+static int l_setall(lua_State* L)
+{
+	auto& Mat = *luaW_checkmatrix2x4(L, 1);
+	for (int i = 0; i < 8; ++i)
+	{
+		float Value = (float)luaL_checknumber(L, i + 2);
+		Mat[i / 4][i % 4] = Value;
+	}
+
+	return 0;
+}
+
+static int l_apply(lua_State* L)
+{
+	auto& Mat = *luaW_checkmatrix2x4(L, 1);
+	luaL_argcheck(L, lua_isfunction(L, 2), 2, "'function' expected");
+
+	glm::mat2x4 NewMat;
+	for (int i = 0; i < 8; ++i)
+	{
+		lua_pushvalue(L, 2);
+		lua_pushnumber(L, Mat[i / 4][i % 4]);
+		lua_call(L, 1, 1);
+
+		float Value = (float)lua_tonumber(L, -1);
+		lua_pop(L, 1);
+		NewMat[i / 4][i % 4] = Value;
+	}
+
+	PushLuaValue(L, NewMat);
+	return 1;
+}
+
 static int l_m_gc(lua_State* L)
 {
 	delete luaW_checkmatrix2x4(L, 1);
@@ -109,6 +199,11 @@ static int l_m_unm(lua_State* L)
 
 static const luaL_reg matrix2x4_f[] = {
 	{ "new", l_new },
+	{ "table", l_table },
+	{ "get", l_get },
+	{ "set", l_set },
+	{ "setAll", l_setall },
+	{ "apply", l_apply },
 	{ NULL, NULL }
 };
 
@@ -117,6 +212,11 @@ static const luaL_reg matrix2x4_m[] = {
 	{ "__eq", l_m_eq },
 	{ "__tostring", l_m_tostring },
 	{ "__unm", l_m_unm },
+	{ "table", l_table },
+	{ "get", l_get },
+	{ "set", l_set },
+	{ "setAll", l_setall },
+	{ "apply", l_apply },
 	{ NULL, NULL }
 };
 
