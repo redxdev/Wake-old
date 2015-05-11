@@ -148,9 +148,6 @@
     <ClInclude Include="Scripting\LuaMatrix.h">
       <Filter>Header Files\Scripting</Filter>
     </ClInclude>
-    <ClInclude Include="Scripting\LuaVector_Old.h">
-      <Filter>Header Files\Scripting</Filter>
-    </ClInclude>
     <ClInclude Include="Scripting\LuaVector.h">
       <Filter>Header Files\Scripting</Filter>
     </ClInclude>
@@ -241,9 +238,6 @@
       <Filter>Source Files\Scripting</Filter>
     </ClCompile>
     <ClCompile Include="Scripting\LuaMatrix.cpp">
-      <Filter>Source Files\Scripting</Filter>
-    </ClCompile>
-    <ClCompile Include="Scripting\LuaVector_Old.cpp">
       <Filter>Source Files\Scripting</Filter>
     </ClCompile>
     <ClCompile Include="Scripting\LuaVector.cpp">
