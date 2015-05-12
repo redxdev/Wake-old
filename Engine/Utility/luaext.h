@@ -31,5 +31,5 @@ void PushLuaValue(lua_State* L, int16 Number);
 void PushLuaValue(lua_State* L, int32 Number);
 void PushLuaValue(lua_State* L, int64 Number);
 void PushLuaValue(lua_State* L, const char* String);
-void PushLuaValue(lua_State* L, std::string String);
+void PushLuaValue(lua_State* L, const std::string& String);
 void PushLuaValue(lua_State* L, bool Boolean);

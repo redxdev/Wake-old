@@ -92,7 +92,7 @@ static int TableImpl(lua_State* L)
 {
 	auto& Vec = *CheckVectorImpl<VecType>(L, 1);
 	lua_newtable(L);
-	for (unsigned int i = 0; i < VectorInfo<VecType>::Elements(); ++i)
+	for (int i = 0; i < VectorInfo<VecType>::Elements(); ++i)
 	{
 		lua_pushnumber(L, i + 1);
 		lua_pushnumber(L, Vec[i]);
@@ -218,9 +218,9 @@ static int M_GCImpl(lua_State* L)
 template<typename VecType>
 static int M_EqualImpl(lua_State* L)
 {
-	auto& MatA = *CheckVectorImpl<VecType>(L, 1);
-	auto& MatB = *CheckVectorImpl<VecType>(L, 2);
-	lua_pushboolean(L, MatA == MatB);
+	auto& VecA = *CheckVectorImpl<VecType>(L, 1);
+	auto& VecB = *CheckVectorImpl<VecType>(L, 2);
+	lua_pushboolean(L, VecA == VecB);
 	return 1;
 }
 

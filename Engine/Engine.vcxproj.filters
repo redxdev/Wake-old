@@ -141,7 +141,6 @@
     <ClInclude Include="Scripting\LuaEvent.h">
       <Filter>Header Files\Scripting</Filter>
     </ClInclude>
-    <ClInclude Include="Scripting\LuaLibRegistry.h" />
     <ClInclude Include="Utility\LuaExt.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
@@ -149,6 +148,9 @@
       <Filter>Header Files\Scripting</Filter>
     </ClInclude>
     <ClInclude Include="Scripting\LuaVector.h">
+      <Filter>Header Files\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting\LuaLibRegistry.h">
       <Filter>Header Files\Scripting</Filter>
     </ClInclude>
   </ItemGroup>

@@ -56,7 +56,7 @@ void PushLuaValue(lua_State* L, const char* String)
 	lua_pushstring(L, String);
 }
 
-void PushLuaValue(lua_State* L, std::string String)
+void PushLuaValue(lua_State* L, const std::string& String)
 {
 	lua_pushstring(L, String.c_str());
 }
