@@ -40,7 +40,7 @@ static MatType* CheckMatrixImpl(lua_State* L, int idx)
 			lua_gettable(L, idx);
 			float Value = (float)lua_tonumber(L, -1);
 			lua_pop(L, 1);
-			Mat[i / MatrixInfo<MatType>::Rows()][i % MatrixInfo<MatType>::Rows()] = Value;
+			Mat[i / MatrixInfo<MatType>::Columns()][i % MatrixInfo<MatType>::Columns()] = Value;
 		}
 
 		PushMatrixImpl<MatType>(L, Mat);
@@ -65,7 +65,7 @@ static int NewImpl(lua_State* L)
 			for (int i = 0; i < MatrixInfo<MatType>::Elements(); ++i)
 			{
 				float Value = (float)luaL_checknumber(L, i + 1);
-				Mat[i / MatrixInfo<MatType>::Rows()][i % MatrixInfo<MatType>::Columns()] = Value;
+				Mat[i / MatrixInfo<MatType>::Columns()][i % MatrixInfo<MatType>::Columns()] = Value;
 			}
 
 			PushMatrixImpl<MatType>(L, Mat);
@@ -96,10 +96,80 @@ static int TableImpl(lua_State* L)
 	for (int i = 0; i < MatrixInfo<MatType>::Elements(); ++i)
 	{
 		lua_pushnumber(L, i + 1);
-		lua_pushnumber(L, Mat[i / MatrixInfo<MatType>::Rows()][i % MatrixInfo<MatType>::Columns()]);
+		lua_pushnumber(L, Mat[i / MatrixInfo<MatType>::Columns()][i % MatrixInfo<MatType>::Columns()]);
 		lua_settable(L, -3);
 	}
 
+	return 1;
+}
+
+template<typename MatType>
+static int GetImpl(lua_State* L)
+{
+	auto& Mat = *CheckMatrixImpl<MatType>(L, 1);
+	switch (lua_gettop(L))
+	{
+	default:
+		luaL_error(L, "expected 2 or 3 arguments");
+		return 0;
+
+	case 2:
+	{
+		int Index = (int)luaL_checknumber(L, 2);
+		luaL_argcheck(L, Index >= 1 && Index <= MatrixInfo<MatType>::Rows(), 2, "row index out of range");
+		PushLuaValue(L, Mat[Index - 1]);
+		return 1;
+	}
+
+	case 3:
+	{
+		int Index1 = (int)luaL_checknumber(L, 2);
+		luaL_argcheck(L, Index1 >= 1 && Index1 <= MatrixInfo<MatType>::Rows(), 2, "row index out of range");
+		int Index2 = (int)luaL_checknumber(L, 3);
+		luaL_argcheck(L, Index2 >= 1 && Index2 <= MatrixInfo<MatType>::Columns(), 3, "column index out of range");
+		lua_pushnumber(L, Mat[Index1 - 1][Index2 - 1]);
+		return 1;
+	}
+	}
+}
+
+template<typename MatType>
+static int SetImpl(lua_State* L)
+{
+	auto& Mat = *CheckMatrixImpl<MatType>(L, 1);
+	int Index1 = (int)luaL_checknumber(L, 2);
+	luaL_argcheck(L, Index1 >= 1 && Index1 <= MatrixInfo<MatType>::Rows(), 2, "row index out of range");
+	int Index2 = (int)luaL_checknumber(L, 3);
+	luaL_argcheck(L, Index2 >= 1 && Index2 <= MatrixInfo<MatType>::Columns(), 3, "column index out of range");
+
+	Mat[Index1 - 1][Index2 - 1] = (float)luaL_checknumber(L, 4);
+	return 0;
+}
+
+template<typename MatType>
+static int SetAllImpl(lua_State* L)
+{
+	auto& Mat = *CheckMatrixImpl<MatType>(L, 1);
+	for (int i = 0; i < MatrixInfo<MatType>::Elements(); ++i)
+	{
+		float Value = (float)luaL_checknumber(L, i + 2);
+		Mat[i / MatrixInfo<MatType>::Columns()][i % MatrixInfo<MatType>::Columns()] = Value;
+	}
+
+	return 0;
+}
+
+template<typename MatType>
+static int RowsImpl(lua_State* L)
+{
+	lua_pushnumber(L, MatrixInfo<MatType>::Rows());
+	return 1;
+}
+
+template<typename MatType>
+static int ColumnsImpl(lua_State* L)
+{
+	lua_pushnumber(L, MatrixInfo<MatType>::Columns());
 	return 1;
 }
 
@@ -127,6 +197,13 @@ static int M_ToStringImpl(lua_State* L)
 	return 1;
 }
 
+template<typename MatType>
+static int M_LengthImpl(lua_State* L)
+{
+	lua_pushnumber(L, MatrixInfo<MatType>::Elements());
+	return 1;
+}
+
 //
 // Registration
 //
@@ -135,6 +212,11 @@ static int M_ToStringImpl(lua_State* L)
 static const luaL_reg Name##_f[] = { \
 	{ "new", NewImpl<Type> }, \
 	{ "table", TableImpl<Type> }, \
+	{ "get", GetImpl<Type> }, \
+	{ "set", SetImpl<Type> }, \
+	{ "setAll", SetAllImpl<Type> }, \
+	{ "rows", RowsImpl<Type> }, \
+	{ "columns", ColumnsImpl<Type> }, \
 	__VA_ARGS__, \
 	{ NULL, NULL } \
 }
@@ -144,7 +226,13 @@ static const luaL_reg Name##_m[] = { \
 	{ "__gc", M_GCImpl<Type> }, \
 	{ "__eq", M_EqualImpl<Type> }, \
 	{ "__tostring", M_ToStringImpl<Type> }, \
+	{ "__len", M_LengthImpl<Type> }, \
 	{ "table", TableImpl<Type> }, \
+	{ "get", GetImpl<Type> }, \
+	{ "set", SetImpl<Type> }, \
+	{ "setAll", SetAllImpl<Type> }, \
+	{ "rows", RowsImpl<Type> }, \
+	{ "columns", ColumnsImpl<Type> }, \
 	__VA_ARGS__, \
 	{ NULL, NULL } \
 }
@@ -177,155 +265,64 @@ int luaopen_matrix2x2(lua_State* L)
 
 W_REGISTER_LUA_LIB(luaopen_matrix2x2);
 
-/*
-template<typename MatType>
-static int TableImpl(lua_State* L)
+MATRIX_LIB_F(matrix2x3, glm::mat2x3);
+MATRIX_LIB_M(matrix2x3, glm::mat2x3);
+
+void PushLuaValue(lua_State* L, const glm::mat2x3& Value)
 {
-	auto& Mat = *CheckMatrixImpl<MatType>(L, 1);
-
-	lua_newtable(L);
-	for (int i = 0; i < MatLength<MatType>(); ++i)
-	{
-		float Value = Mat[i / VecLength<MatType::row_type>()][i % VecLength<MatType::row_type>()];
-		lua_pushnumber(L, i + 1);
-		lua_pushnumber(L, Value);
-		lua_settable(L, -3);
-	}
-
-	return 1;
+	PushMatrixImpl<glm::mat2x3>(L, Value);
 }
 
-template<typename MatType>
-static int GetImpl(lua_State* L)
+glm::mat2x3* luaW_checkmatrix2x3(lua_State* L, int idx)
 {
-	auto& Mat = *CheckMatrixImpl<MatType>(L, 1);
-	switch (lua_gettop(L))
-	{
-	default:
-		luaL_error(L, "expected 2 or 3 arguments");
-		return 0;
-
-	case 2:
-	{
-		int Index = (int)luaL_checknumber(L, 2);
-		luaL_argcheck(L, Index >= 1 && Index <= VecLength<MatType::col_type>(), 2, "index out of range");
-		PushLuaValue(L, Mat[Index - 1]);
-		return 1;
-	}
-
-	case 3:
-	{
-		int Index1 = (int)luaL_checknumber(L, 2);
-		luaL_argcheck(L, Index1 >= 1 && Index1 <= VecLength<MatType::col_type>(), 2, "index out of range");
-		int Index2 = (int)luaL_checknumber(L, 3);
-		luaL_argcheck(L, Index2 >= 1 && Index2 <= VecLength<MatType::row_type>(), 3, "index out of range");
-		lua_pushnumber(L, Mat[Index1 - 1][Index2 - 1]);
-		return 1;
-	}
-	}
+	return CheckMatrixImpl<glm::mat2x3>(L, idx);
 }
 
-template<typename MatType>
-static int SetImpl(lua_State* L)
+int luaopen_matrix2x3(lua_State* L)
 {
-	auto& Mat = *CheckMatrixImpl<MatType>(L, 1);
-	int Index1 = (int)luaL_checknumber(L, 2);
-	luaL_argcheck(L, Index1 >= 1 && Index1 <= VecLength<MatType::col_type>(), 2, "index out of range");
-	int Index2 = (int)luaL_checknumber(L, 3);
-	luaL_argcheck(L, Index2 >= 1 && Index2 <= VecLength<MatType::row_type>(), 3, "index out of range");
-
-	Mat[Index1 - 1][Index2 - 1] = (float)luaL_checknumber(L, 4);
-	return 0;
-}
-
-template<typename MatType>
-static int SetAllImpl(lua_State* L)
-{
-	auto& Mat = *CheckMatrixImpl<MatType>(L, 1);
-	for (int i = 0; i < MatLength<MatType>(); ++i)
-	{
-		float Value = (float)luaL_checknumber(L, i + 2);
-		Mat[i / VecLength<MatType::row_type>()][i % VecLength<MatType::row_type>()] = Value;
-	}
-
-	return 0;
-}
-
-template<typename MatType>
-static int M_GCImpl(lua_State* L)
-{
-	delete CheckMatrixImpl<MatType>(L, 1);
-	return 0;
-}
-
-template<typename MatType>
-static int M_EqualImpl(lua_State* L)
-{
-	auto& MatA = *CheckMatrixImpl<MatType>(L, 1);
-	auto& MatB = *CheckMatrixImpl<MatType>(L, 2);
-	lua_pushboolean(L, MatA == MatB);
-	return 1;
-}
-
-template<typename MatType>
-static int M_ToStringImpl(lua_State* L)
-{
-	auto& Mat = *CheckMatrixImpl<MatType>(L, 1);
-	lua_pushstring(L, glm::to_string(Mat).c_str());
-	return 1;
-}
-
-template<typename MatType>
-struct MatReg
-{
-	static const luaL_reg functions[] = {
-		{ "new", NewImpl<MatType> },
-		{ "table", TableImpl<MatType> },
-		{ "get", GetImpl<MatType> },
-		{ "set", SetImpl<MatType> },
-		{ "setAll", SetAllImpl<MatType> },
-		{ NULL, NULL }
-	};
-
-	static const luaL_reg metafunctions[] = {
-		{ "__gc", M_GCImpl<MatType> },
-		{ "__eq", M_EqualImpl<MatType> },
-		{ "__tostring", M_ToStringImpl<MatType> },
-		{ "table", TableImpl<MatType> },
-		{ "get", GetImpl<MatType> },
-		{ "set", SetImpl<MatType> },
-		{ "setAll", SetAllImpl<MatType> },
-		{ NULL, NULL }
-	};
-};
-
-//
-// Matrix2x2 implementation
-//
-
-void PushLuaValue(lua_State* L, const glm::mat2x2& Mat)
-{
-	PushMatrixImpl<glm::mat2x2>(L, Mat);
-}
-
-glm::mat2x2* luaW_checkmatrix2x2(lua_State* L, int idx)
-{
-	return CheckMatrixImpl<glm::mat2x2>(L, idx);
-}
-
-int luaopen_matrix2x2(lua_State* L)
-{
-	luaL_newmetatable(L, W_MT_MAT2X2);
-
+	luaL_newmetatable(L, MatrixInfo<glm::mat2x3>::MetatableName());
 	lua_pushstring(L, "__index");
 	lua_pushvalue(L, -2);
 	lua_settable(L, -3);
+	luaL_register(L, NULL, matrix2x3_m);
 
-	luaL_register(L, NULL, MatReg<glm::mat2x2>::functions);
-
-	luaL_register(L, "Matrix2x2", MatReg<glm::mat2x2>::metafunctions);
+	luaL_register(L, MatrixInfo<glm::mat2x3>::TypeName(), matrix2x3_f);
 
 	return 1;
 }
 
-W_REGISTER_LUA_LIB(luaopen_matrix2x2);*/
+W_REGISTER_LUA_LIB(luaopen_matrix2x3);
+
+MATRIX_LIB_F(matrix2x4, glm::mat2x4);
+MATRIX_LIB_M(matrix2x4, glm::mat2x4);
+
+void PushLuaValue(lua_State* L, const glm::mat2x4& Value)
+{
+	PushMatrixImpl<glm::mat2x4>(L, Value);
+}
+
+glm::mat2x4* luaW_checkmatrix2x4(lua_State* L, int idx)
+{
+	return CheckMatrixImpl<glm::mat2x4>(L, idx);
+}
+
+int luaopen_matrix2x4(lua_State* L)
+{
+	luaL_newmetatable(L, MatrixInfo<glm::mat2x4>::MetatableName());
+	lua_pushstring(L, "__index");
+	lua_pushvalue(L, -2);
+	lua_settable(L, -3);
+	luaL_register(L, NULL, matrix2x4_m);
+
+	luaL_register(L, MatrixInfo<glm::mat2x4>::TypeName(), matrix2x4_f);
+
+	return 1;
+}
+
+W_REGISTER_LUA_LIB(luaopen_matrix2x4);
+
+MATRIX_LIB_F(matrix3x2, glm::mat3x2);
+MATRIX_LIB_M(matrix3x2, glm::mat3x2);
+
+#undef MATRIX_LIB_F
+#undef MATRIX_LIB_M

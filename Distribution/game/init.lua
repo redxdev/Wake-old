@@ -10,11 +10,15 @@ end
 
 window.closed:bind(gameWindowClosed)
 
-local a = Matrix2x2.new(1, 2, 3, 4)
-local b = Matrix2x2.new{5, 6, 7, 8}
-local c = Matrix2x2.new(a)
-local d = Matrix2x2.new()
+engine.tick:bind(function() engine.stop() end)
 
-for _,v in ipairs(a:table()) do
-    print(v)
-end
+local a = Matrix2x4.new(1, 2, 3, 4, 5, 6, 7, 8)
+local b = Matrix2x4.new(8, 7, 6, 5, 4, 3, 2, 1)
+local c = Matrix2x4.new(a)
+local d = Matrix2x4.new()
+
+print(a:rows())
+print(a:columns())
+print(#a)
+print(Matrix2x4.rows())
+print(Matrix2x4.columns())

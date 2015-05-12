@@ -235,7 +235,6 @@ static int M_ToStringImpl(lua_State* L)
 template<typename VecType>
 static int M_LengthImpl(lua_State* L)
 {
-	CheckVectorImpl<VecType>(L, 1);
 	lua_pushnumber(L, VectorInfo<VecType>::Elements());
 	return 1;
 }
