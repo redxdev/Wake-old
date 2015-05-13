@@ -324,5 +324,30 @@ W_REGISTER_LUA_LIB(luaopen_matrix2x4);
 MATRIX_LIB_F(matrix3x2, glm::mat3x2);
 MATRIX_LIB_M(matrix3x2, glm::mat3x2);
 
+void PushLuaValue(lua_State* L, const glm::mat3x2& Value)
+{
+	PushMatrixImpl<glm::mat3x2>(L, Value);
+}
+
+glm::mat3x2* luaW_checkmatrix3x2(lua_State* L, int idx)
+{
+	return CheckMatrixImpl<glm::mat3x2>(L, idx);
+}
+
+int luaopen_matrix3x2(lua_State* L)
+{
+	luaL_newmetatable(L, MatrixInfo<glm::mat3x2>::MetatableName());
+	lua_pushstring(L, "__index");
+	lua_pushvalue(L, -2);
+	lua_settable(L, -3);
+	luaL_register(L, NULL, matrix2x4_m);
+
+	luaL_register(L, MatrixInfo<glm::mat3x2>::TypeName(), matrix2x4_f);
+
+	return 1;
+}
+
+W_REGISTER_LUA_LIB(luaopen_matrix3x2);
+
 #undef MATRIX_LIB_F
 #undef MATRIX_LIB_M
