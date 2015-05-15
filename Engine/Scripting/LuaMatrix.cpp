@@ -340,9 +340,9 @@ int luaopen_matrix3x2(lua_State* L)
 	lua_pushstring(L, "__index");
 	lua_pushvalue(L, -2);
 	lua_settable(L, -3);
-	luaL_register(L, NULL, matrix2x4_m);
+	luaL_register(L, NULL, matrix3x2_m);
 
-	luaL_register(L, MatrixInfo<glm::mat3x2>::TypeName(), matrix2x4_f);
+	luaL_register(L, MatrixInfo<glm::mat3x2>::TypeName(), matrix3x2_f);
 
 	return 1;
 }
