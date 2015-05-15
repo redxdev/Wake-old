@@ -174,6 +174,14 @@ static int ColumnsImpl(lua_State* L)
 }
 
 template<typename MatType>
+static int TransposeImpl(lua_State* L)
+{
+	auto& Mat = *CheckMatrixImpl<MatType>(L, 1);
+	PushMatrixImpl<typename MatType::transpose_type>(L, glm::transpose(Mat));
+	return 1;
+}
+
+template<typename MatType>
 static int M_GCImpl(lua_State* L)
 {
 	delete CheckMatrixImpl<MatType>(L, 1);
@@ -217,6 +225,7 @@ static const luaL_reg Name##_f[] = { \
 	{ "setAll", SetAllImpl<Type> }, \
 	{ "rows", RowsImpl<Type> }, \
 	{ "columns", ColumnsImpl<Type> }, \
+	{ "transpose", TransposeImpl<Type> }, \
 	__VA_ARGS__, \
 	{ NULL, NULL } \
 }
@@ -233,6 +242,7 @@ static const luaL_reg Name##_m[] = { \
 	{ "setAll", SetAllImpl<Type> }, \
 	{ "rows", RowsImpl<Type> }, \
 	{ "columns", ColumnsImpl<Type> }, \
+	{ "transpose", TransposeImpl<Type> }, \
 	__VA_ARGS__, \
 	{ NULL, NULL } \
 }
