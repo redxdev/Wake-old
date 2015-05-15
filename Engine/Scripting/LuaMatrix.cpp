@@ -349,5 +349,145 @@ int luaopen_matrix3x2(lua_State* L)
 
 W_REGISTER_LUA_LIB(luaopen_matrix3x2);
 
+MATRIX_LIB_F(matrix3x3, glm::mat3x3);
+MATRIX_LIB_M(matrix3x3, glm::mat3x3);
+
+void PushLuaValue(lua_State* L, const glm::mat3x3& Value)
+{
+	PushMatrixImpl<glm::mat3x3>(L, Value);
+}
+
+glm::mat3x3* luaW_checkmatrix3x3(lua_State* L, int idx)
+{
+	return CheckMatrixImpl<glm::mat3x3>(L, idx);
+}
+
+int luaopen_matrix3x3(lua_State* L)
+{
+	luaL_newmetatable(L, MatrixInfo<glm::mat3x3>::MetatableName());
+	lua_pushstring(L, "__index");
+	lua_pushvalue(L, -2);
+	lua_settable(L, -3);
+	luaL_register(L, NULL, matrix3x3_m);
+
+	luaL_register(L, MatrixInfo<glm::mat3x3>::TypeName(), matrix3x3_f);
+
+	return 1;
+}
+
+W_REGISTER_LUA_LIB(luaopen_matrix3x3);
+
+MATRIX_LIB_F(matrix3x4, glm::mat3x4);
+MATRIX_LIB_M(matrix3x4, glm::mat3x4);
+
+void PushLuaValue(lua_State* L, const glm::mat3x4& Value)
+{
+	PushMatrixImpl<glm::mat3x4>(L, Value);
+}
+
+glm::mat3x4* luaW_checkmatrix3x4(lua_State* L, int idx)
+{
+	return CheckMatrixImpl<glm::mat3x4>(L, idx);
+}
+
+int luaopen_matrix3x4(lua_State* L)
+{
+	luaL_newmetatable(L, MatrixInfo<glm::mat3x4>::MetatableName());
+	lua_pushstring(L, "__index");
+	lua_pushvalue(L, -2);
+	lua_settable(L, -3);
+	luaL_register(L, NULL, matrix3x4_m);
+
+	luaL_register(L, MatrixInfo<glm::mat3x4>::TypeName(), matrix3x4_f);
+
+	return 1;
+}
+
+W_REGISTER_LUA_LIB(luaopen_matrix3x4);
+
+MATRIX_LIB_F(matrix4x2, glm::mat4x2);
+MATRIX_LIB_M(matrix4x2, glm::mat4x2);
+
+void PushLuaValue(lua_State* L, const glm::mat4x2& Value)
+{
+	PushMatrixImpl<glm::mat4x2>(L, Value);
+}
+
+glm::mat4x2* luaW_checkmatrix4x2(lua_State* L, int idx)
+{
+	return CheckMatrixImpl<glm::mat4x2>(L, idx);
+}
+
+int luaopen_matrix4x2(lua_State* L)
+{
+	luaL_newmetatable(L, MatrixInfo<glm::mat4x2>::MetatableName());
+	lua_pushstring(L, "__index");
+	lua_pushvalue(L, -2);
+	lua_settable(L, -3);
+	luaL_register(L, NULL, matrix4x2_m);
+
+	luaL_register(L, MatrixInfo<glm::mat4x2>::TypeName(), matrix4x2_f);
+
+	return 1;
+}
+
+W_REGISTER_LUA_LIB(luaopen_matrix4x2);
+
+MATRIX_LIB_F(matrix4x3, glm::mat4x3);
+MATRIX_LIB_M(matrix4x3, glm::mat4x3);
+
+void PushLuaValue(lua_State* L, const glm::mat4x3& Value)
+{
+	PushMatrixImpl<glm::mat4x3>(L, Value);
+}
+
+glm::mat4x3* luaW_checkmatrix4x3(lua_State* L, int idx)
+{
+	return CheckMatrixImpl<glm::mat4x3>(L, idx);
+}
+
+int luaopen_matrix4x3(lua_State* L)
+{
+	luaL_newmetatable(L, MatrixInfo<glm::mat4x3>::MetatableName());
+	lua_pushstring(L, "__index");
+	lua_pushvalue(L, -2);
+	lua_settable(L, -3);
+	luaL_register(L, NULL, matrix4x3_m);
+
+	luaL_register(L, MatrixInfo<glm::mat4x3>::TypeName(), matrix4x3_f);
+
+	return 1;
+}
+
+W_REGISTER_LUA_LIB(luaopen_matrix4x3);
+
+MATRIX_LIB_F(matrix4x4, glm::mat4x4);
+MATRIX_LIB_M(matrix4x4, glm::mat4x4);
+
+void PushLuaValue(lua_State* L, const glm::mat4x4& Value)
+{
+	PushMatrixImpl<glm::mat4x4>(L, Value);
+}
+
+glm::mat4x4* luaW_checkmatrix4x4(lua_State* L, int idx)
+{
+	return CheckMatrixImpl<glm::mat4x4>(L, idx);
+}
+
+int luaopen_matrix4x4(lua_State* L)
+{
+	luaL_newmetatable(L, MatrixInfo<glm::mat4x4>::MetatableName());
+	lua_pushstring(L, "__index");
+	lua_pushvalue(L, -2);
+	lua_settable(L, -3);
+	luaL_register(L, NULL, matrix4x4_m);
+
+	luaL_register(L, MatrixInfo<glm::mat4x4>::TypeName(), matrix4x4_f);
+
+	return 1;
+}
+
+W_REGISTER_LUA_LIB(luaopen_matrix4x4);
+
 #undef MATRIX_LIB_F
 #undef MATRIX_LIB_M
