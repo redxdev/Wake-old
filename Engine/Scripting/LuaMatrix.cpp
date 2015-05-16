@@ -4,10 +4,9 @@
 #include <glm/gtx/string_cast.hpp>
 
 #include "LuaLibRegistry.h"
-#include "LuaVector.h"
 
 //
-// Generic functions
+// Matrix Implementation
 //
 
 template<typename MatType>
@@ -53,7 +52,7 @@ static MatType* CheckMatrixImpl(lua_State* L, int idx)
 }
 
 template<typename MatType>
-static int NewImpl(lua_State* L)
+static int Mat_NewImpl(lua_State* L)
 {
 	int ArgCount = lua_gettop(L);
 	switch (ArgCount)
@@ -89,7 +88,7 @@ static int NewImpl(lua_State* L)
 }
 
 template<typename MatType>
-static int TableImpl(lua_State* L)
+static int Mat_TableImpl(lua_State* L)
 {
 	auto& Mat = *CheckMatrixImpl<MatType>(L, 1);
 	lua_newtable(L);
@@ -104,7 +103,7 @@ static int TableImpl(lua_State* L)
 }
 
 template<typename MatType>
-static int GetImpl(lua_State* L)
+static int Mat_GetImpl(lua_State* L)
 {
 	auto& Mat = *CheckMatrixImpl<MatType>(L, 1);
 	switch (lua_gettop(L))
@@ -134,7 +133,7 @@ static int GetImpl(lua_State* L)
 }
 
 template<typename MatType>
-static int SetImpl(lua_State* L)
+static int Mat_SetImpl(lua_State* L)
 {
 	auto& Mat = *CheckMatrixImpl<MatType>(L, 1);
 	int Index1 = (int)luaL_checknumber(L, 2);
@@ -147,7 +146,7 @@ static int SetImpl(lua_State* L)
 }
 
 template<typename MatType>
-static int SetAllImpl(lua_State* L)
+static int Mat_SetAllImpl(lua_State* L)
 {
 	auto& Mat = *CheckMatrixImpl<MatType>(L, 1);
 	for (int i = 0; i < MatrixInfo<MatType>::Elements(); ++i)
@@ -160,21 +159,21 @@ static int SetAllImpl(lua_State* L)
 }
 
 template<typename MatType>
-static int RowsImpl(lua_State* L)
+static int Mat_RowsImpl(lua_State* L)
 {
 	lua_pushnumber(L, MatrixInfo<MatType>::Rows());
 	return 1;
 }
 
 template<typename MatType>
-static int ColumnsImpl(lua_State* L)
+static int Mat_ColumnsImpl(lua_State* L)
 {
 	lua_pushnumber(L, MatrixInfo<MatType>::Columns());
 	return 1;
 }
 
 template<typename MatType>
-static int TransposeImpl(lua_State* L)
+static int Mat_TransposeImpl(lua_State* L)
 {
 	auto& Mat = *CheckMatrixImpl<MatType>(L, 1);
 	PushMatrixImpl<typename MatType::transpose_type>(L, glm::transpose(Mat));
@@ -182,14 +181,38 @@ static int TransposeImpl(lua_State* L)
 }
 
 template<typename MatType>
-static int M_GCImpl(lua_State* L)
+static int Mat_ApplyImpl(lua_State* L)
+{
+	auto& Mat = *CheckMatrixImpl<MatType>(L, 1);
+	luaL_argcheck(L, lua_isfunction(L, 2), 2, "'function' expected");
+
+	MatType Result;
+	for (int i = 0; i < MatrixInfo<MatType>::Elements(); ++i)
+	{
+		lua_pushvalue(L, 2);
+		lua_pushnumber(L, Mat[i / MatrixInfo<MatType>::Columns()][i % MatrixInfo<MatType>::Columns()]);
+		lua_pushnumber(L, i);
+		lua_pushnumber(L, (i / MatrixInfo<MatType>::Columns()) + 1);
+		lua_pushnumber(L, (i % MatrixInfo<MatType>::Columns()) + 1);
+		lua_call(L, 4, 1);
+
+		Result[i / MatrixInfo<MatType>::Columns()][i % MatrixInfo<MatType>::Columns()] = (float)lua_tonumber(L, -1);
+		lua_pop(L, 1);
+	}
+
+	PushMatrixImpl<MatType>(L, Result);
+	return 1;
+}
+
+template<typename MatType>
+static int Mat_M_GCImpl(lua_State* L)
 {
 	delete CheckMatrixImpl<MatType>(L, 1);
 	return 0;
 }
 
 template<typename MatType>
-static int M_EqualImpl(lua_State* L)
+static int Mat_M_EqualImpl(lua_State* L)
 {
 	auto& MatA = *CheckMatrixImpl<MatType>(L, 1);
 	auto& MatB = *CheckMatrixImpl<MatType>(L, 2);
@@ -198,7 +221,7 @@ static int M_EqualImpl(lua_State* L)
 }
 
 template<typename MatType>
-static int M_ToStringImpl(lua_State* L)
+static int Mat_M_ToStringImpl(lua_State* L)
 {
 	auto& Mat = *CheckMatrixImpl<MatType>(L, 1);
 	lua_pushstring(L, glm::to_string(Mat).c_str());
@@ -206,43 +229,414 @@ static int M_ToStringImpl(lua_State* L)
 }
 
 template<typename MatType>
-static int M_LengthImpl(lua_State* L)
+static int Mat_M_LengthImpl(lua_State* L)
 {
 	lua_pushnumber(L, MatrixInfo<MatType>::Elements());
 	return 1;
 }
 
 //
-// Registration
+// Vector Implementation
+//
+
+template<typename VecType>
+struct VectorContainer
+{
+	VecType* Vector;
+};
+
+template<typename VecType>
+static void PushVectorImpl(lua_State* L, const VecType& Value)
+{
+	auto* Container = (VectorContainer<VecType>*)lua_newuserdata(L, sizeof(VectorContainer<VecType>));
+	Container->Vector = new VecType(Value);
+
+	luaL_getmetatable(L, VectorInfo<VecType>::MetatableName());
+	lua_setmetatable(L, -2);
+}
+
+template<typename VecType>
+static VecType* CheckVectorImpl(lua_State* L, int idx)
+{
+	if (lua_istable(L, idx))
+	{
+		luaL_argcheck(L, lua_objlen(L, idx) == VectorInfo<VecType>::Elements(), 1, "table is of incorrect length");
+
+		VecType Vec;
+		for (int i = 0; i < VectorInfo<VecType>::Elements(); ++i)
+		{
+			lua_pushnumber(L, i + 1);
+			lua_gettable(L, idx);
+			float Value = (float)lua_tonumber(L, -1);
+			lua_pop(L, 1);
+			Vec[i] = Value;
+		}
+
+		PushVectorImpl<VecType>(L, Vec);
+		return CheckVectorImpl<VecType>(L, -1);
+	}
+
+	void* Data = luaL_checkudata(L, idx, VectorInfo<VecType>::MetatableName());
+	luaL_argcheck(L, Data != nullptr, idx, "'Vector' or 'table' expected");
+	return ((VectorContainer<VecType>*)Data)->Vector;
+}
+
+template<typename VecType>
+static int Vec_NewImpl(lua_State* L)
+{
+	int ArgCount = lua_gettop(L);
+	switch (ArgCount)
+	{
+	default:
+		if (ArgCount == VectorInfo<VecType>::Elements())
+		{
+			VecType Vec;
+			for (int i = 0; i < VectorInfo<VecType>::Elements(); ++i)
+			{
+				float Value = (float)luaL_checknumber(L, i + 1);
+				Vec[i] = Value;
+			}
+
+			PushVectorImpl<VecType>(L, Vec);
+			return 1;
+		}
+
+		luaL_error(L, "expected 0, 1, or %d arguments", VectorInfo<VecType>::Elements());
+		return 0;
+
+	case 0:
+		PushVectorImpl<VecType>(L, VecType());
+		return 1;
+
+	case 1:
+	{
+		auto* Vec = CheckVectorImpl<VecType>(L, 1);
+		PushVectorImpl<VecType>(L, *Vec);
+		return 1;
+	}
+	}
+}
+
+template<typename VecType>
+static int Vec_TableImpl(lua_State* L)
+{
+	auto& Vec = *CheckVectorImpl<VecType>(L, 1);
+	lua_newtable(L);
+	for (int i = 0; i < VectorInfo<VecType>::Elements(); ++i)
+	{
+		lua_pushnumber(L, i + 1);
+		lua_pushnumber(L, Vec[i]);
+		lua_settable(L, -3);
+	}
+
+	return 1;
+}
+
+template<typename VecType>
+static int Vec_GetImpl(lua_State* L)
+{
+	auto& Vec = *CheckVectorImpl<VecType>(L, 1);
+	int Index = (int)luaL_checknumber(L, 2);
+	luaL_argcheck(L, Index >= 1 && Index <= VectorInfo<VecType>::Elements(), 2, "index out of range");
+	lua_pushnumber(L, Vec[Index - 1]);
+	return 1;
+}
+
+template<typename VecType>
+static int Vec_SetImpl(lua_State* L)
+{
+	auto& Vec = *CheckVectorImpl<VecType>(L, 1);
+	int Index = (int)luaL_checknumber(L, 2);
+	luaL_argcheck(L, Index >= 1 && Index <= VectorInfo<VecType>::Elements(), 2, "index out of range");
+	float Value = (float)luaL_checknumber(L, 3);
+	Vec[Index - 1] = Value;
+	return 0;
+}
+
+template<typename VecType>
+static int Vec_SetAllImpl(lua_State* L)
+{
+	auto& Vec = *CheckVectorImpl<VecType>(L, 1);
+	for (int i = 0; i < VectorInfo<VecType>::Elements(); ++i)
+	{
+		Vec[i] = (float)luaL_checknumber(L, i + 2);
+	}
+	return 0;
+}
+
+template<typename VecType>
+static int Vec_DotImpl(lua_State* L)
+{
+	auto& VecA = *CheckVectorImpl<VecType>(L, 1);
+	auto& VecB = *CheckVectorImpl<VecType>(L, 2);
+	lua_pushnumber(L, glm::dot(VecA, VecB));
+	return 1;
+}
+
+template<typename VecType>
+static int Vec_DistanceImpl(lua_State* L)
+{
+	auto& VecA = *CheckVectorImpl<VecType>(L, 1);
+	auto& VecB = *CheckVectorImpl<VecType>(L, 2);
+	lua_pushnumber(L, glm::distance(VecA, VecB));
+	return 1;
+}
+
+template<typename VecType>
+static int Vec_LengthImpl(lua_State* L)
+{
+	auto& Vec = *CheckVectorImpl<VecType>(L, 1);
+	lua_pushnumber(L, glm::length(Vec));
+	return 1;
+}
+
+template<typename VecType>
+static int Vec_ApplyImpl(lua_State* L)
+{
+	auto& Vec = *CheckVectorImpl<VecType>(L, 1);
+	luaL_argcheck(L, lua_isfunction(L, 2), 2, "'function' expected");
+
+	VecType Result;
+	for (int i = 0; i < VectorInfo<VecType>::Elements(); ++i)
+	{
+		lua_pushvalue(L, 2);
+		lua_pushnumber(L, Vec[i]);
+		lua_pushnumber(L, i);
+		lua_call(L, 2, 1);
+
+		Result[i] = (float)lua_tonumber(L, -1);
+		lua_pop(L, 1);
+	}
+
+	PushVectorImpl<VecType>(L, Result);
+	return 1;
+}
+
+template<typename VecType>
+static int Vec_NormalizeImpl(lua_State* L)
+{
+	auto& Vec = *CheckVectorImpl<VecType>(L, 1);
+	PushVectorImpl<VecType>(L, glm::normalize(Vec));
+	return 1;
+}
+
+template<typename VecType>
+static int Vec_ReflectImpl(lua_State* L)
+{
+	auto& VecI = *CheckVectorImpl<VecType>(L, 1);
+	auto& VecN = *CheckVectorImpl<VecType>(L, 2);
+	PushVectorImpl<VecType>(L, glm::reflect(VecI, VecN));
+	return 1;
+}
+
+template<typename VecType>
+static int Vec_RefractImpl(lua_State* L)
+{
+	auto& VecI = *CheckVectorImpl<VecType>(L, 1);
+	auto& VecN = *CheckVectorImpl<VecType>(L, 1);
+	float eta = (float)luaL_checknumber(L, 3);
+	PushVectorImpl<VecType>(L, glm::refract(VecI, VecN, eta));
+	return 1;
+}
+
+template<typename VecType>
+static int Vec_M_GCImpl(lua_State* L)
+{
+	delete CheckVectorImpl<VecType>(L, 1);
+	return 0;
+}
+
+template<typename VecType>
+static int Vec_M_EqualImpl(lua_State* L)
+{
+	auto& VecA = *CheckVectorImpl<VecType>(L, 1);
+	auto& VecB = *CheckVectorImpl<VecType>(L, 2);
+	lua_pushboolean(L, VecA == VecB);
+	return 1;
+}
+
+template<typename VecType>
+static int Vec_M_ToStringImpl(lua_State* L)
+{
+	auto& Vec = *CheckVectorImpl<VecType>(L, 1);
+	lua_pushstring(L, glm::to_string(Vec).c_str());
+	return 1;
+}
+
+template<typename VecType>
+static int Vec_M_LengthImpl(lua_State* L)
+{
+	lua_pushnumber(L, VectorInfo<VecType>::Elements());
+	return 1;
+}
+
+template<typename VecType>
+static int Vec_M_UnaryMinusImpl(lua_State* L)
+{
+	auto& Vec = *CheckVectorImpl<VecType>(L, 1);
+	PushVectorImpl<VecType>(L, -Vec);
+	return 1;
+}
+
+template<typename VecType>
+static int Vec_M_AddImpl(lua_State* L)
+{
+	if (lua_isnumber(L, 1))
+	{
+		float Num = (float)luaL_checknumber(L, 1);
+		auto& Vec = *CheckVectorImpl<VecType>(L, 2);
+		PushVectorImpl<VecType>(L, Num + Vec);
+		return 1;
+	}
+	else if (lua_isnumber(L, 2))
+	{
+		auto& Vec = *CheckVectorImpl<VecType>(L, 1);
+		float Num = (float)luaL_checknumber(L, 2);
+		PushVectorImpl<VecType>(L, Vec + Num);
+		return 1;
+	}
+	else
+	{
+		auto& VecA = *CheckVectorImpl<VecType>(L, 1);
+		auto& VecB = *CheckVectorImpl<VecType>(L, 2);
+		PushVectorImpl<VecType>(L, VecA + VecB);
+		return 1;
+	}
+}
+
+template<typename VecType>
+static int Vec_M_SubImpl(lua_State* L)
+{
+	if (lua_isnumber(L, 1))
+	{
+		float Num = (float)luaL_checknumber(L, 1);
+		auto& Vec = *CheckVectorImpl<VecType>(L, 2);
+		PushVectorImpl<VecType>(L, Num - Vec);
+		return 1;
+	}
+	else if (lua_isnumber(L, 2))
+	{
+		auto& Vec = *CheckVectorImpl<VecType>(L, 1);
+		float Num = (float)luaL_checknumber(L, 2);
+		PushVectorImpl<VecType>(L, Vec - Num);
+		return 1;
+	}
+	else
+	{
+		auto& VecA = *CheckVectorImpl<VecType>(L, 1);
+		auto& VecB = *CheckVectorImpl<VecType>(L, 2);
+		PushVectorImpl<VecType>(L, VecA - VecB);
+		return 1;
+	}
+}
+
+template<typename VecType>
+static int Vec_M_MulImpl(lua_State* L)
+{
+	if (lua_isnumber(L, 1))
+	{
+		float Num = (float)luaL_checknumber(L, 1);
+		auto& Vec = *CheckVectorImpl<VecType>(L, 2);
+		PushVectorImpl<VecType>(L, Num * Vec);
+		return 1;
+	}
+	else if (lua_isnumber(L, 2))
+	{
+		auto& Vec = *CheckVectorImpl<VecType>(L, 1);
+		float Num = (float)luaL_checknumber(L, 2);
+		PushVectorImpl<VecType>(L, Vec * Num);
+		return 1;
+	}
+	else
+	{
+		auto& VecA = *CheckVectorImpl<VecType>(L, 1);
+		auto& VecB = *CheckVectorImpl<VecType>(L, 2);
+		PushVectorImpl<VecType>(L, VecA * VecB);
+		return 1;
+	}
+}
+
+template<typename VecType>
+static int Vec_M_DivImpl(lua_State* L)
+{
+	if (lua_isnumber(L, 1))
+	{
+		float Num = (float)luaL_checknumber(L, 1);
+		auto& Vec = *CheckVectorImpl<VecType>(L, 2);
+		PushVectorImpl<VecType>(L, Num / Vec);
+		return 1;
+	}
+	else if (lua_isnumber(L, 2))
+	{
+		auto& Vec = *CheckVectorImpl<VecType>(L, 1);
+		float Num = (float)luaL_checknumber(L, 2);
+		PushVectorImpl<VecType>(L, Vec / Num);
+		return 1;
+	}
+	else
+	{
+		auto& VecA = *CheckVectorImpl<VecType>(L, 1);
+		auto& VecB = *CheckVectorImpl<VecType>(L, 2);
+		PushVectorImpl<VecType>(L, VecA / VecB);
+		return 1;
+	}
+}
+
+static int Vec3_CrossImpl(lua_State* L)
+{
+	auto& VecA = *luaW_checkvector3(L, 1);
+	auto& VecB = *luaW_checkvector3(L, 2);
+
+	PushLuaValue(L, glm::cross(VecA, VecB));
+	return 1;
+}
+
+//
+// Shared Implementations
+//
+
+static bool CheckMetatable(lua_State* L, int idx, const char* MTName)
+{
+	lua_getmetatable(L, idx);
+	luaL_getmetatable(L, MTName);
+	bool Result = lua_equal(L, -1, -2);
+	lua_pop(L, 2);
+	return Result;
+}
+
+//
+// Matrix Registration
 //
 
 #define MATRIX_LIB_F(Name, Type, ...) \
 static const luaL_reg Name##_f[] = { \
-	{ "new", NewImpl<Type> }, \
-	{ "table", TableImpl<Type> }, \
-	{ "get", GetImpl<Type> }, \
-	{ "set", SetImpl<Type> }, \
-	{ "setAll", SetAllImpl<Type> }, \
-	{ "rows", RowsImpl<Type> }, \
-	{ "columns", ColumnsImpl<Type> }, \
-	{ "transpose", TransposeImpl<Type> }, \
+	{ "new", Mat_NewImpl<Type> }, \
+	{ "table", Mat_TableImpl<Type> }, \
+	{ "get", Mat_GetImpl<Type> }, \
+	{ "set", Mat_SetImpl<Type> }, \
+	{ "setAll", Mat_SetAllImpl<Type> }, \
+	{ "rows", Mat_RowsImpl<Type> }, \
+	{ "columns", Mat_ColumnsImpl<Type> }, \
+	{ "transpose", Mat_TransposeImpl<Type> }, \
+	{ "apply", Mat_ApplyImpl<Type> }, \
 	__VA_ARGS__, \
 	{ NULL, NULL } \
 }
 
 #define MATRIX_LIB_M(Name, Type, ...) \
 static const luaL_reg Name##_m[] = { \
-	{ "__gc", M_GCImpl<Type> }, \
-	{ "__eq", M_EqualImpl<Type> }, \
-	{ "__tostring", M_ToStringImpl<Type> }, \
-	{ "__len", M_LengthImpl<Type> }, \
-	{ "table", TableImpl<Type> }, \
-	{ "get", GetImpl<Type> }, \
-	{ "set", SetImpl<Type> }, \
-	{ "setAll", SetAllImpl<Type> }, \
-	{ "rows", RowsImpl<Type> }, \
-	{ "columns", ColumnsImpl<Type> }, \
-	{ "transpose", TransposeImpl<Type> }, \
+	{ "__gc", Mat_M_GCImpl<Type> }, \
+	{ "__eq", Mat_M_EqualImpl<Type> }, \
+	{ "__tostring", Mat_M_ToStringImpl<Type> }, \
+	{ "__len", Mat_M_LengthImpl<Type> }, \
+	{ "table", Mat_TableImpl<Type> }, \
+	{ "get", Mat_GetImpl<Type> }, \
+	{ "set", Mat_SetImpl<Type> }, \
+	{ "setAll", Mat_SetAllImpl<Type> }, \
+	{ "rows", Mat_RowsImpl<Type> }, \
+	{ "columns", Mat_ColumnsImpl<Type> }, \
+	{ "transpose", Mat_TransposeImpl<Type> }, \
+	{ "apply", Mat_ApplyImpl<Type> }, \
 	__VA_ARGS__, \
 	{ NULL, NULL } \
 }
@@ -501,3 +895,144 @@ W_REGISTER_LUA_LIB(luaopen_matrix4x4);
 
 #undef MATRIX_LIB_F
 #undef MATRIX_LIB_M
+
+//
+// Vector Registration
+//
+
+#define VECTOR_LIB_F(Name, Type, ...) \
+static const luaL_reg Name##_f[] = { \
+	{ "new", Vec_NewImpl<Type> }, \
+	{ "table", Vec_TableImpl<Type> }, \
+	{ "get", Vec_GetImpl<Type> }, \
+	{ "set", Vec_SetImpl<Type> }, \
+	{ "setAll", Vec_SetAllImpl<Type> }, \
+	{ "dot", Vec_DotImpl<Type> }, \
+	{ "distance", Vec_DistanceImpl<Type> }, \
+	{ "length", Vec_LengthImpl<Type> }, \
+	{ "apply", Vec_ApplyImpl<Type> }, \
+	{ "normalize", Vec_NormalizeImpl<Type> }, \
+	{ "reflect", Vec_ReflectImpl<Type> }, \
+	{ "refract", Vec_RefractImpl<Type> }, \
+	__VA_ARGS__, \
+	{ NULL, NULL } \
+}
+
+#define VECTOR_LIB_M(Name, Type, ...) \
+static const luaL_reg Name##_m[] = { \
+	{ "__gc", Vec_M_GCImpl<Type> }, \
+	{ "__eq", Vec_M_EqualImpl<Type> }, \
+	{ "__tostring", Vec_M_ToStringImpl<Type> }, \
+	{ "__len", Vec_M_LengthImpl<Type> }, \
+	{ "__unm", Vec_M_UnaryMinusImpl<Type> }, \
+	{ "__add", Vec_M_AddImpl<Type> }, \
+	{ "__sub", Vec_M_SubImpl<Type> }, \
+	{ "__mul", Vec_M_MulImpl<Type> }, \
+	{ "__div", Vec_M_DivImpl<Type> }, \
+	{ "table", Vec_TableImpl<Type> }, \
+	{ "get", Vec_GetImpl<Type> }, \
+	{ "set", Vec_SetImpl<Type> }, \
+	{ "setAll", Vec_SetAllImpl<Type> }, \
+	{ "dot", Vec_DotImpl<Type> }, \
+	{ "distance", Vec_DistanceImpl<Type> }, \
+	{ "length", Vec_LengthImpl<Type> }, \
+	{ "apply", Vec_ApplyImpl<Type> }, \
+	{ "normalize", Vec_NormalizeImpl<Type> }, \
+	{ "reflect", Vec_ReflectImpl<Type> }, \
+	{ "refract", Vec_RefractImpl<Type> }, \
+	__VA_ARGS__, \
+	{ NULL, NULL } \
+}
+
+VECTOR_LIB_F(vector2, glm::vec2);
+VECTOR_LIB_M(vector2, glm::vec2);
+
+void PushLuaValue(lua_State* L, const glm::vec2& Value)
+{
+	PushVectorImpl<glm::vec2>(L, Value);
+}
+
+glm::vec2* luaW_checkvector2(lua_State* L, int idx)
+{
+	return CheckVectorImpl<glm::vec2>(L, idx);
+}
+
+int luaopen_vector2(lua_State* L)
+{
+	luaL_newmetatable(L, VectorInfo<glm::vec2>::MetatableName());
+	lua_pushstring(L, "__index");
+	lua_pushvalue(L, -2);
+	lua_settable(L, -3);
+	luaL_register(L, NULL, vector2_m);
+
+	luaL_register(L, VectorInfo<glm::vec2>::TypeName(), vector2_f);
+
+	return 1;
+}
+
+W_REGISTER_LUA_LIB(luaopen_vector2);
+
+VECTOR_LIB_F(vector3, glm::vec3,
+{ "cross", Vec3_CrossImpl }
+);
+
+VECTOR_LIB_M(vector3, glm::vec3,
+{ "cross", Vec3_CrossImpl }
+);
+
+void PushLuaValue(lua_State* L, const glm::vec3& Value)
+{
+	PushVectorImpl<glm::vec3>(L, Value);
+}
+
+glm::vec3* luaW_checkvector3(lua_State* L, int idx)
+{
+	return CheckVectorImpl<glm::vec3>(L, idx);
+}
+
+int luaopen_vector3(lua_State* L)
+{
+	luaL_newmetatable(L, VectorInfo<glm::vec3>::MetatableName());
+	lua_pushstring(L, "__index");
+	lua_pushvalue(L, -2);
+	lua_settable(L, -3);
+	luaL_register(L, NULL, vector3_m);
+
+	luaL_register(L, VectorInfo<glm::vec3>::TypeName(), vector3_f);
+
+	return 1;
+}
+
+W_REGISTER_LUA_LIB(luaopen_vector3);
+
+VECTOR_LIB_F(vector4, glm::vec4);
+
+VECTOR_LIB_M(vector4, glm::vec4);
+
+void PushLuaValue(lua_State* L, const glm::vec4& Value)
+{
+	PushVectorImpl<glm::vec4>(L, Value);
+}
+
+glm::vec4* luaW_checkvector4(lua_State* L, int idx)
+{
+	return CheckVectorImpl<glm::vec4>(L, idx);
+}
+
+int luaopen_vector4(lua_State* L)
+{
+	luaL_newmetatable(L, VectorInfo<glm::vec4>::MetatableName());
+	lua_pushstring(L, "__index");
+	lua_pushvalue(L, -2);
+	lua_settable(L, -3);
+	luaL_register(L, NULL, vector4_m);
+
+	luaL_register(L, VectorInfo<glm::vec4>::TypeName(), vector4_f);
+
+	return 1;
+}
+
+W_REGISTER_LUA_LIB(luaopen_vector4);
+
+#undef VECTOR_LIB_F
+#undef VECTOR_LIB_M
