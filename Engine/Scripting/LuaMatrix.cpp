@@ -599,10 +599,115 @@ static bool CheckMetatable(lua_State* L, int idx, const char* MTName)
 {
 	lua_getmetatable(L, idx);
 	luaL_getmetatable(L, MTName);
-	bool Result = lua_equal(L, -1, -2);
+	bool Result = (bool)lua_equal(L, -1, -2);
 	lua_pop(L, 2);
 	return Result;
 }
+
+#define MATH_HELPER_EX(Mode, Type, Exp) \
+if(CheckMetatable(L, 2, Mode##Info<Type>::MetatableName())) \
+{ \
+	auto& V2 = *Check##Mode##Impl<Type>(L, 2); \
+	PushLuaValue(L, (Exp)); \
+	return 1; \
+}
+
+#define MATH_HELPER(Mode, Type, Op) MATH_HELPER_EX(Mode, Type, V1 Op V2)
+#define MATH_HELPER_R(Mode, Type, Op) MATH_HELPER_EX(Mode, Type, V2 Op V1);
+
+static int S_M_AddImpl(lua_State* L)
+{
+	if (lua_isnumber(L, 1))
+	{
+		float V1 = (float)lua_tonumber(L, 1);
+
+		MATH_HELPER(Vector, glm::vec2, +);
+		MATH_HELPER(Vector, glm::vec3, +);
+		MATH_HELPER(Vector, glm::vec4, +);
+
+		MATH_HELPER_R(Matrix, glm::mat2x2, +);
+		MATH_HELPER_R(Matrix, glm::mat2x3, +);
+		MATH_HELPER_R(Matrix, glm::mat2x4, +);
+		MATH_HELPER_R(Matrix, glm::mat3x2, +);
+		MATH_HELPER_R(Matrix, glm::mat3x3, +);
+		MATH_HELPER_R(Matrix, glm::mat3x4, +);
+		MATH_HELPER_R(Matrix, glm::mat4x2, +);
+		MATH_HELPER_R(Matrix, glm::mat4x3, +);
+		MATH_HELPER_R(Matrix, glm::mat4x2, +);
+	}
+	else if (CheckMetatable(L, 1, VectorInfo<glm::vec2>::MetatableName()))
+	{
+		auto& V1 = *CheckVectorImpl<glm::vec2>(L, 1);
+
+		if (lua_isnumber(L, 2))
+		{
+			float V2 = (float)lua_tonumber(L, 2);
+			PushLuaValue(L, V1 + V2);
+			return 1;
+		}
+
+		MATH_HELPER(Vector, glm::vec2, +);
+	}
+	else if (CheckMetatable(L, 1, VectorInfo<glm::vec3>::MetatableName()))
+	{
+		auto& V1 = *CheckVectorImpl<glm::vec3>(L, 1);
+
+		if (lua_isnumber(L, 2))
+		{
+			float V2 = (float)lua_tonumber(L, 2);
+			PushLuaValue(L, V1 + V2);
+			return 1;
+		}
+
+		MATH_HELPER(Vector, glm::vec3, +);
+	}
+	else if (CheckMetatable(L, 1, VectorInfo<glm::vec4>::MetatableName()))
+	{
+		auto& V1 = *CheckVectorImpl<glm::vec4>(L, 1);
+
+		if (lua_isnumber(L, 2))
+		{
+			float V2 = (float)lua_tonumber(L, 2);
+			PushLuaValue(L, V1 + V2);
+			return 1;
+		}
+
+		MATH_HELPER(Vector, glm::vec4, +);
+	}
+	else if (CheckMetatable(L, 1, MatrixInfo<glm::mat2x2>::MetatableName()))
+	{
+		auto& V1 = *CheckMatrixImpl<glm::mat2x2>(L, 1);
+
+		if (lua_isnumber(L, 2))
+		{
+			float V2 = (float)lua_tonumber(L, 2);
+			PushLuaValue(L, V1 + V2);
+			return 1;
+		}
+
+		MATH_HELPER(Matrix, glm::mat2x2, +);
+	}
+	else if (CheckMetatable(L, 1, MatrixInfo<glm::mat2x3>::MetatableName()))
+	{
+		auto& V1 = *CheckMatrixImpl<glm::mat2x3>(L, 1);
+
+		if (lua_isnumber(L, 2))
+		{
+			float V2 = (float)lua_tonumber(L, 2);
+			PushLuaValue(L, V1 + V2);
+			return 1;
+		}
+
+		MATH_HELPER(Matrix, glm::mat2x3, +);
+	}
+
+	luaL_error(L, "Cannot apply operation to incompatible types!");
+	return 0;
+}
+
+#undef MATH_HELPER_EX
+#undef MATH_HELPER
+#undef MATH_HELPER_R
 
 //
 // Matrix Registration
@@ -629,6 +734,7 @@ static const luaL_reg Name##_m[] = { \
 	{ "__eq", Mat_M_EqualImpl<Type> }, \
 	{ "__tostring", Mat_M_ToStringImpl<Type> }, \
 	{ "__len", Mat_M_LengthImpl<Type> }, \
+	{ "__add", S_M_AddImpl }, \
 	{ "table", Mat_TableImpl<Type> }, \
 	{ "get", Mat_GetImpl<Type> }, \
 	{ "set", Mat_SetImpl<Type> }, \
