@@ -478,110 +478,6 @@ static int Vec_M_UnaryMinusImpl(lua_State* L)
 	return 1;
 }
 
-template<typename VecType>
-static int Vec_M_AddImpl(lua_State* L)
-{
-	if (lua_isnumber(L, 1))
-	{
-		float Num = (float)luaL_checknumber(L, 1);
-		auto& Vec = *CheckVectorImpl<VecType>(L, 2);
-		PushVectorImpl<VecType>(L, Num + Vec);
-		return 1;
-	}
-	else if (lua_isnumber(L, 2))
-	{
-		auto& Vec = *CheckVectorImpl<VecType>(L, 1);
-		float Num = (float)luaL_checknumber(L, 2);
-		PushVectorImpl<VecType>(L, Vec + Num);
-		return 1;
-	}
-	else
-	{
-		auto& VecA = *CheckVectorImpl<VecType>(L, 1);
-		auto& VecB = *CheckVectorImpl<VecType>(L, 2);
-		PushVectorImpl<VecType>(L, VecA + VecB);
-		return 1;
-	}
-}
-
-template<typename VecType>
-static int Vec_M_SubImpl(lua_State* L)
-{
-	if (lua_isnumber(L, 1))
-	{
-		float Num = (float)luaL_checknumber(L, 1);
-		auto& Vec = *CheckVectorImpl<VecType>(L, 2);
-		PushVectorImpl<VecType>(L, Num - Vec);
-		return 1;
-	}
-	else if (lua_isnumber(L, 2))
-	{
-		auto& Vec = *CheckVectorImpl<VecType>(L, 1);
-		float Num = (float)luaL_checknumber(L, 2);
-		PushVectorImpl<VecType>(L, Vec - Num);
-		return 1;
-	}
-	else
-	{
-		auto& VecA = *CheckVectorImpl<VecType>(L, 1);
-		auto& VecB = *CheckVectorImpl<VecType>(L, 2);
-		PushVectorImpl<VecType>(L, VecA - VecB);
-		return 1;
-	}
-}
-
-template<typename VecType>
-static int Vec_M_MulImpl(lua_State* L)
-{
-	if (lua_isnumber(L, 1))
-	{
-		float Num = (float)luaL_checknumber(L, 1);
-		auto& Vec = *CheckVectorImpl<VecType>(L, 2);
-		PushVectorImpl<VecType>(L, Num * Vec);
-		return 1;
-	}
-	else if (lua_isnumber(L, 2))
-	{
-		auto& Vec = *CheckVectorImpl<VecType>(L, 1);
-		float Num = (float)luaL_checknumber(L, 2);
-		PushVectorImpl<VecType>(L, Vec * Num);
-		return 1;
-	}
-	else
-	{
-		auto& VecA = *CheckVectorImpl<VecType>(L, 1);
-		auto& VecB = *CheckVectorImpl<VecType>(L, 2);
-		PushVectorImpl<VecType>(L, VecA * VecB);
-		return 1;
-	}
-}
-
-template<typename VecType>
-static int Vec_M_DivImpl(lua_State* L)
-{
-	if (lua_isnumber(L, 1))
-	{
-		float Num = (float)luaL_checknumber(L, 1);
-		auto& Vec = *CheckVectorImpl<VecType>(L, 2);
-		PushVectorImpl<VecType>(L, Num / Vec);
-		return 1;
-	}
-	else if (lua_isnumber(L, 2))
-	{
-		auto& Vec = *CheckVectorImpl<VecType>(L, 1);
-		float Num = (float)luaL_checknumber(L, 2);
-		PushVectorImpl<VecType>(L, Vec / Num);
-		return 1;
-	}
-	else
-	{
-		auto& VecA = *CheckVectorImpl<VecType>(L, 1);
-		auto& VecB = *CheckVectorImpl<VecType>(L, 2);
-		PushVectorImpl<VecType>(L, VecA / VecB);
-		return 1;
-	}
-}
-
 static int Vec3_CrossImpl(lua_State* L)
 {
 	auto& VecA = *luaW_checkvector3(L, 1);
@@ -990,6 +886,252 @@ static int S_M_SubImpl(lua_State* L)
 	return 0;
 }
 
+static int S_M_MulImpl(lua_State* L)
+{
+	if (lua_isnumber(L, 1))
+	{
+		float V1 = (float)lua_tonumber(L, 1);
+
+		MATH_HELPER(Vector, glm::vec2, *);
+		MATH_HELPER(Vector, glm::vec3, *);
+		MATH_HELPER(Vector, glm::vec4, *);
+
+		MATH_HELPER(Matrix, glm::mat2x2, *);
+		MATH_HELPER(Matrix, glm::mat2x3, *);
+		MATH_HELPER(Matrix, glm::mat2x4, *);
+		MATH_HELPER(Matrix, glm::mat3x2, *);
+		MATH_HELPER(Matrix, glm::mat3x3, *);
+		MATH_HELPER(Matrix, glm::mat3x4, *);
+		MATH_HELPER(Matrix, glm::mat4x2, *);
+		MATH_HELPER(Matrix, glm::mat4x3, *);
+		MATH_HELPER(Matrix, glm::mat4x4, *);
+	}
+	else if (CheckMetatable(L, 1, VectorInfo<glm::vec2>::MetatableName()))
+	{
+		auto& V1 = *CheckVectorImpl<glm::vec2>(L, 1);
+
+		if (lua_isnumber(L, 2))
+		{
+			float V2 = (float)lua_tonumber(L, 2);
+			PushLuaValue(L, V1 * V2);
+			return 1;
+		}
+
+		MATH_HELPER(Vector, glm::vec2, *);
+
+		MATH_HELPER(Matrix, glm::mat2x2, *);
+		MATH_HELPER(Matrix, glm::mat3x2, *);
+		MATH_HELPER(Matrix, glm::mat4x2, *);
+	}
+	else if (CheckMetatable(L, 1, VectorInfo<glm::vec3>::MetatableName()))
+	{
+		auto& V1 = *CheckVectorImpl<glm::vec3>(L, 1);
+
+		if (lua_isnumber(L, 2))
+		{
+			float V2 = (float)lua_tonumber(L, 2);
+			PushLuaValue(L, V1 * V2);
+			return 1;
+		}
+
+		MATH_HELPER(Vector, glm::vec3, *);
+
+		MATH_HELPER(Matrix, glm::mat2x3, *);
+		MATH_HELPER(Matrix, glm::mat3x3, *);
+		MATH_HELPER(Matrix, glm::mat4x3, *);
+	}
+	else if (CheckMetatable(L, 1, VectorInfo<glm::vec4>::MetatableName()))
+	{
+		auto& V1 = *CheckVectorImpl<glm::vec4>(L, 1);
+
+		if (lua_isnumber(L, 2))
+		{
+			float V2 = (float)lua_tonumber(L, 2);
+			PushLuaValue(L, V1 * V2);
+			return 1;
+		}
+
+		MATH_HELPER(Vector, glm::vec4, *);
+
+		MATH_HELPER(Matrix, glm::mat2x4, *);
+		MATH_HELPER(Matrix, glm::mat3x4, *);
+		MATH_HELPER(Matrix, glm::mat4x4, *);
+	}
+	else if (CheckMetatable(L, 1, MatrixInfo<glm::mat2x2>::MetatableName()))
+	{
+		auto& V1 = *CheckMatrixImpl<glm::mat2x2>(L, 1);
+
+		if (lua_isnumber(L, 2))
+		{
+			float V2 = (float)lua_tonumber(L, 2);
+			PushLuaValue(L, V1 * V2);
+			return 1;
+		}
+
+		MATH_HELPER(Vector, glm::vec2, *);
+
+		MATH_HELPER(Matrix, glm::mat2x2, *);
+		MATH_HELPER(Matrix, glm::mat3x2, *);
+		MATH_HELPER(Matrix, glm::mat4x2, *);
+	}
+	else if (CheckMetatable(L, 1, MatrixInfo<glm::mat2x3>::MetatableName()))
+	{
+		auto& V1 = *CheckMatrixImpl<glm::mat2x3>(L, 1);
+
+		if (lua_isnumber(L, 2))
+		{
+			float V2 = (float)lua_tonumber(L, 2);
+			PushLuaValue(L, V1 * V2);
+			return 1;
+		}
+
+		MATH_HELPER(Vector, glm::vec2, *);
+
+		MATH_HELPER(Matrix, glm::mat2x2, *);
+		MATH_HELPER(Matrix, glm::mat3x2, *);
+		MATH_HELPER(Matrix, glm::mat4x2, *);
+	}
+	else if (CheckMetatable(L, 1, MatrixInfo<glm::mat2x4>::MetatableName()))
+	{
+		auto& V1 = *CheckMatrixImpl<glm::mat2x4>(L, 1);
+
+		if (lua_isnumber(L, 2))
+		{
+			float V2 = (float)lua_tonumber(L, 2);
+			PushLuaValue(L, V1 * V2);
+			return 1;
+		}
+
+		MATH_HELPER(Vector, glm::vec2, *);
+
+		MATH_HELPER(Matrix, glm::mat2x2, *);
+		MATH_HELPER(Matrix, glm::mat3x2, *);
+		MATH_HELPER(Matrix, glm::mat4x2, *);
+	}
+	else if (CheckMetatable(L, 1, MatrixInfo<glm::mat2x4>::MetatableName()))
+	{
+		auto& V1 = *CheckMatrixImpl<glm::mat2x4>(L, 1);
+
+		if (lua_isnumber(L, 2))
+		{
+			float V2 = (float)lua_tonumber(L, 2);
+			PushLuaValue(L, V1 * V2);
+			return 1;
+		}
+
+		MATH_HELPER(Vector, glm::vec2, *);
+
+		MATH_HELPER(Matrix, glm::mat2x2, *);
+		MATH_HELPER(Matrix, glm::mat3x2, *);
+		MATH_HELPER(Matrix, glm::mat4x2, *);
+	}
+	else if (CheckMetatable(L, 1, MatrixInfo<glm::mat3x2>::MetatableName()))
+	{
+		auto& V1 = *CheckMatrixImpl<glm::mat3x2>(L, 1);
+
+		if (lua_isnumber(L, 2))
+		{
+			float V2 = (float)lua_tonumber(L, 2);
+			PushLuaValue(L, V1 * V2);
+			return 1;
+		}
+
+		MATH_HELPER(Vector, glm::vec3, *);
+
+		MATH_HELPER(Matrix, glm::mat2x3, *);
+		MATH_HELPER(Matrix, glm::mat3x3, *);
+		MATH_HELPER(Matrix, glm::mat4x3, *);
+	}
+	else if (CheckMetatable(L, 1, MatrixInfo<glm::mat3x3>::MetatableName()))
+	{
+		auto& V1 = *CheckMatrixImpl<glm::mat3x3>(L, 1);
+
+		if (lua_isnumber(L, 2))
+		{
+			float V2 = (float)lua_tonumber(L, 2);
+			PushLuaValue(L, V1 * V2);
+			return 1;
+		}
+
+		MATH_HELPER(Vector, glm::vec3, *);
+
+		MATH_HELPER(Matrix, glm::mat2x3, *);
+		MATH_HELPER(Matrix, glm::mat3x3, *);
+		MATH_HELPER(Matrix, glm::mat4x3, *);
+	}
+	else if (CheckMetatable(L, 1, MatrixInfo<glm::mat3x4>::MetatableName()))
+	{
+		auto& V1 = *CheckMatrixImpl<glm::mat3x4>(L, 1);
+
+		if (lua_isnumber(L, 2))
+		{
+			float V2 = (float)lua_tonumber(L, 2);
+			PushLuaValue(L, V1 * V2);
+			return 1;
+		}
+
+		MATH_HELPER(Vector, glm::vec3, *);
+
+		MATH_HELPER(Matrix, glm::mat2x3, *);
+		MATH_HELPER(Matrix, glm::mat3x3, *);
+		MATH_HELPER(Matrix, glm::mat4x3, *);
+	}
+	else if (CheckMetatable(L, 1, MatrixInfo<glm::mat4x2>::MetatableName()))
+	{
+		auto& V1 = *CheckMatrixImpl<glm::mat4x2>(L, 1);
+
+		if (lua_isnumber(L, 2))
+		{
+			float V2 = (float)lua_tonumber(L, 2);
+			PushLuaValue(L, V1 * V2);
+			return 1;
+		}
+
+		MATH_HELPER(Vector, glm::vec4, *);
+
+		MATH_HELPER(Matrix, glm::mat2x4, *);
+		MATH_HELPER(Matrix, glm::mat3x4, *);
+		MATH_HELPER(Matrix, glm::mat4x4, *);
+	}
+	else if (CheckMetatable(L, 1, MatrixInfo<glm::mat4x3>::MetatableName()))
+	{
+		auto& V1 = *CheckMatrixImpl<glm::mat4x3>(L, 1);
+
+		if (lua_isnumber(L, 2))
+		{
+			float V2 = (float)lua_tonumber(L, 2);
+			PushLuaValue(L, V1 * V2);
+			return 1;
+		}
+
+		MATH_HELPER(Vector, glm::vec4, *);
+
+		MATH_HELPER(Matrix, glm::mat2x4, *);
+		MATH_HELPER(Matrix, glm::mat3x4, *);
+		MATH_HELPER(Matrix, glm::mat4x4, *);
+	}
+	else if (CheckMetatable(L, 1, MatrixInfo<glm::mat4x4>::MetatableName()))
+	{
+		auto& V1 = *CheckMatrixImpl<glm::mat4x4>(L, 1);
+
+		if (lua_isnumber(L, 2))
+		{
+			float V2 = (float)lua_tonumber(L, 2);
+			PushLuaValue(L, V1 * V2);
+			return 1;
+		}
+
+		MATH_HELPER(Vector, glm::vec4, *);
+
+		MATH_HELPER(Matrix, glm::mat2x4, *);
+		MATH_HELPER(Matrix, glm::mat3x4, *);
+		MATH_HELPER(Matrix, glm::mat4x4, *);
+	}
+
+	luaL_error(L, "Cannot apply operation to incompatible types!");
+	return 0;
+}
+
 #undef MATH_HELPER_EX
 #undef MATH_HELPER
 #undef MATH_HELPER_R
@@ -1021,6 +1163,7 @@ static const luaL_reg Name##_m[] = { \
 	{ "__len", Mat_M_LengthImpl<Type> }, \
 	{ "__add", S_M_AddImpl }, \
 	{ "__sub", S_M_SubImpl }, \
+	{ "__mul", S_M_MulImpl }, \
 	{ "table", Mat_TableImpl<Type> }, \
 	{ "get", Mat_GetImpl<Type> }, \
 	{ "set", Mat_SetImpl<Type> }, \
@@ -1317,10 +1460,9 @@ static const luaL_reg Name##_m[] = { \
 	{ "__tostring", Vec_M_ToStringImpl<Type> }, \
 	{ "__len", Vec_M_LengthImpl<Type> }, \
 	{ "__unm", Vec_M_UnaryMinusImpl<Type> }, \
-	{ "__add", Vec_M_AddImpl<Type> }, \
-	{ "__sub", Vec_M_SubImpl<Type> }, \
-	{ "__mul", Vec_M_MulImpl<Type> }, \
-	{ "__div", Vec_M_DivImpl<Type> }, \
+	{ "__add", S_M_AddImpl }, \
+	{ "__sub", S_M_SubImpl }, \
+	{ "__mul", S_M_MulImpl }, \
 	{ "table", Vec_TableImpl<Type> }, \
 	{ "get", Vec_GetImpl<Type> }, \
 	{ "set", Vec_SetImpl<Type> }, \
