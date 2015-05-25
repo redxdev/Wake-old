@@ -1,7 +1,7 @@
 -- Prints the client's information to the log on startup, useful when debugging
 -- from logs.
 
-local logger = log.new("ClientInfo")
+local logger = Logger.new("ClientInfo")
 
 logger:info(_VERSION)
 

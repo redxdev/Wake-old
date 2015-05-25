@@ -13,11 +13,5 @@ local function stopBinding()
 end
 input.event("Stop"):bind(stopBinding)
 
--- Re-initialize the window
-local function reinitWindow()
-    window.initialize(config.window)
-end
-input.event("Refresh"):bind(reinitWindow)
-
 -- Initialize the window for the first time
 window.initialize(config.window)

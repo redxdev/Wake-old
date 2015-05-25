@@ -1,5 +1,5 @@
 -- Input helper functions
-local logger = log.new("InputHelper")
+local logger = Logger.new("InputHelper")
 
 -- Sets up bindings based on a table. The table should be an array with
 -- each entry being another table with arguments to pass to input.bind.

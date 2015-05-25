@@ -132,7 +132,7 @@ int luaopen_log(lua_State* L)
 
 	luaL_register(L, NULL, loglib_m);
 
-	luaL_register(L, "log", loglib_f);
+	luaL_register(L, "Logger", loglib_f);
 	return 1;
 }
 

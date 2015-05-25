@@ -9,8 +9,7 @@ local key = input.key
 local mouse = input.mouse
 
 local bindings = {
-	{"Stop", type.Keyboard, mode.Released, key.Escape},
-	{"Refresh", type.Keyboard, mode.Released, key.R}
+	{"Stop", type.Keyboard, mode.Released, key.Escape}
 }
 
 input.bindAll(bindings)
