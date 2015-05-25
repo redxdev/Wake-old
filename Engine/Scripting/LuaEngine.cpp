@@ -4,6 +4,7 @@
 #include "LuaLibRegistry.h"
 #include "LuaEvent.h"
 #include "../Scripting/LuaInput.h"
+#include "LuaMatrix.h"
 
 static int l_stop(lua_State* L)
 {
@@ -23,10 +24,40 @@ static int l_getDeltaTime(lua_State* L)
 	return 1;
 }
 
+static int l_getViewMatrix(lua_State* L)
+{
+	PushLuaValue(L, W_ENGINE.GetViewMatrix());
+	return 1;
+}
+
+static int l_getProjectionMatrix(lua_State* L)
+{
+	PushLuaValue(L, W_ENGINE.GetProjectionMatrix());
+	return 1;
+}
+
+static int l_setViewMatrix(lua_State* L)
+{
+	auto& Mat = *luaW_checkmatrix4x4(L, 1);
+	W_ENGINE.SetViewMatrix(Mat);
+	return 0;
+}
+
+static int l_setProjectionMatrix(lua_State* L)
+{
+	auto& Mat = *luaW_checkmatrix4x4(L, 1);
+	W_ENGINE.SetProjectionMatrix(Mat);
+	return 0;
+}
+
 static const struct luaL_reg enginelib_f[] = {
 	{ "stop", l_stop },
 	{ "isRunning", l_isRunning },
 	{ "getDeltaTime", l_getDeltaTime },
+	{ "getViewMatrix", l_getViewMatrix },
+	{ "getProjectionMatrix", l_getProjectionMatrix },
+	{ "setViewMatrix", l_setViewMatrix },
+	{ "setProjectionMatrix", l_setProjectionMatrix },
 	{NULL, NULL}
 };
 

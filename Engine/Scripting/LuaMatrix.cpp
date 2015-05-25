@@ -114,7 +114,7 @@ static int Mat_GetImpl(lua_State* L)
 
 	case 2:
 	{
-		int Index = (int)luaL_checknumber(L, 2);
+		int Index = luaL_checkinteger(L, 2);
 		luaL_argcheck(L, Index >= 1 && Index <= MatrixInfo<MatType>::Rows(), 2, "row index out of range");
 		PushLuaValue(L, Mat[Index - 1]);
 		return 1;
@@ -122,9 +122,9 @@ static int Mat_GetImpl(lua_State* L)
 
 	case 3:
 	{
-		int Index1 = (int)luaL_checknumber(L, 2);
+		int Index1 = luaL_checkinteger(L, 2);
 		luaL_argcheck(L, Index1 >= 1 && Index1 <= MatrixInfo<MatType>::Rows(), 2, "row index out of range");
-		int Index2 = (int)luaL_checknumber(L, 3);
+		int Index2 = luaL_checkinteger(L, 3);
 		luaL_argcheck(L, Index2 >= 1 && Index2 <= MatrixInfo<MatType>::Columns(), 3, "column index out of range");
 		lua_pushnumber(L, Mat[Index1 - 1][Index2 - 1]);
 		return 1;
@@ -136,9 +136,9 @@ template<typename MatType>
 static int Mat_SetImpl(lua_State* L)
 {
 	auto& Mat = *CheckMatrixImpl<MatType>(L, 1);
-	int Index1 = (int)luaL_checknumber(L, 2);
+	int Index1 = luaL_checkinteger(L, 2);
 	luaL_argcheck(L, Index1 >= 1 && Index1 <= MatrixInfo<MatType>::Rows(), 2, "row index out of range");
-	int Index2 = (int)luaL_checknumber(L, 3);
+	int Index2 = luaL_checkinteger(L, 3);
 	luaL_argcheck(L, Index2 >= 1 && Index2 <= MatrixInfo<MatType>::Columns(), 3, "column index out of range");
 
 	Mat[Index1 - 1][Index2 - 1] = (float)luaL_checknumber(L, 4);
@@ -336,7 +336,7 @@ template<typename VecType>
 static int Vec_GetImpl(lua_State* L)
 {
 	auto& Vec = *CheckVectorImpl<VecType>(L, 1);
-	int Index = (int)luaL_checknumber(L, 2);
+	int Index = luaL_checkinteger(L, 2);
 	luaL_argcheck(L, Index >= 1 && Index <= VectorInfo<VecType>::Elements(), 2, "index out of range");
 	lua_pushnumber(L, Vec[Index - 1]);
 	return 1;
@@ -346,7 +346,7 @@ template<typename VecType>
 static int Vec_SetImpl(lua_State* L)
 {
 	auto& Vec = *CheckVectorImpl<VecType>(L, 1);
-	int Index = (int)luaL_checknumber(L, 2);
+	int Index = luaL_checkinteger(L, 2);
 	luaL_argcheck(L, Index >= 1 && Index <= VectorInfo<VecType>::Elements(), 2, "index out of range");
 	float Value = (float)luaL_checknumber(L, 3);
 	Vec[Index - 1] = Value;

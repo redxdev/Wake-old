@@ -1,7 +1,9 @@
 -- Libraries Initialization
 -- Add any init code for libraries here
 
--- Set up the window
-window.initialize(config.window)
-
+-- Generally all core engine functions are required here, while
+-- external libraries without any initialization are required in files
+-- that they are used in.
 require "lib/info"
+require "lib/inputhelper"
+require "lib/color"

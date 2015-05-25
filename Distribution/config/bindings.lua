@@ -1,10 +1,16 @@
 -- Input bindings
 
+-- For input.bindAll
+require "lib/inputhelper"
+
 local type = input.type
 local mode = input.mode
 local key = input.key
 local mouse = input.mouse
 
-input.bind("Increase", type.Keyboard, mode.Released, key.Up)
-input.bind("Decrease", type.Keyboard, mode.Released, key.Down)
-input.bind("Stop", type.Keyboard, mode.Released, key.Escape)
+local bindings = {
+	{"Stop", type.Keyboard, mode.Released, key.Escape},
+	{"Refresh", type.Keyboard, mode.Released, key.R}
+}
+
+input.bindAll(bindings)
