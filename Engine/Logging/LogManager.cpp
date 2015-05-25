@@ -48,7 +48,6 @@ void LogManager::AddSink(LogSink* Sink)
 
 void LogManager::Log(const Logger& Log, LogLevel Level, const std::string& Message)
 {
-	//assert(Sinks.size() > 0 && "No sinks to log to, possible leak after LogManager shutdown?");
 	if (Sinks.size() == 0)
 	{
 		return;
