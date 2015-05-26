@@ -1,17 +1,12 @@
 -- Game initialization
 -- Add any code for game initialization here
 
--- Stop the engine if the window is closed
-local function gameWindowClosed()
-  engine.stop()
-end
-window.closed:bind(gameWindowClosed)
+-- Default initialization code
+require "defaults"
 
--- Stop the engine if the "Stop" binding is called
-local function stopBinding()
-    engine.stop()
-end
-input.event("Stop"):bind(stopBinding)
+local dbg = require "debugger"
 
--- Initialize the window for the first time
-window.initialize(config.window)
+local Camera = require "render/camera"
+
+local cam = Camera({0, 3, 0}, {10, 0, 0})
+cam:activate()

@@ -10,8 +10,6 @@
 #include "../Engine/GEngine.h"
 #include "../Engine/InputManager.h"
 
-#include "../World/World.h"
-
 #include "../Scripting/ScriptManager.h"
 
 #include <fstream>
@@ -100,12 +98,6 @@ bool Bootstrap::Startup()
 		return false;
 	}
 
-	if (!W_WORLD.Startup())
-	{
-		CLOG_FATAL("W_WORLD.Startup() failed");
-		return false;
-	}
-
 	if (!W_SCRIPT.Startup())
 	{
 		CLOG_FATAL("W_SCRIPT.Startup() failed");
@@ -124,12 +116,6 @@ bool Bootstrap::Shutdown()
 	if (!W_SCRIPT.Shutdown())
 	{
 		CLOG_FATAL("W_SCRIPT.Shutdown() failed");
-		return false;
-	}
-
-	if (!W_WORLD.Shutdown())
-	{
-		CLOG_FATAL("W_WORLD.Shutdown() failed");
 		return false;
 	}
 

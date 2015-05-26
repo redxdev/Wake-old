@@ -101,11 +101,11 @@
     <ClInclude Include="Game\Setup.h" />
     <ClInclude Include="Scripting\LuaLogging.h" />
     <ClInclude Include="Scripting\LuaLibRegistry.h" />
+    <ClInclude Include="Scripting\LuaMath.h" />
     <ClInclude Include="Scripting\LuaMatrix.h" />
     <ClInclude Include="Scripting\ScriptManager.h" />
     <ClInclude Include="Scripting\LuaEvent.h" />
     <ClInclude Include="Utility\LuaExt.h" />
-    <ClInclude Include="World\Actor.h" />
     <ClInclude Include="Engine\Input.h" />
     <ClInclude Include="Engine\InputManager.h" />
     <ClInclude Include="Utility\Event.h" />
@@ -123,10 +123,6 @@
     <ClInclude Include="Engine\GEngine.h" />
     <ClInclude Include="Utility\Types.h" />
     <ClInclude Include="WakeDefines.h" />
-    <ClInclude Include="World\CameraComponent.h" />
-    <ClInclude Include="World\Component.h" />
-    <ClInclude Include="World\StaticMeshComponent.h" />
-    <ClInclude Include="World\World.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scripting\LuaEngine.cpp" />
@@ -136,15 +132,11 @@
     <ClCompile Include="Game\Setup.cpp" />
     <ClCompile Include="Scripting\LuaLogging.cpp" />
     <ClCompile Include="Scripting\LuaLibRegistry.cpp" />
+    <ClCompile Include="Scripting\LuaMath.cpp" />
     <ClCompile Include="Scripting\LuaMatrix.cpp" />
     <ClCompile Include="Scripting\ScriptManager.cpp" />
     <ClCompile Include="Scripting\LuaEvent.cpp" />
     <ClCompile Include="Utility\LuaExt.cpp" />
-    <ClCompile Include="World\CameraComponent.cpp" />
-    <ClCompile Include="World\Component.cpp" />
-    <ClCompile Include="World\StaticMeshComponent.cpp" />
-    <ClCompile Include="World\World.cpp" />
-    <ClCompile Include="World\Actor.cpp" />
     <ClCompile Include="Engine\Input.cpp" />
     <ClCompile Include="Engine\InputManager.cpp" />
     <ClCompile Include="Engine\Window.cpp" />

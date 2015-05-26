@@ -2,8 +2,6 @@
 
 #include <SFML/OpenGL.hpp>
 
-#include "../World/World.h"
-
 CLOG_LOGGER_DEF(GEngine);
 
 GEngine& GEngine::Get()
@@ -45,7 +43,6 @@ void GEngine::Run()
 		GameWindow.PollEvents();
 
 		Tick.Call();
-		W_WORLD.Tick();
 
 		Draw.Call();
 		Render();
@@ -102,6 +99,4 @@ float GEngine::GetDeltaTime() const
 void GEngine::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	W_WORLD.Draw();
 }

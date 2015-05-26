@@ -15,9 +15,26 @@ static int l_bind(lua_State* L)
 {
 	auto Container = luaW_checkevent(L);
 
-	luaL_argcheck(L, lua_isfunction(L, 2), 2, "'function' expected");
-	lua_pushvalue(L, 2);
-	Container->Bind(L);
+	switch (lua_gettop(L))
+	{
+		default:
+			luaL_error(L, "bind requires 2 or 3 arguments");
+			break;
+
+		case 2:
+			luaL_argcheck(L, lua_isfunction(L, 2), 2, "'function' expected");
+			lua_pushvalue(L, 2);
+			Container->Bind(L);
+			break;
+
+		case 3:
+			luaL_argcheck(L, lua_istable(L, 2), 2, "'table' expected");
+			lua_pushvalue(L, 2);
+			luaL_argcheck(L, lua_isfunction(L, 3), 3, "'function' expected");
+			lua_pushvalue(L, 3);
+			Container->BindTable(L);
+			break;
+	}
 
 	return 0;
 }
@@ -26,9 +43,26 @@ static int l_unbind(lua_State* L)
 {
 	auto Container = luaW_checkevent(L);
 
-	luaL_argcheck(L, lua_isfunction(L, 2), 2, "'function' expected");
-	lua_pushvalue(L, 2);
-	Container->Unbind(L);
+	switch (lua_gettop(L))
+	{
+	default:
+		luaL_error(L, "bind requires 2 or 3 arguments");
+		break;
+
+	case 2:
+		luaL_argcheck(L, lua_isfunction(L, 2), 2, "'function' expected");
+		lua_pushvalue(L, 2);
+		Container->Unbind(L);
+		break;
+
+	case 3:
+		luaL_argcheck(L, lua_istable(L, 2), 2, "'table' expected");
+		lua_pushvalue(L, 2);
+		luaL_argcheck(L, lua_isfunction(L, 3), 3, "'function' expected");
+		lua_pushvalue(L, 3);
+		Container->UnbindTable(L);
+		break;
+	}
 
 	return 0;
 }

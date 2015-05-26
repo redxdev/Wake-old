@@ -4,7 +4,7 @@
 #include "../Logging/LogMacros.h"
 
 #define W_SCRIPT (ScriptManager::Get())
-#define W_SCRIPT_PATH ("?;?.lua;game/?.lua")
+#define W_SCRIPT_PATH ("?;?.lua;game/?.lua;lib/?.lua")
 
 class ScriptManager
 {

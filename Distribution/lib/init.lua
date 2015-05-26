@@ -4,6 +4,5 @@
 -- Generally all core engine functions are required here, while
 -- external libraries without any initialization are required in files
 -- that they are used in.
-require "lib/info"
-require "lib/inputhelper"
-require "lib/color"
+require "info"
+require "inputhelper"
