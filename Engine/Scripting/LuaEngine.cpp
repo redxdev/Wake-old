@@ -86,7 +86,7 @@ static int readwopt_int(lua_State* L, const char* Key)
 	if (!lua_isnumber(L, -1))
 		luaL_error(L, "%s must be a number", Key);
 
-	int result = (int)lua_tonumber(L, -1);
+	int result = lua_tointeger(L, -1);
 	lua_pop(L, 1);
 	return result;
 }
