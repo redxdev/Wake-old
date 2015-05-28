@@ -1,30 +1,33 @@
 -- Class Framework
 
-local function Class(base)
+local function class(base)
   base = base or nil
 
   if base ~= nil and type(base) ~= "table" then error("base must be a table") end
 
-  local class = {}
-  local class_mt = { __index = class }
+  local c = {}
+  local c_mt = { __index = c }
 
   local function create(self, ...)
     local inst = {}
-    setmetatable(inst, class_mt)
+    setmetatable(inst, c_mt)
     inst:__construct(...)
     return inst
   end
 
-  function class:class()
-    return class
+  function c:__construct()
   end
 
-  function class:super()
+  function c:class()
+    return c
+  end
+
+  function c:super()
     return base
   end
 
-  function class:instanceOf(lookingFor)
-    local current = class
+  function c:instanceOf(lookingFor)
+    local current = c
     while current ~= nil do
       if current == lookingFor then
         return true
@@ -36,9 +39,9 @@ local function Class(base)
     return false
   end
 
-  setmetatable(class, { __index = base, __call = create })
+  setmetatable(c, { __index = base, __call = create })
 
-  return class
+  return c
 end
 
-return Class
+return class

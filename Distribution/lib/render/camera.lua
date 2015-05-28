@@ -1,6 +1,6 @@
-local Class = require "class"
+local class = require "class"
 
-local Camera = Class()
+local Camera = class()
 
 function Camera:__construct(pos, point)
   self.position = Vector3.new(pos or {0, 0, 0})
