@@ -71,26 +71,6 @@ bool GEngine::IsRunning()
 	return Running;
 }
 
-void GEngine::SetViewMatrix(const glm::mat4& Matrix)
-{
-	ViewMatrix = Matrix;
-}
-
-void GEngine::SetProjectionMatrix(const glm::mat4& Matrix)
-{
-	ProjectionMatrix = Matrix;
-}
-
-const glm::mat4& GEngine::GetViewMatrix() const
-{
-	return ViewMatrix;
-}
-
-const glm::mat4& GEngine::GetProjectionMatrix() const
-{
-	return ProjectionMatrix;
-}
-
 float GEngine::GetDeltaTime() const
 {
 	return DeltaTime;

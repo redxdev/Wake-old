@@ -29,12 +29,6 @@ public:
 
 	bool IsRunning();
 
-	void SetViewMatrix(const glm::mat4& Matrix);
-	void SetProjectionMatrix(const glm::mat4& Matrix);
-
-	const glm::mat4& GetViewMatrix() const;
-	const glm::mat4& GetProjectionMatrix() const;
-
 	float GetDeltaTime() const;
 
 	W_EVENT(Tick);
@@ -49,9 +43,6 @@ private:
 	Window GameWindow;
 
 	bool Running;
-
-	glm::mat4 ProjectionMatrix;
-	glm::mat4 ViewMatrix;
 	
 	sf::Clock DeltaClock;
 	float DeltaTime;
