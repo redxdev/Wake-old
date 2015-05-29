@@ -9,19 +9,19 @@ static int l_bind(lua_State* L)
 	const char* Name = luaL_checkstring(L, 1);
 
 	InputBinding Binding;
-	Binding.Type = (EInputType)(uint8)luaL_checknumber(L, 2);
-	Binding.Mode = (EInputMode)(uint8)luaL_checknumber(L, 3);
+	Binding.Type = (EInputType)(uint8)luaL_checkinteger(L, 2);
+	Binding.Mode = (EInputMode)(uint8)luaL_checkinteger(L, 3);
 	switch (Binding.Type)
 	{
 	default:
 		break;
 
 	case EInputType::Keyboard:
-		Binding.Code.Keyboard = (EKeyboardInput)(uint8)luaL_checknumber(L, 4);
+		Binding.Code.Keyboard = (EKeyboardInput)(uint8)luaL_checkinteger(L, 4);
 		break;
 
 	case EInputType::Mouse:
-		Binding.Code.Mouse = (EMouseInput)(uint8)luaL_checknumber(L, 4);
+		Binding.Code.Mouse = (EMouseInput)(uint8)luaL_checkinteger(L, 4);
 		break;
 	}
 
