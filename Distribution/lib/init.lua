@@ -5,4 +5,3 @@
 -- external libraries without any initialization are required in files
 -- that they are used in.
 require "info"
-require "inputhelper"
