@@ -122,7 +122,7 @@ static const struct luaL_reg loglib_m[] = {
 	{NULL, NULL}
 };
 
-int luaopen_log(lua_State* L)
+int luaopen_logger(lua_State* L)
 {
 	luaL_newmetatable(L, W_MT_LOGGER);
 
@@ -136,4 +136,4 @@ int luaopen_log(lua_State* L)
 	return 1;
 }
 
-W_REGISTER_LUA_LIB(luaopen_log);
+W_REGISTER_LUA_LIB(luaopen_logger);

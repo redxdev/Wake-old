@@ -8,4 +8,4 @@ class Logger;
 
 Logger* luaW_checklogger(lua_State* L);
 
-int luaopen_log(lua_State* L);
+int luaopen_logger(lua_State* L);
