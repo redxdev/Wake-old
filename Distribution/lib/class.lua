@@ -11,11 +11,11 @@ local function class(base)
   local function create(self, ...)
     local inst = {}
     setmetatable(inst, c_mt)
-    inst:__construct(...)
+    inst:construct(...)
     return inst
   end
 
-  function c:__construct()
+  function c:construct()
   end
 
   function c:class()

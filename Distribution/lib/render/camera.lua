@@ -2,7 +2,7 @@ local class = require "class"
 
 local Camera = class()
 
-function Camera:__construct(pos, point)
+function Camera:construct(pos, point)
   self.position = Vector3.new(pos or {0, 0, 0})
   self.point = Vector3.new(point or {1, 0, 0})
   self.up = Vector3.new(up or {0, 1, 0})
