@@ -1,13 +1,13 @@
 -- Prints the client's information to the log on startup, useful when debugging
 -- from logs.
 
-local logger = Logger.new("ClientInfo")
+local log = Logger.new("ClientInfo")
 
-logger:info(_VERSION)
+log:info(_VERSION)
 
 if jit ~= nil then
-	logger:info(jit.version)
-	logger:info(jit.os .. " " .. jit.arch)
+	log:info(jit.version)
+	log:info(jit.os .. " " .. jit.arch)
 else
-	logger:info("No LuaJIT")
+	log:info("No LuaJIT")
 end
