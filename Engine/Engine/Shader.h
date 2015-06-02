@@ -51,9 +51,11 @@ class ShaderProgram
 {
 	CLOG_LOGGER_DECL;
 public:
-	static GLuint LoadShader(const char* Path, GLenum ShaderType);
+	static GLuint LoadFile(const char* Path, GLenum ShaderType);
 
-	static GLuint LoadProgram(const char* VertPath, const char* FragPath);
+	static GLuint LoadString(const char* Str, GLenum ShaderType);
+
+	static GLuint LoadProgram(GLuint VertexShader, GLuint FragmentShader);
 
 public:
 	ShaderProgram(GLuint Program);

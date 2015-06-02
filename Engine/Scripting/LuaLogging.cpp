@@ -6,23 +6,23 @@
 
 Logger ScriptLogger("sg");
 
-struct LuaLogger
+struct LoggerContainer
 {
 	Logger* Logger;
 };
 
-Logger* luaW_checklogger(lua_State* L)
+Logger* luaW_checklogger(lua_State* L, int idx)
 {
-	void* Data = luaL_checkudata(L, 1, W_MT_LOGGER);
-	luaL_argcheck(L, Data != NULL, 1, "'log' expected");
-	return ((LuaLogger*)Data)->Logger;
+	void* Data = luaL_checkudata(L, idx, W_MT_LOGGER);
+	luaL_argcheck(L, Data != NULL, idx, "'Logger' expected");
+	return ((LoggerContainer*)Data)->Logger;
 }
 
 static void log_impl(lua_State* L, LogLevel Level)
 {
 	if (lua_type(L, 1) == LUA_TUSERDATA)
 	{
-		Logger* Log = luaW_checklogger(L);
+		Logger* Log = luaW_checklogger(L, 1);
 		const char* Str = luaL_checkstring(L, 2);
 		WAKE_LOG(*Log, Level, Str);
 	}
@@ -35,7 +35,7 @@ static void log_impl(lua_State* L, LogLevel Level)
 
 static int l_new(lua_State* L)
 {
-	LuaLogger* LogData = (LuaLogger*)lua_newuserdata(L, sizeof(LuaLogger));
+	auto* LogData = (LoggerContainer*)lua_newuserdata(L, sizeof(LoggerContainer));
 	LogData->Logger = new Logger(luaL_checkstring(L, 1));
 
 	luaL_getmetatable(L, W_MT_LOGGER);
@@ -88,13 +88,13 @@ static int l_fatal(lua_State* L)
 
 static int l_m_gc(lua_State* L)
 {
-	delete luaW_checklogger(L);
+	delete luaW_checklogger(L, 1);
 	return 0;
 }
 
 static int l_m_tostring(lua_State* L)
 {
-	Logger* Log = luaW_checklogger(L);
+	Logger* Log = luaW_checklogger(L, 1);
 	lua_pushstring(L, Log->GetName());
 	return 1;
 }

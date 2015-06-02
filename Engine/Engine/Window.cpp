@@ -47,7 +47,7 @@ bool Window::Initialize(const WindowOptions& Options)
 
 	glEnable(GL_DEPTH_TEST);
 
-	glClearColor(WAKE_CLEAR_COLOR, 1.0f);
+	glClearColor(0.392f, 0.584f, 0.929f, 1.0f);
 
 	return true;
 }
@@ -168,6 +168,11 @@ uint32 Window::GetHeight() const
 void Window::SetTitle(const char* Title)
 {
 	RenderWindow->setTitle(Title);
+}
+
+void Window::SetClearColor(float R, float G, float B)
+{
+	glClearColor(R, G, B, 1.f);
 }
 
 sf::Window* Window::GetRenderWindow()

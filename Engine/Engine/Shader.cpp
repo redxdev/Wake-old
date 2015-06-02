@@ -134,7 +134,7 @@ char* ReadFile(const char* Path)
 	return buf;
 }
 
-GLuint ShaderProgram::LoadShader(const char* Path, GLenum ShaderType)
+GLuint ShaderProgram::LoadFile(const char* Path, GLenum ShaderType)
 {
 	char* buf = ReadFile(Path);
 	if (buf == nullptr)
@@ -143,18 +143,30 @@ GLuint ShaderProgram::LoadShader(const char* Path, GLenum ShaderType)
 		return 0;
 	}
 
-	const GLchar* sources[] = { buf };
-	GLint lengths[] = { strlen(buf) };
+	GLuint result = LoadString(buf, ShaderType);
 
+	delete[] buf;
+
+	return result;
+}
+
+GLuint ShaderProgram::LoadString(const char* Str, GLenum ShaderType)
+{
+	if (Str == nullptr)
+	{
+		CLOG_ERROR("Cannot load null string as a shader");
+		return 0;
+	}
+
+	const GLchar* sources[] = { Str };
+	GLint lengths[] = { strlen(Str) };
 	GLuint shader = glCreateShader(ShaderType);
 	glShaderSource(shader, 1, sources, lengths);
 	glCompileShader(shader);
 
-	delete[] buf;
-
 	GLint result;
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &result);
-	if (result == GL_TRUE)
+	if (result != GL_FALSE)
 	{
 		return shader;
 	}
@@ -164,7 +176,7 @@ GLuint ShaderProgram::LoadShader(const char* Path, GLenum ShaderType)
 	log[result] = '\0';
 
 	glGetShaderInfoLog(shader, result, 0, log);
-	CLOG_ERROR("Unable to compile shader " << Path);
+	CLOG_ERROR("Unable to compile shader");
 	CLOG_ERROR(log);
 	delete[] log;
 
@@ -173,32 +185,17 @@ GLuint ShaderProgram::LoadShader(const char* Path, GLenum ShaderType)
 	return 0;
 }
 
-GLuint ShaderProgram::LoadProgram(const char* VertPath, const char* FragPath)
+GLuint ShaderProgram::LoadProgram(GLuint VertexShader, GLuint FragmentShader)
 {
-	GLuint vertShader = LoadShader(VertPath, GL_VERTEX_SHADER);
-	if (vertShader == 0)
-	{
-		CLOG_ERROR("Unable to load vertex shader");
-		return 0;
-	}
-
-	GLuint fragShader = LoadShader(FragPath, GL_FRAGMENT_SHADER);
-	if (fragShader == 0)
-	{
-		CLOG_ERROR("Unable to load fragment shader");
-		glDeleteShader(vertShader);
-		return 0;
-	}
-
 	GLuint program = glCreateProgram();
-	glAttachShader(program, vertShader);
-	glAttachShader(program, fragShader);
+	glAttachShader(program, VertexShader);
+	glAttachShader(program, FragmentShader);
 	glLinkProgram(program);
 
 	GLint result;
 	glGetProgramiv(program, GL_LINK_STATUS, &result);
 
-	if (result == GL_TRUE)
+	if (result != GL_FALSE)
 	{
 		return program;
 	}
@@ -212,8 +209,6 @@ GLuint ShaderProgram::LoadProgram(const char* VertPath, const char* FragPath)
 	CLOG_ERROR(log);
 	delete[] log;
 
-	glDeleteShader(vertShader);
-	glDeleteShader(fragShader);
 	glDeleteProgram(program);
 
 	return 0;

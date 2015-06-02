@@ -1,8 +1,6 @@
 -- This file is the default initialization for the engine. Usually, you'll want
 -- to delete this file and do custom initialization.
 
-local dbg = require "debugger"
-
 -- Stop the engine if the window is closed
 window.closed:bind(engine.stop)
 

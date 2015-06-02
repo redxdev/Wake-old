@@ -130,11 +130,18 @@ static int l_window_setTitle(lua_State* L)
 	return 0;
 }
 
+static int l_window_setClearColor(lua_State* L)
+{
+	W_ENGINE.GetGameWindow().SetClearColor(luaL_checknumber(L, 1), luaL_checknumber(L, 2), luaL_checknumber(L, 3));
+	return 0;
+}
+
 static const struct luaL_reg windowlib_f[] = {
 	{ "initialize", l_window_initialize },
 	{ "isOpen", l_window_isOpen },
 	{ "getWidth", l_window_getWidth },
 	{ "getHeight", l_window_getHeight },
+	{ "setClearColor", l_window_setClearColor },
 	{NULL, NULL}
 };
 

@@ -1,8 +1,5 @@
 -- Input bindings
 
--- For input.bindAll
-require "lib/inputhelper"
-
 local type = input.type
 local mode = input.mode
 local key = input.key

@@ -52,6 +52,8 @@ public:
 
 	void SetTitle(const char* Title);
 
+	void SetClearColor(float R, float G, float B);
+
 	/**
 	 * Get the SFML window.
 	 */
