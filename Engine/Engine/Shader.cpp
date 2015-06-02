@@ -5,7 +5,7 @@
 
 #include <fstream>
 
-Uniform::Uniform(GLuint Program, GLuint Location)
+Uniform::Uniform(GLuint Program, GLint Location)
 {
 	this->Program = Program;
 	this->Location = Location;
@@ -27,82 +27,122 @@ GLuint Uniform::GetLocation()
 	return Location;
 }
 
-void Uniform::Set(float x)
+void Uniform::Set1f(float x)
 {
 	glProgramUniform1f(Program, Location, x);
 }
 
-void Uniform::Set(float x, float y)
+void Uniform::Set2f(float x, float y)
 {
 	glProgramUniform2f(Program, Location, x, y);
 }
 
-void Uniform::Set(float x, float y, float z)
+void Uniform::Set3f(float x, float y, float z)
 {
 	glProgramUniform3f(Program, Location, x, y, z);
 }
 
-void Uniform::Set(float x, float y, float z, float w)
+void Uniform::Set4f(float x, float y, float z, float w)
 {
 	glProgramUniform4f(Program, Location, x, y, z, w);
 }
 
-void Uniform::Set(const glm::vec2& xy)
+void Uniform::Set1i(int x)
+{
+	glProgramUniform1i(Program, Location, x);
+}
+
+void Uniform::Set2i(int x, int y)
+{
+	glProgramUniform2i(Program, Location, x, y);
+}
+
+void Uniform::Set3i(int x, int y, int z)
+{
+	glProgramUniform3i(Program, Location, x, y, z);
+}
+
+void Uniform::Set4i(int x, int y, int z, int w)
+{
+	glProgramUniform4i(Program, Location, x, y, z, w);
+}
+
+void Uniform::Set1ui(unsigned x)
+{
+	glProgramUniform1ui(Program, Location, x);
+}
+
+void Uniform::Set2ui(unsigned x, unsigned y)
+{
+	glProgramUniform2ui(Program, Location, x, y);
+}
+
+void Uniform::Set3ui(unsigned x, unsigned y, unsigned z)
+{
+	glProgramUniform3ui(Program, Location, x, y, z);
+}
+
+void Uniform::Set4ui(unsigned x, unsigned y, unsigned z, unsigned w)
+{
+	glProgramUniform4ui(Program, Location, x, y, z, w);
+}
+
+void Uniform::SetVec2(const glm::vec2& xy)
 {
 	glProgramUniform2fv(Program, Location, 1, glm::value_ptr(xy));
 }
 
-void Uniform::Set(const glm::vec3& xyz)
+void Uniform::SetVec3(const glm::vec3& xyz)
 {
 	glProgramUniform3fv(Program, Location, 1, glm::value_ptr(xyz));
 }
 
-void Uniform::Set(const glm::vec4& xyzw)
+void Uniform::SetVec4(const glm::vec4& xyzw)
 {
 	glProgramUniform4fv(Program, Location, 1, glm::value_ptr(xyzw));
 }
 
-void Uniform::Set(const glm::mat2x2& m22)
+void Uniform::SetMatrix2(const glm::mat2x2& m22)
 {
 	glProgramUniformMatrix2fv(Program, Location, 1, false, glm::value_ptr(m22));
 }
 
-void Uniform::Set(const glm::mat2x3& m23)
+void Uniform::SetMatrix2x3(const glm::mat2x3& m23)
 {
 	glProgramUniformMatrix2x3fv(Program, Location, 1, false, glm::value_ptr(m23));
 }
 
-void Uniform::Set(const glm::mat2x4& m24)
+void Uniform::SetMatrix2x4(const glm::mat2x4& m24)
 {
 	glProgramUniformMatrix2x4fv(Program, Location, 1, false, glm::value_ptr(m24));
 }
 
-void Uniform::Set(const glm::mat3x2& m32)
+void Uniform::SetMatrix3x2(const glm::mat3x2& m32)
 {
 	glProgramUniformMatrix3x2fv(Program, Location, 1, false, glm::value_ptr(m32));
 }
 
-void Uniform::Set(const glm::mat3x3& m33)
+void Uniform::SetMatrix3(const glm::mat3x3& m33)
 {
 	glProgramUniformMatrix3fv(Program, Location, 1, false, glm::value_ptr(m33));
 }
 
-void Uniform::Set(const glm::mat3x4& m34)
+void Uniform::SetMatrix3x4(const glm::mat3x4& m34)
 {
 	glProgramUniformMatrix3x4fv(Program, Location, 1, false, glm::value_ptr(m34));
 }
 
-void Uniform::Set(const glm::mat4x2& m42)
+void Uniform::SetMatrix4x2(const glm::mat4x2& m42)
 {
 	glProgramUniformMatrix4x2fv(Program, Location, 1, false, glm::value_ptr(m42));
 }
 
-void Uniform::Set(const glm::mat4x3& m43)
+void Uniform::SetMatrix4x3(const glm::mat4x3& m43)
 {
 	glProgramUniformMatrix4x3fv(Program, Location, 1, false, glm::value_ptr(m43));
 }
 
-void Uniform::Set(const glm::mat4x4& m44)
+void Uniform::SetMatrix4(const glm::mat4x4& m44)
 {
 	glProgramUniformMatrix4fv(Program, Location, 1, false, glm::value_ptr(m44));
 }

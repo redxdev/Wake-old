@@ -11,37 +11,47 @@
 class Uniform
 {
 public:
-	Uniform(GLuint Program, GLuint Location);
+	Uniform(GLuint Program, GLint Location);
 
 	Uniform(const Uniform& Other);
 
 	GLuint GetProgram();
 	GLuint GetLocation();
 
-	void Set(float x);
-	void Set(float x, float y);
-	void Set(float x, float y, float z);
-	void Set(float x, float y, float z, float w);
+	void Set1f(float x);
+	void Set2f(float x, float y);
+	void Set3f(float x, float y, float z);
+	void Set4f(float x, float y, float z, float w);
 
-	void Set(const glm::vec2& xy);
-	void Set(const glm::vec3& xyz);
-	void Set(const glm::vec4& xyzw);
+	void Set1i(int x);
+	void Set2i(int x, int y);
+	void Set3i(int x, int y, int z);
+	void Set4i(int x, int y, int z, int w);
 
-	void Set(const glm::mat2x2& m22);
-	void Set(const glm::mat2x3& m23);
-	void Set(const glm::mat2x4& m24);
+	void Set1ui(unsigned x);
+	void Set2ui(unsigned x, unsigned y);
+	void Set3ui(unsigned x, unsigned y, unsigned z);
+	void Set4ui(unsigned x, unsigned y, unsigned z, unsigned int w);
 
-	void Set(const glm::mat3x2& m32);
-	void Set(const glm::mat3x3& m33);
-	void Set(const glm::mat3x4& m34);
+	void SetVec2(const glm::vec2& xy);
+	void SetVec3(const glm::vec3& xyz);
+	void SetVec4(const glm::vec4& xyzw);
 
-	void Set(const glm::mat4x2& m42);
-	void Set(const glm::mat4x3& m43);
-	void Set(const glm::mat4x4& m44);
+	void SetMatrix2(const glm::mat2x2& m22);
+	void SetMatrix2x3(const glm::mat2x3& m23);
+	void SetMatrix2x4(const glm::mat2x4& m24);
+
+	void SetMatrix3x2(const glm::mat3x2& m32);
+	void SetMatrix3(const glm::mat3x3& m33);
+	void SetMatrix3x4(const glm::mat3x4& m34);
+
+	void SetMatrix4x2(const glm::mat4x2& m42);
+	void SetMatrix4x3(const glm::mat4x3& m43);
+	void SetMatrix4(const glm::mat4x4& m44);
 
 private:
 	GLuint Program;
-	GLuint Location;
+	GLint Location;
 };
 
 /**
